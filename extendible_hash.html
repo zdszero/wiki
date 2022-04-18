@@ -1,0 +1,138 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if lt IE 9]>
+                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <!-- <link rel="stylesheet" type="text/css" href="template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/template.css" />
+
+    <link href="https://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <!-- <script type='text/javascript' src='menu/js/jquery.cookie.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.hoverIntent.minified.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.dcjqaccordion.2.7.min.js'></script> -->
+
+    <!-- <link href="menu/css/skins/blue.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/graphite.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/grey.css" rel="stylesheet" type="text/css" /> -->
+  
+    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+        
+  
+    <!-- <script src="script.js"></script> -->
+  
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.cookie.js'></script>
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.hoverIntent.minified.js'></script>
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.dcjqaccordion.2.7.min.js'></script>
+
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/blue.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/graphite.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/grey.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/ryangrose/easy-pandoc-templates/948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/script.js"></script>
+  
+    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/jquery.sticky-kit.js"></script>
+    <meta name="generator" content="pandoc" />
+  <title>title extendible_hash</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">title extendible_hash</span>
+        <ul class="nav pull-right doc-info">
+                            </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#invariant">invariant</a></li>
+        <li><a href="#data">data</a></li>
+        <li><a href="#methods">methods</a></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <p>&lt;Key, Value&gt; is stored in bucket</p>
+<p>Use Hash(Key) and global depth to get the index of the bucket which stores the &lt;Key, Value&gt;</p>
+<h2 id="invariant">invariant</h2>
+<pre><code>buckets_.size() = 2^(global_depth_)
+bucket_num_ &lt;= buckets_.size()
+
+global_depth &gt;= any(local_depth)
+global_depth = max(local_depth)
+
+bucket_reference_count = 2^(global_depth - local_depth)
+
+for all the indexes that point to the same bucket with local_depth(ld):
+    the ld LSB are the same
+    index interval = (1 &lt;&lt; ld)</code></pre>
+<h2 id="data">data</h2>
+<ul>
+<li>hash table</li>
+<li>bucket</li>
+</ul>
+<h2 id="methods">methods</h2>
+<ul>
+<li><code>getIdx(key) → int</code></li>
+</ul>
+<pre><code>return ((1 &lt;&lt; global_depth) - 1) * Hash(key);</code></pre>
+<p>use lower bits is more convenient</p>
+<ul>
+<li><code>insert(key, value) → void</code></li>
+</ul>
+<pre><code>get key bucket
+loop {
+    if key in bucket or bucket is not full {
+        update/insert key
+        break
+    }
+    increase local depth
+    if (local depth &gt; global depth) {
+        copy the buckets into itself
+        increase global depth
+    }
+    create new bucket and redistribute key and values
+    put new bueket into buckets
+    get key bucket again
+}</code></pre>
+<p>only when the bucket that is referenced only once overflows, the hash table doubles its size</p>
+<p>May loop several times before break</p>
+<ul>
+<li><code>redistribute()</code></li>
+</ul>
+<pre><code>// before increasing local depth
+high_bit = (1 &lt;&lt; local_depth)
+//  we used to get to the bucket by the local_depth LSB bits
+//  so the pairs should be split into old/new page according to the high bitkk</code></pre>
+<ul>
+<li><code>find(key) → bool</code></li>
+<li><code>remove(key) → bool</code></li>
+</ul>
+            </div>
+    </div>
+  </div>
+  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if lt IE 9]>
+                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <!-- <link rel="stylesheet" type="text/css" href="template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/template.css" />
+
+    <link href="https://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <!-- <script type='text/javascript' src='menu/js/jquery.cookie.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.hoverIntent.minified.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.dcjqaccordion.2.7.min.js'></script> -->
+
+    <!-- <link href="menu/css/skins/blue.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/graphite.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/grey.css" rel="stylesheet" type="text/css" /> -->
+  
+    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+        
+  
+    <!-- <script src="script.js"></script> -->
+  
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.cookie.js'></script>
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.hoverIntent.minified.js'></script>
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.dcjqaccordion.2.7.min.js'></script>
+
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/blue.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/graphite.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/grey.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/ryangrose/easy-pandoc-templates/948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/script.js"></script>
+  
+    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/jquery.sticky-kit.js"></script>
+    <meta name="generator" content="pandoc" />
+  <title>title AVL</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">title AVL</span>
+        <ul class="nav pull-right doc-info">
+                            </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#operations">Operations</a><ul>
+        <li><a href="#rotation">Rotation</a></li>
+        <li><a href="#insertion">Insertion</a></li>
+        <li><a href="#deletion">Deletion</a></li>
+        </ul></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <ul>
+<li>What is AVL?</li>
+</ul>
+<p>a self-balancing binary search tree</p>
+<ul>
+<li>What is balancing ?</li>
+</ul>
+<p>we define that <code>balance factor(bf) = height(left subtree) - height(right subtree)</code> , if <code>abs(bf) &lt;= 1</code> , then AVL tree is balanced</p>
+<h2 id="operations">Operations</h2>
+<h3 id="rotation">Rotation</h3>
+<pre><code>a) Left Left Case
+
+         z                                      y 
+        / \                                   /   \
+       y   T4      Right Rotate (z)          x      z
+      / \          - - - - - - - - -&gt;      /  \    /  \ 
+     x   T3                               T1  T2  T3  T4
+    / \
+  T1   T2
+
+b) Right Right Case
+
+  z                                y
+ /  \                            /   \ 
+T1   y     Left Rotate(z)       z      x
+    /  \   - - - - - - - -&gt;    / \    / \
+   T2   x                     T1  T2 T3  T4
+       / \
+     T3  T4
+
+c) Left Right Case
+
+     z                               z                           x
+    / \                            /   \                        /  \ 
+   y   T4  Left Rotate (y)        x    T4  Right Rotate(z)    y      z
+  / \      - - - - - - - - -&gt;    /  \      - - - - - - - -&gt;  / \    / \
+T1   x                          y    T3                    T1  T2 T3  T4
+    / \                        / \
+  T2   T3
+
+d) Right Left Case
+
+   z                            z                            x
+  / \                          / \                          /  \ 
+T1   y   Right Rotate (y)    T1   x      Left Rotate(z)   z      y
+    / \  - - - - - - - - -&gt;     /  \   - - - - - - - -&gt;  / \    / \
+   x   T4                      T2   y                  T1  T2  T3  T4
+  / \                              /  \
+T2   T3                           T3   T4</code></pre>
+<h3 id="insertion">Insertion</h3>
+<pre><code></code></pre>
+<h3 id="deletion">Deletion</h3>
+            </div>
+    </div>
+  </div>
+  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if lt IE 9]>
+                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <!-- <link rel="stylesheet" type="text/css" href="template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/template.css" />
+
+    <link href="https://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <!-- <script type='text/javascript' src='menu/js/jquery.cookie.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.hoverIntent.minified.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.dcjqaccordion.2.7.min.js'></script> -->
+
+    <!-- <link href="menu/css/skins/blue.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/graphite.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/grey.css" rel="stylesheet" type="text/css" /> -->
+  
+    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+        
+  
+    <!-- <script src="script.js"></script> -->
+  
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.cookie.js'></script>
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.hoverIntent.minified.js'></script>
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.dcjqaccordion.2.7.min.js'></script>
+
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/blue.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/graphite.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/grey.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/ryangrose/easy-pandoc-templates/948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/script.js"></script>
+  
+    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/jquery.sticky-kit.js"></script>
+    <meta name="generator" content="pandoc" />
+  <title>title git</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">title git</span>
+        <ul class="nav pull-right doc-info">
+                            </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#concepts">CONCEPTS</a><ul>
+        <li><a href="#areas">areas</a></li>
+        <li><a href="#variables">variables</a></li>
+        <li><a href="#reflog">reflog</a></li>
+        <li><a href="#stash">stash</a></li>
+        </ul></li>
+        <li><a href="#undoing-changes">UNDOING CHANGES</a><ul>
+        <li><a href="#restore">restore</a></li>
+        <li><a href="#revert">revert</a></li>
+        <li><a href="#reset">reset</a></li>
+        <li><a href="#checkout">checkout</a></li>
+        <li><a href="#restore-1">restore</a></li>
+        </ul></li>
+        <li><a href="#remote">REMOTE</a><ul>
+        <li><a href="#clone">clone</a></li>
+        <li><a href="#push">push</a></li>
+        <li><a href="#pull">pull</a></li>
+        </ul></li>
+        <li><a href="#branch">BRANCH</a><ul>
+        <li><a href="#branch-1">branch</a></li>
+        <li><a href="#checkout-1">checkout</a></li>
+        <li><a href="#merge">merge</a></li>
+        <li><a href="#rebase">rebase</a></li>
+        </ul></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h2 id="concepts">CONCEPTS</h2>
+<h3 id="areas">areas</h3>
+<pre><code>                            index
+           push     commit /      \ stage/unstage
+remote repo ⇆  local repo     ←    workspace
+                     fetch</code></pre>
+<h3 id="variables">variables</h3>
+<ul>
+<li><code>HEAD</code> names the commit on which you based the changes in the working tree.</li>
+<li><code>FETCH_HEAD</code> records the branch which you fetched from a remote repository with your last git fetch invocation.</li>
+<li><code>ORIG_HEAD</code> is created by commands that move your <code>HEAD</code> in a drastic way, to record the position of the <code>HEAD</code> before their operation, so that you can easily change the tip of the branch back to the state before you ran them.</li>
+<li><code>MERGE_HEAD</code> records the commit(s) which you are merging into your branch when you run git merge.</li>
+<li><code>REBASE_HEAD</code> records the commit(s) which you are merging into your branch when you run git merge.</li>
+<li><code>CHERRY_PICK_HEAD</code> records the commit which you are cherry-picking when you run git cherry-pick.</li>
+</ul>
+<h3 id="reflog">reflog</h3>
+<h3 id="stash">stash</h3>
+<h2 id="undoing-changes">UNDOING CHANGES</h2>
+<h3 id="restore">restore</h3>
+<p>restore working tree files</p>
+<h3 id="revert">revert</h3>
+<p>revert a previous commit and record a new revert commit</p>
+<pre><code># cancel certain commit
+git revert HEAD
+git revert HEAD~1</code></pre>
+<h3 id="reset">reset</h3>
+<p>reset to certain commit, the latter commits are all deleted</p>
+<pre><code>git reset &lt;mode&gt; &lt;commit&gt;
+&lt;mode&gt;
+    --soft
+        Doesn&#39;t touch your index file and working tree, leave all your changes to files
+&quot;Changes to be committed&quot;, git status can show
+    --mixed
+        Reset the index and the other action is just like soft
+    --hard
+        Reset the index and working tree, discard all the changes
+    --merge
+        Reset the merge</code></pre>
+<p>use with other variables</p>
+<h3 id="checkout">checkout</h3>
+<p>move HEAD to certain commit</p>
+<pre><code>git checkout [--detach] &lt;commit&gt;</code></pre>
+<h3 id="restore-1">restore</h3>
+<p>restore working tree files</p>
+<pre><code># restore unstaged part, staged part unchanged
+git restore -W path
+git restore --worktree path
+# unstage all the staged part
+git restore [-S|--staged]  path</code></pre>
+<p>using with <code>git reflog</code></p>
+<p>qq</p>
+<h2 id="remote">REMOTE</h2>
+<h3 id="clone">clone</h3>
+<ul>
+<li>git clone origin-url (non-bare)</li>
+</ul>
+<p>Clone a local branch <code>master(HEAD)</code> tracking a remote branch <code>origin/master</code></p>
+<ul>
+<li>git clone –bare origin-url</li>
+</ul>
+<p>Clone a local branch which is totally independent, with no expectations of fetching again.</p>
+<ul>
+<li>git clone –mirror origin-url</li>
+</ul>
+<p>Make your local repo identical to the origin every time you use <code>git remote update</code>, and all the refs will be overwritten from origin.</p>
+<h3 id="push">push</h3>
+<h3 id="pull">pull</h3>
+<pre><code># 读取remote并且合并到当前分支
+git pull &lt;remote&gt;
+# equals
+git fetch &lt;remote&gt;
+git merge &lt;remote&gt;</code></pre>
+<h2 id="branch">BRANCH</h2>
+<h3 id="branch-1">branch</h3>
+<pre><code># display all local repos
+git branch
+# display all remote repos
+git branch -r
+# display all repos
+git branch -a
+
+# rename
+git branch -m &lt;old-br&gt; &lt;new-b</code></pre>
+<h3 id="checkout-1">checkout</h3>
+<p>switch branch</p>
+<pre><code># change workspace to &lt;br&gt; and create &lt;br&gt; if it doesn&#39;t exist
+git checkout &lt;br&gt;</code></pre>
+<h3 id="merge">merge</h3>
+<p>merge another branch into current branch</p>
+<p><strong>what if conflict happens</strong></p>
+<ol type="1">
+<li>use git status to see the conflicted files</li>
+<li>use your text editor (merge tool) to resolve the merge</li>
+<li>git add <file></li>
+<li>git merge —continue</li>
+</ol>
+<h3 id="rebase">rebase</h3>
+<p>switch to upstream, and applies all the commits in current branch into the upstream</p>
+<pre><code>      D---E test
+     /
+A---B---C---F master
+
+git merge test
+      D--------E
+     /          \
+A---B---C---F----G   test, master
+
+after git rebase on test branch
+A---B---D---E---C&#39;---F&#39;   test ← HEAD
+                        master</code></pre>
+<p><strong>transplant</strong></p>
+            </div>
+    </div>
+  </div>
+  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
+
+</body>
+</html>
