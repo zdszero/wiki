@@ -1,0 +1,189 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if lt IE 9]>
+                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <!-- <link rel="stylesheet" type="text/css" href="template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/template.css" />
+
+    <link href="https://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <!-- <script type='text/javascript' src='menu/js/jquery.cookie.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.hoverIntent.minified.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.dcjqaccordion.2.7.min.js'></script> -->
+
+    <!-- <link href="menu/css/skins/blue.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/graphite.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/grey.css" rel="stylesheet" type="text/css" /> -->
+  
+    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+        
+  
+    <!-- <script src="script.js"></script> -->
+  
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.cookie.js'></script>
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.hoverIntent.minified.js'></script>
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.dcjqaccordion.2.7.min.js'></script>
+
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/blue.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/graphite.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/grey.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/ryangrose/easy-pandoc-templates/948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/script.js"></script>
+  
+    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/jquery.sticky-kit.js"></script>
+    <meta name="generator" content="pandoc" />
+  <title>title asyncio</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">title asyncio</span>
+        <ul class="nav pull-right doc-info">
+                            </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#overview">overview</a></li>
+        <li><a href="#event-loop">event loop</a><ul>
+        <li><a href="#working-with-sockets">working with sockets</a></li>
+        <li><a href="#problems">problems</a></li>
+        </ul></li>
+        <li><a href="#awaitables">awaitables</a></li>
+        <li><a href="#coroutine">coroutine</a><ul>
+        <li><a href="#coroutine-types">coroutine types</a></li>
+        <li><a href="#methods">methods</a></li>
+        <li><a href="#problems-1">problems</a></li>
+        </ul></li>
+        <li><a href="#task">Task</a><ul>
+        <li><a href="#methods-1">methods</a></li>
+        </ul></li>
+        <li><a href="#streams">Streams</a><ul>
+        <li><a href="#objects">objects</a></li>
+        <li><a href="#methods-2">methods</a></li>
+        </ul></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h2 id="overview">overview</h2>
+<ul>
+<li>coroutine, task, future</li>
+<li>event loop</li>
+<li>streams</li>
+</ul>
+<h2 id="event-loop">event loop</h2>
+<h3 id="working-with-sockets">working with sockets</h3>
+<p><strong>note:</strong> sock must be <code>non-blocking</code> socket</p>
+<p>all socket methods <code>func(params ...)</code> are transformed into <code>loop.sock_func(sock, params...)</code></p>
+<h3 id="problems">problems</h3>
+<ul>
+<li>difference between <code>process, thread scheduling</code> and <code>event loop scheduling</code></li>
+</ul>
+<p>It is the job of OS schedulers to allocate CPU time to drive threads and processes.</p>
+<p>In contrast, asyncio’s event loop is implemented in application-layer. It manages a queue of pending coroutines, drives them one by one, monitors events triggered by I/O operations initiated by coroutines, and passes back control back to the corresponding coroutine when each event happens.</p>
+<ul>
+<li>how does event loop schedule different coroutines</li>
+</ul>
+<p>One coroutine may await another coroutine, and these coroutines make up a <code>await chain</code>. The <code>await chain</code> eventually reaches a low-level awaitable, which returns a plain generator that the event loop can drive in response to events such as timers or network I/O.</p>
+<h2 id="awaitables">awaitables</h2>
+<ul>
+<li>coroutines</li>
+<li>tasks: created by <code>asyncio.create_task()</code></li>
+<li>futures: a special low-level awaitable object that represents an eventual result of an asynchronous operation.</li>
+</ul>
+<h2 id="coroutine">coroutine</h2>
+<h3 id="coroutine-types">coroutine types</h3>
+<p><strong>native coroutine</strong></p>
+<p><code>async def</code>: define a native coroutine</p>
+<p><code>await</code>: delegate from a native coroutine to another native coroutine</p>
+<p><strong>classic coroutine</strong></p>
+<p>A generator function that comsumes data sent to it via <code>my_coro.send(data)</code> calls, and reads that data using <code>yield</code> in an expression. Can use <code>yield from</code> to delegate to other classic coroutine. Classic coroutine is no longer supported by <code>asyncio</code></p>
+<p><strong>generator-based coroutine</strong></p>
+<p>use <code>@types.coroutine</code> to marks a generator function as a coroutine</p>
+<h3 id="methods">methods</h3>
+<ul>
+<li><code>gather(*aws)</code></li>
+<li><code>create_task()</code></li>
+<li><code>wait_for(aw, timeout)</code></li>
+</ul>
+<h3 id="problems-1">problems</h3>
+<ul>
+<li>task and thread difference</li>
+</ul>
+<p><code>Task</code> derives a coroutine object, <code>Thread</code> invokes a callable</p>
+<p>There’s no API to terminate a thread from the outside; instead, you must send a signal—like setting the <code>done Event</code> object. For tasks, there is the <code>Task.cancel()</code> instance method, which raises <code>CancelledError</code> at the await expression where the coroutine body is currently suspended.</p>
+<h2 id="task">Task</h2>
+<p>Task object inherits from Future object. It can be created by <code>asynio.create_task(coro)</code> or <code>loop.create_task()</code></p>
+<h3 id="methods-1">methods</h3>
+<ul>
+<li><code>cancel()</code></li>
+<li><code>canclled()</code></li>
+<li><code>done()</code></li>
+<li><code>add_done_callback(callback)</code></li>
+<li><code>remove_done_callback(callback)</code></li>
+<li><code>get_coro()</code></li>
+<li><code>get_name()</code></li>
+<li><code>set_name()</code></li>
+</ul>
+<h2 id="streams">Streams</h2>
+<p>High level modules to work with connections. You can happily work with <code>asyncio.Reader</code> and <code>asyncio.Writer</code> object and not worry about the other sockets stuff</p>
+<h3 id="objects">objects</h3>
+<p><strong>StreamReader</strong></p>
+<pre><code>read(n)
+readexactly(n)
+    raise IncompleteReadError is EOF is reached before reading n bytes
+readline()
+readuntil(seperator=b&#39;\n&#39;)
+at_eof() -&gt; bool</code></pre>
+<p>all read methods return coroutine, so it should be used with <code>await</code></p>
+<p><strong>StreamWriter</strong></p>
+<pre><code>write(data)
+writelines(lst)
+drain()
+
+close()
+wait_closed()
+
+write_eof()
+is_closing() -&gt; bool</code></pre>
+<p>usage</p>
+<pre><code>writer.write(data) or writer.writelines(lst)
+await writer.drain()
+
+writer.close()
+writer.wait_closed()</code></pre>
+<h3 id="methods-2">methods</h3>
+<ul>
+<li><code>open_connection(host, port) -&gt; reader, writer</code></li>
+<li><code>start_server(client_connected_cb, host, port, limit, ...)</code></li>
+</ul>
+            </div>
+    </div>
+  </div>
+  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
+
+</body>
+</html>

@@ -44,7 +44,7 @@
   
     <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/jquery.sticky-kit.js"></script>
     <meta name="generator" content="pandoc" />
-  <title>title WIKI</title>
+  <title>title ARQ</title>
   <style type="text/css">code{white-space: pre;}</style>
 </head>
 <body>
@@ -53,7 +53,7 @@
     <div class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container">
-        <span class="doc-title">title WIKI</span>
+        <span class="doc-title">title ARQ</span>
         <ul class="nav pull-right doc-info">
                             </ul>
       </div>
@@ -65,34 +65,35 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#data-structure">Data Structure</a></li>
-        <li><a href="#shell">Shell</a></li>
-        <li><a href="#network">Network</a></li>
-        <li><a href="#python">Python</a></li>
-        <li><a href="#thoughts">Thoughts</a></li>
-        <li><a href="#diary"><span>Diary</span></a></li>
+        <li><a href="#gbn">GBN</a></li>
         </ul>
 
         </div>
       </div>
             <div class="span9">
-            <h2 id="data-structure">Data Structure</h2>
-<p><a href="extendible_hash.html">extendible_hash</a></p>
-<p><a href="AVL.html">AVL</a></p>
-<h2 id="shell">Shell</h2>
-<p><a href="git.html">git</a></p>
-<h2 id="network">Network</h2>
-<p><a href="ARQ.html">ARQ</a></p>
-<p><a href="IO_multiplexing.html">IO_multiplexing</a></p>
-<p><a href="socks.html">socks</a></p>
-<h2 id="python">Python</h2>
-<p><a href="types.html">types</a></p>
-<p><a href="asyncio.html">asyncio</a></p>
-<p><a href="libs.html">libs</a></p>
-<p><a href="socket.html">socket</a></p>
-<h2 id="thoughts">Thoughts</h2>
-<p><a href="study.html">study</a></p>
-<h2 id="diary"><a href="diary/diary.html">Diary</a></h2>
+            <h2 id="gbn">GBN</h2>
+<pre><code>vars:
+    pbuffer
+    winsize
+    timer
+    msglen
+    next_msg_idx = 0
+    next_S = 0
+
+sender():
+    while true:
+        if pbuffer.size() &lt; winsize and next_msg_idx &lt; msglen:
+            sender.send(win[next_S])
+            pbuffer.add(win[next_S])
+            next_S = (next_S + 1) % winsize
+            next_msg_idx++
+            timer.reset()
+        resp = receiver.recv()
+        while pbuffer.size() &gt; 0 and pbuffer.front().seq_no != resp.seq_no:
+            pbuffer.pop()
+        if timer.timeout():
+            for p in pbuffer:
+                sender.send(p)</code></pre>
             </div>
     </div>
   </div>

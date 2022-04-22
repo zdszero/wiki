@@ -1,0 +1,208 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if lt IE 9]>
+                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <!-- <link rel="stylesheet" type="text/css" href="template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/template.css" />
+
+    <link href="https://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <!-- <script type='text/javascript' src='menu/js/jquery.cookie.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.hoverIntent.minified.js'></script> -->
+    <!-- <script type='text/javascript' src='menu/js/jquery.dcjqaccordion.2.7.min.js'></script> -->
+
+    <!-- <link href="menu/css/skins/blue.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/graphite.css" rel="stylesheet" type="text/css" /> -->
+    <!-- <link href="menu/css/skins/grey.css" rel="stylesheet" type="text/css" /> -->
+  
+    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+        
+  
+    <!-- <script src="script.js"></script> -->
+  
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.cookie.js'></script>
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.hoverIntent.minified.js'></script>
+    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.dcjqaccordion.2.7.min.js'></script>
+
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/blue.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/graphite.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/grey.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.rawgit.com/ryangrose/easy-pandoc-templates/948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/script.js"></script>
+  
+    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/jquery.sticky-kit.js"></script>
+    <meta name="generator" content="pandoc" />
+  <title>title socks</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">title socks</span>
+        <ul class="nav pull-right doc-info">
+                            </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#proxy-server">proxy server</a><ul>
+        <li><a href="#why">why</a></li>
+        </ul></li>
+        <li><a href="#socks-version">socks version</a></li>
+        <li><a href="#socks5-spec">socks5 spec</a><ul>
+        <li><a href="#connection-establishment">connection establishment</a></li>
+        <li><a href="#request">request</a></li>
+        <li><a href="#reply">reply</a></li>
+        </ul></li>
+        <li><a href="#problems">problems</a></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <p><a href="https://www.rfc-editor.org/rfc/rfc1928.txt.html">rfc 1928 – socks5</a></p>
+<h2 id="proxy-server">proxy server</h2>
+<h3 id="why">why</h3>
+<ul>
+<li>acts as application-layer gateway between networks, offering controled TELNET, FTP and SMTP access.</li>
+</ul>
+<h2 id="socks-version">socks version</h2>
+<p>socks4 only support TCP and IPv4.</p>
+<p>socks5 5extends the SOCKS Version 4 model to include UDP, and extends the framework to include provisions for generalized strong authentication schemes, and extends the addressing scheme to encompass domain-name and V6 IP addresses.</p>
+<h2 id="socks5-spec">socks5 spec</h2>
+<h3 id="connection-establishment">connection establishment</h3>
+<ul>
+<li>greeting message from client</li>
+</ul>
+<pre><code>  +----+----------+----------+
+  |VER | NMETHODS | METHODS  |
+  +----+----------+----------+
+  | 1  |    1     | 1 to 255 |
+  +----+----------+----------+
+
+  o NMETHODS  number of methods supported by clients
+  o METHODS   supported methods sequence</code></pre>
+<ul>
+<li>server answer</li>
+</ul>
+<pre><code>  +----+--------+
+  |VER | METHOD |
+  +----+--------+
+  | 1  |   1    |
+  +----+--------+
+
+  METHOD
+    o  X&#39;00&#39; NO AUTHENTICATION REQUIRED
+    o  X&#39;01&#39; GSSAPI
+    o  X&#39;02&#39; USERNAME/PASSWORD
+    o  X&#39;03&#39; to X&#39;7F&#39; IANA ASSIGNED
+    o  X&#39;80&#39; to X&#39;FE&#39; RESERVED FOR PRIVATE METHODS
+    o  X&#39;FF&#39; NO ACCEPTABLE METHODS</code></pre>
+<ul>
+<li>method-specific sub-negotiation</li>
+</ul>
+<p><strong>USERNAME/PASSWORD</strong></p>
+<p><a href="https://www.rfc-editor.org/rfc/rfc1929.html.html">rfc 1929 spec</a></p>
+<pre><code>client request
+   +----+------+----------+------+----------+
+   |VER | ULEN |  UNAME   | PLEN |  PASSWD  |
+   +----+------+----------+------+----------+
+   | 1  |  1   | 1 to 255 |  1   | 1 to 255 |
+   +----+------+----------+------+----------+
+
+  VER: 0x01
+
+server reply:
+                +----+--------+
+                |VER | STATUS |
+                +----+--------+
+                | 1  |   1    |
+                +----+--------+
+
+  STATUS:
+    o 0x00 indicates success
+    o other is failure, server CLOSE the connection</code></pre>
+<h3 id="request">request</h3>
+<ul>
+<li>format</li>
+</ul>
+<pre><code>  +----+-----+-------+------+----------+----------+
+  |VER | CMD |  RSV  | ATYP | DST.ADDR | DST.PORT |
+  +----+-----+-------+------+----------+----------+
+  | 1  |  1  | X&#39;00&#39; |  1   | Variable |    2     |
+  +----+-----+-------+------+----------+----------+</code></pre>
+<ul>
+<li>fields</li>
+</ul>
+<pre><code>  o  VER    protocol version: X&#39;05&#39;
+  o  CMD
+     o  CONNECT X&#39;01&#39;
+     o  BIND X&#39;02&#39;
+     o  UDP ASSOCIATE X&#39;03&#39;
+  o  RSV    RESERVED
+  o  ATYP   address type of following address
+     o  IP V4 address: X&#39;01&#39;
+     o  DOMAINNAME: X&#39;03&#39;
+     o  IP V6 address: X&#39;04&#39;
+  o  DST.ADDR       desired destination address
+  o  DST.PORT desired destination port in network octet
+     order</code></pre>
+<h3 id="reply">reply</h3>
+<ul>
+<li>format</li>
+</ul>
+<pre><code>  +----+-----+-------+------+----------+----------+
+  |VER | REP |  RSV  | ATYP | BND.ADDR | BND.PORT |
+  +----+-----+-------+------+----------+----------+
+  | 1  |  1  | X&#39;00&#39; |  1   | Variable |    2     |
+  +----+-----+-------+------+----------+----------+</code></pre>
+<ul>
+<li>fields</li>
+</ul>
+<pre><code>  o  VER    protocol version: X&#39;05&#39;
+  o  REP    Reply field:
+     o  X&#39;00&#39; succeeded
+     o  X&#39;01&#39; general SOCKS server failure
+     o  X&#39;02&#39; connection not allowed by ruleset
+     o  X&#39;03&#39; Network unreachable
+     o  X&#39;04&#39; Host unreachable
+     o  X&#39;05&#39; Connection refused
+     o  X&#39;06&#39; TTL expired
+     o  X&#39;07&#39; Command not supported
+     o  X&#39;08&#39; Address type not supported
+     o  X&#39;09&#39; to X&#39;FF&#39; unassigned
+  o  RSV    RESERVED
+  o  ATYP   address type of following address</code></pre>
+<h2 id="problems">problems</h2>
+<ul>
+<li><p>difference between connection establishment and CONNECT request</p></li>
+<li><p>primary connection and secondary connection?</p></li>
+<li><p>each connection for each type of stream request?</p></li>
+</ul>
+            </div>
+    </div>
+  </div>
+  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
+
+</body>
+</html>
