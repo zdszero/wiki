@@ -44,7 +44,7 @@
   
     <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/jquery.sticky-kit.js"></script>
     <meta name="generator" content="pandoc" />
-  <title>title ARQ</title>
+  <title>title 2022-04-23</title>
   <style type="text/css">code{white-space: pre;}</style>
 </head>
 <body>
@@ -53,7 +53,7 @@
     <div class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container">
-        <span class="doc-title">title ARQ</span>
+        <span class="doc-title">title 2022-04-23</span>
         <ul class="nav pull-right doc-info">
                             </ul>
       </div>
@@ -65,100 +65,23 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#gbn">GBN</a><ul>
-        <li><a href="#design">design</a></li>
-        <li><a href="#pseudocode">pseudocode</a></li>
-        <li><a href="#problems">problems</a></li>
-        </ul></li>
+        <li><a href="#done">done</a></li>
+        <li><a href="#todo">todo</a></li>
         </ul>
 
         </div>
       </div>
             <div class="span9">
-            <h2 id="gbn">GBN</h2>
-<h3 id="design">design</h3>
-<p>if the seqno ranges from <code>0 ~ 2^n-1</code>, which means the bit width of the seqno is n. Then the gbn window size is <code>2^n - 1</code></p>
-<p>when receiver receives <code>seqno</code>, it should send <code>ackno = (seqno + 1) % winsize</code></p>
-<p>sender logic to judge a valid ackno</p>
-<pre><code>settings: seqno_bit_width = 3, seqno set = (0, 1, 2, 3 ,4 ,5, 6, 7)
-
-if current sending buffer is (3, 4, 5, 6, 7, 0, 1) --- 2 not in
-then the valid ackno no is (4, 5, 6, 7, 0, 1, 2) --- 3 not in
-
-if (0 &lt;= ackno &lt;= winsize and ackno != buffer.front().seqno)
-    return true</code></pre>
-<h3 id="pseudocode">pseudocode</h3>
-<p>logic</p>
-<pre><code>sender():
-    upon Start:
-        send winsize packets to destination
-        add sent packets to buffer
-        start timer
-
-    upon Receiving Packet:
-        if ackno is not valid:
-            return
-        remove the acked packets from buffer
-        send remaining packets to destination (until buffer is full)
-        add sent packets to buffer
-
-    upon Timer Timeout:
-        resend all the packets in buffer
-        reset timer
-
-receiver():
-    upon Receiving Packet p:
-        if p.seqno != next_expect_seqno:
-            return
-        add p to receiving pool
-        send corresponding ack</code></pre>
-<p>implementation</p>
-<pre><code>vars:
-    buffer
-    winsize
-    timer
-    msglen
-    next_msg_idx = 0
-    next_seqno = 0
-
-send(Packet p):
-    p = Packet(next_seqno)
-    sender.send(p)
-    buffer.add(p)
-    next_seqno = (next_seqno + 1) % winsize
-    next_msg_idx++
-
-sender():
-    upon Start:
-        while not buffer.full() and next_msg_idx &lt; msglen:
-            send(Packet(next_seqno))
-        timer.start()
-
-    upon Receiving Packet recv_p:
-        ackno = recv_p.ackno
-        if not is_valid_ackno(ackno):
-            return
-        for p in buffer:
-            if not buffer.empty() and buffer.front().seqno != ackno:
-                buffer.popfront()
-        while not buffer.full():
-            send(Packet(next_seqno))
-
-    upon Timer Timeout:
-        for p in buffer:
-            send(p)
-        timer.reset()
-
-receiver():
-    upon Receiving Packet recv_p:
-        if recv_p.seqno != next_expect_seqno:
-            return
-        send(Packet(ackno=next_expect_seqno))
-        next_expect_seqno = (next_expect_seqno + 1) % winsize</code></pre>
-<h3 id="problems">problems</h3>
+            <h2 id="done">done</h2>
 <ul>
-<li><p>receiver receives delayed seq and regards it as the current one</p></li>
-<li><p>ack problem, when the sending buffer has size &lt; winsize and delayed ack arrives</p></li>
+<li>anki</li>
+<li>refactor ONL server code</li>
+<li>add timer to ONL</li>
+<li>write ONL arq gbn not testing</li>
+</ul>
+<h2 id="todo">todo</h2>
+<ul>
+<li>reading dns server code</li>
 </ul>
             </div>
     </div>

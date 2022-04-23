@@ -8,7 +8,7 @@
 
 ## event loop
 
-### working with sockets
+### socket functions
 
 **note:** sock must be `non-blocking` socket 
 
@@ -25,6 +25,10 @@ In contrast, asyncio's event loop is implemented in application-layer. It manage
 * how does event loop schedule different coroutines
 
 One coroutine may await another coroutine, and these coroutines make up a `await chain`. The `await chain` eventually reaches a low-level awaitable, which returns a plain generator that the event loop can drive in response to events such as timers or network I/O.
+
+* `loop.same_func()` vs `asyncio.same_func()`
+
+* how asyncio functions work with loop
 
 ## awaitables
 
@@ -126,3 +130,70 @@ writer.wait_closed()
 
 * `open_connection(host, port) -> reader, writer`
 * `start_server(client_connected_cb, host, port, limit, ...)`
+
+## Synchronization Primitives
+
+### objects
+
+the statement `async with` is just like C++ RAII
+
+**Lock**
+
+```python
+lock = asyncio.Lock()
+
+async with lock:
+    # access shared state here
+
+lock.release()
+```
+
+* `locked() -> bool`
+
+**Event**
+
+Wait on some flag which can be set and reset
+
+* `wait()`
+* `set()`
+* `is_set()`
+* `clear()`
+
+**Condition**
+
+Combines the functionality of an Event and a Lock.
+
+It is possible to have multiple Condition objects share one Lock
+
+```python
+cond = asyncio.Condition(lock=None)
+
+async with cond:
+    await cond.wait()
+    # or
+    await cond.wait_for(predicate)
+
+# the same as
+await cond.acquire()
+try:
+    await cond.wait()
+finally:
+    cond.release()
+
+cond.notify(n)
+cond.notify_all()
+```
+
+**Semephore**
+
+* `acquire()`
+* `release()`
+* `locked()`
+
+## Future
+
+### Problems
+
+* difference between future and task
+
+future is the more general concept of a container of an async result, akin to a JavaScript promise. Task is a subclass of future specialized for executing coroutines.
