@@ -37,6 +37,7 @@ sender():
         remove the acked packets from buffer
         send remaining packets to destination (until buffer is full)
         add sent packets to buffer
+        reset timer
 
     upon Timer Timeout:
         resend all the packets in buffer
@@ -83,6 +84,7 @@ sender():
                 buffer.popfront()
         while not buffer.full():
             send(Packet(next_seqno))
+        timer.reset()
 
     upon Timer Timeout:
         for p in buffer:
