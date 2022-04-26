@@ -69,6 +69,12 @@ other
 * `gethostname() -> str`
 * `getsockname() -> (address, port)`
 
+### nonblocking socket
+
+By default, TCP sockets are in "blocking" mode. For example, when you call methods like `accept, connect, send, recv`, these methods will block your program.
+
+If you set the socket as nonblocking socket.
+
 ### problems
 
 * What is the common methods of UDP and TCP

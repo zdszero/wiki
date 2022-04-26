@@ -65,15 +65,22 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#socket">socket</a><ul>
-        <li><a href="#methods">methods</a></li>
-        <li><a href="#problems">problems</a></li>
+        <li><a href="#socket" id="toc-socket">socket</a>
+        <ul>
+        <li><a href="#methods" id="toc-methods">methods</a></li>
+        <li><a href="#nonblocking-socket"
+        id="toc-nonblocking-socket">nonblocking socket</a></li>
+        <li><a href="#problems" id="toc-problems">problems</a></li>
         </ul></li>
-        <li><a href="#socketserver">socketserver</a><ul>
-        <li><a href="#class">class</a></li>
+        <li><a href="#socketserver"
+        id="toc-socketserver">socketserver</a>
+        <ul>
+        <li><a href="#class" id="toc-class">class</a></li>
         </ul></li>
-        <li><a href="#working-with-binary">working with binary</a><ul>
-        <li><a href="#struct">struct</a></li>
+        <li><a href="#working-with-binary"
+        id="toc-working-with-binary">working with binary</a>
+        <ul>
+        <li><a href="#struct" id="toc-struct">struct</a></li>
         </ul></li>
         </ul>
 
@@ -81,83 +88,101 @@
       </div>
             <div class="span9">
             <h2 id="socket">socket</h2>
-<h3 id="methods">methods</h3>
-<p><strong>creation</strong></p>
-<ul>
-<li><code>socket(family, type) -&gt; socket</code></li>
-<li><code>socketpair(family, type) -&gt; (socket, socket)</code></li>
-<li><code>create_connection(address, timeout, source_addr) -&gt; tcp_socket</code></li>
-<li><code>create_server(address, family, backlog) -&gt; tcp_socket</code></li>
-</ul>
-<p><strong>config</strong></p>
-<ul>
-<li><code>setblocking(bool)</code>: the default action is False, if flag is True, then the socket is blocked when no data to receive</li>
-<li><code>settimeout(value)</code></li>
-<li><code>setsockopt(level, optname, value: int)</code></li>
-</ul>
-<p><strong>tcp/udp</strong></p>
-<p>server:</p>
-<ul>
-<li><code>bind(address)</code></li>
-<li><code>listen(n)</code></li>
-<li><code>accept() -&gt; (socket, address)</code></li>
-</ul>
-<p>client:</p>
-<ul>
-<li><code>connect(address)</code></li>
-</ul>
-<p><strong>send</strong></p>
-<ul>
-<li><code>send(bytes, [flags]) -&gt; int</code></li>
-<li><code>sendall(bytes, [flags]) -&gt; None</code>: keeping sending util all bytes have been sent</li>
-<li><code>sendto(bytes, [flags], address)</code></li>
-<li><code>sendfile(file, offset, count)</code></li>
-</ul>
-<p><strong>recv</strong></p>
-<ul>
-<li><code>recv(bufsize, [flags]) -&gt; bytes</code></li>
-<li><code>recvfrom(bufsize, [flags]) -&gt; (bytes, address)</code></li>
-</ul>
-<p><strong>utils</strong></p>
-<p>DNS utils</p>
-<ul>
-<li><code>gethostbyname(hostname) -&gt; str</code>: perform DNS and returns a IPv4 address in dotted decimal format</li>
-<li><code>getaddrinfo(host, port) -&gt; list[(family, type, proto, canonname, sockaddr)]</code>
-<ul>
-<li>host can be either IPv4, IPv6 or domain</li>
-<li>port can be port number or service name like http or ftp</li>
-</ul></li>
-</ul>
-<p>conversion between network octet and host octet</p>
-<ul>
-<li><code>htons(x)</code></li>
-<li><code>htonl(x)</code></li>
-<li><code>ntohl(x)</code></li>
-<li><code>ntohs(x)</code></li>
-</ul>
-<p>conversion from human readable IP representation and network bytes, <code>a</code> for string, <code>p</code> for protocol</p>
-<ul>
-<li><code>inet_aton(ip_string)</code>: convert dotted decimal to packed binary format</li>
-<li><code>inet_ntoa(packed_ip)</code></li>
-<li><code>inet_pton(addr_family, ip_string)</code></li>
-<li><code>inet_ntop(addr_family, packed_ip)</code></li>
-</ul>
-<p>other</p>
-<ul>
-<li><code>gethostname() -&gt; str</code></li>
-<li><code>getsockname() -&gt; (address, port)</code></li>
-</ul>
-<h3 id="problems">problems</h3>
-<ul>
-<li>What is the common methods of UDP and TCP</li>
-</ul>
-<p><code>bind</code> method, UDP can also call <code>connect</code> method, then it can call <code>send</code> method without specifying the destination address</p>
-<ul>
-<li>What is the difference between <code>close</code> and <code>shutdown</code></li>
-</ul>
-<h2 id="socketserver">socketserver</h2>
-<h3 id="class">class</h3>
-<pre><code>+------------+
+            <h3 id="methods">methods</h3>
+            <p><strong>creation</strong></p>
+            <ul>
+            <li><code>socket(family, type) -&gt; socket</code></li>
+            <li><code>socketpair(family, type) -&gt; (socket, socket)</code></li>
+            <li><code>create_connection(address, timeout, source_addr) -&gt; tcp_socket</code></li>
+            <li><code>create_server(address, family, backlog) -&gt; tcp_socket</code></li>
+            </ul>
+            <p><strong>config</strong></p>
+            <ul>
+            <li><code>setblocking(bool)</code>: the default action is
+            False, if flag is True, then the socket is blocked when no
+            data to receive</li>
+            <li><code>settimeout(value)</code></li>
+            <li><code>setsockopt(level, optname, value: int)</code></li>
+            </ul>
+            <p><strong>tcp/udp</strong></p>
+            <p>server:</p>
+            <ul>
+            <li><code>bind(address)</code></li>
+            <li><code>listen(n)</code></li>
+            <li><code>accept() -&gt; (socket, address)</code></li>
+            </ul>
+            <p>client:</p>
+            <ul>
+            <li><code>connect(address)</code></li>
+            </ul>
+            <p><strong>send</strong></p>
+            <ul>
+            <li><code>send(bytes, [flags]) -&gt; int</code></li>
+            <li><code>sendall(bytes, [flags]) -&gt; None</code>: keeping
+            sending util all bytes have been sent</li>
+            <li><code>sendto(bytes, [flags], address)</code></li>
+            <li><code>sendfile(file, offset, count)</code></li>
+            </ul>
+            <p><strong>recv</strong></p>
+            <ul>
+            <li><code>recv(bufsize, [flags]) -&gt; bytes</code></li>
+            <li><code>recvfrom(bufsize, [flags]) -&gt; (bytes, address)</code></li>
+            </ul>
+            <p><strong>utils</strong></p>
+            <p>DNS utils</p>
+            <ul>
+            <li><code>gethostbyname(hostname) -&gt; str</code>: perform
+            DNS and returns a IPv4 address in dotted decimal format</li>
+            <li><code>getaddrinfo(host, port) -&gt; list[(family, type, proto, canonname, sockaddr)]</code>
+            <ul>
+            <li>host can be either IPv4, IPv6 or domain</li>
+            <li>port can be port number or service name like http or
+            ftp</li>
+            </ul></li>
+            </ul>
+            <p>conversion between network octet and host octet</p>
+            <ul>
+            <li><code>htons(x)</code></li>
+            <li><code>htonl(x)</code></li>
+            <li><code>ntohl(x)</code></li>
+            <li><code>ntohs(x)</code></li>
+            </ul>
+            <p>conversion from human readable IP representation and
+            network bytes, <code>a</code> for string, <code>p</code> for
+            protocol</p>
+            <ul>
+            <li><code>inet_aton(ip_string)</code>: convert dotted
+            decimal to packed binary format</li>
+            <li><code>inet_ntoa(packed_ip)</code></li>
+            <li><code>inet_pton(addr_family, ip_string)</code></li>
+            <li><code>inet_ntop(addr_family, packed_ip)</code></li>
+            </ul>
+            <p>other</p>
+            <ul>
+            <li><code>gethostname() -&gt; str</code></li>
+            <li><code>getsockname() -&gt; (address, port)</code></li>
+            </ul>
+            <h3 id="nonblocking-socket">nonblocking socket</h3>
+            <p>By default, TCP sockets are in “blocking” mode. For
+            example, when you call methods like
+            <code>accept, connect, send, recv</code>, these methods will
+            block your program.</p>
+            <p>If you set the socket as nonblocking socket.</p>
+            <h3 id="problems">problems</h3>
+            <ul>
+            <li>What is the common methods of UDP and TCP</li>
+            </ul>
+            <p><code>bind</code> method, UDP can also call
+            <code>connect</code> method, then it can call
+            <code>send</code> method without specifying the destination
+            address</p>
+            <ul>
+            <li>What is the difference between <code>close</code> and
+            <code>shutdown</code></li>
+            </ul>
+            <h2 id="socketserver">socketserver</h2>
+            <h3 id="class">class</h3>
+            <pre><code>+------------+
 | BaseServer |
 +------------+
       |
@@ -170,124 +195,126 @@
 +-----------+        +--------------------+
 | UDPServer |-------&gt;| UnixDatagramServer |
 +-----------+        +--------------------+</code></pre>
-<h2 id="working-with-binary">working with binary</h2>
-<h3 id="struct">struct</h3>
-<p>perform conversion between python values and C struct represented by python bytes object</p>
-<pre><code>pack(format, iter ...) -&gt; bytes
+            <h2 id="working-with-binary">working with binary</h2>
+            <h3 id="struct">struct</h3>
+            <p>perform conversion between python values and C struct
+            represented by python bytes object</p>
+            <pre><code>pack(format, iter ...) -&gt; bytes
 
 unpack(format, bytes) -&gt; tuple</code></pre>
-<ul>
-<li>format specification</li>
-</ul>
-<p><strong>byte order</strong></p>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;">character</th>
-<th style="text-align: center;">byte order</th>
-<th style="text-align: center;">size</th>
-<th style="text-align: center;">alignment</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><code>@</code></td>
-<td style="text-align: center;">native</td>
-<td style="text-align: center;">native</td>
-<td style="text-align: center;">native</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><code>=</code></td>
-<td style="text-align: center;">native</td>
-<td style="text-align: center;">standard</td>
-<td style="text-align: center;">none</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><code>&lt;</code></td>
-<td style="text-align: center;">little endian</td>
-<td style="text-align: center;">standard</td>
-<td style="text-align: center;">none</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><code>&gt;</code></td>
-<td style="text-align: center;">big endian</td>
-<td style="text-align: center;">standard</td>
-<td style="text-align: center;">none</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><code>!</code></td>
-<td style="text-align: center;">network(big endian)</td>
-<td style="text-align: center;">standard</td>
-<td style="text-align: center;">none</td>
-</tr>
-</tbody>
-</table>
-<p>native size means the <code>sizeof(type)</code> is C</p>
-<p><strong>foramt characters</strong></p>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;">format</th>
-<th style="text-align: center;">c tpye</th>
-<th style="text-align: center;">standard size</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;"><code>b</code></td>
-<td style="text-align: center;">signed char</td>
-<td style="text-align: center;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><code>B</code></td>
-<td style="text-align: center;">unsigned char</td>
-<td style="text-align: center;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><code>h</code></td>
-<td style="text-align: center;">short</td>
-<td style="text-align: center;">2</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><code>H</code></td>
-<td style="text-align: center;">unsigned char</td>
-<td style="text-align: center;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><code>i</code></td>
-<td style="text-align: center;">int</td>
-<td style="text-align: center;">4</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><code>I</code></td>
-<td style="text-align: center;">unsigned int</td>
-<td style="text-align: center;">4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><code>l</code></td>
-<td style="text-align: center;">long</td>
-<td style="text-align: center;">4</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><code>L</code></td>
-<td style="text-align: center;">unsigned long</td>
-<td style="text-align: center;">4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;"><code>q</code></td>
-<td style="text-align: center;">long long</td>
-<td style="text-align: center;">8</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><code>Q</code></td>
-<td style="text-align: center;">unsigned long long</td>
-<td style="text-align: center;">8</td>
-</tr>
-</tbody>
-</table>
+            <ul>
+            <li>format specification</li>
+            </ul>
+            <p><strong>byte order</strong></p>
+            <table>
+            <thead>
+            <tr class="header">
+            <th style="text-align: center;">character</th>
+            <th style="text-align: center;">byte order</th>
+            <th style="text-align: center;">size</th>
+            <th style="text-align: center;">alignment</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="odd">
+            <td style="text-align: center;"><code>@</code></td>
+            <td style="text-align: center;">native</td>
+            <td style="text-align: center;">native</td>
+            <td style="text-align: center;">native</td>
+            </tr>
+            <tr class="even">
+            <td style="text-align: center;"><code>=</code></td>
+            <td style="text-align: center;">native</td>
+            <td style="text-align: center;">standard</td>
+            <td style="text-align: center;">none</td>
+            </tr>
+            <tr class="odd">
+            <td style="text-align: center;"><code>&lt;</code></td>
+            <td style="text-align: center;">little endian</td>
+            <td style="text-align: center;">standard</td>
+            <td style="text-align: center;">none</td>
+            </tr>
+            <tr class="even">
+            <td style="text-align: center;"><code>&gt;</code></td>
+            <td style="text-align: center;">big endian</td>
+            <td style="text-align: center;">standard</td>
+            <td style="text-align: center;">none</td>
+            </tr>
+            <tr class="odd">
+            <td style="text-align: center;"><code>!</code></td>
+            <td style="text-align: center;">network(big endian)</td>
+            <td style="text-align: center;">standard</td>
+            <td style="text-align: center;">none</td>
+            </tr>
+            </tbody>
+            </table>
+            <p>native size means the <code>sizeof(type)</code> is C</p>
+            <p><strong>foramt characters</strong></p>
+            <table>
+            <thead>
+            <tr class="header">
+            <th style="text-align: center;">format</th>
+            <th style="text-align: center;">c tpye</th>
+            <th style="text-align: center;">standard size</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="odd">
+            <td style="text-align: center;"><code>b</code></td>
+            <td style="text-align: center;">signed char</td>
+            <td style="text-align: center;">1</td>
+            </tr>
+            <tr class="even">
+            <td style="text-align: center;"><code>B</code></td>
+            <td style="text-align: center;">unsigned char</td>
+            <td style="text-align: center;">1</td>
+            </tr>
+            <tr class="odd">
+            <td style="text-align: center;"><code>h</code></td>
+            <td style="text-align: center;">short</td>
+            <td style="text-align: center;">2</td>
+            </tr>
+            <tr class="even">
+            <td style="text-align: center;"><code>H</code></td>
+            <td style="text-align: center;">unsigned char</td>
+            <td style="text-align: center;">2</td>
+            </tr>
+            <tr class="odd">
+            <td style="text-align: center;"><code>i</code></td>
+            <td style="text-align: center;">int</td>
+            <td style="text-align: center;">4</td>
+            </tr>
+            <tr class="even">
+            <td style="text-align: center;"><code>I</code></td>
+            <td style="text-align: center;">unsigned int</td>
+            <td style="text-align: center;">4</td>
+            </tr>
+            <tr class="odd">
+            <td style="text-align: center;"><code>l</code></td>
+            <td style="text-align: center;">long</td>
+            <td style="text-align: center;">4</td>
+            </tr>
+            <tr class="even">
+            <td style="text-align: center;"><code>L</code></td>
+            <td style="text-align: center;">unsigned long</td>
+            <td style="text-align: center;">4</td>
+            </tr>
+            <tr class="odd">
+            <td style="text-align: center;"><code>q</code></td>
+            <td style="text-align: center;">long long</td>
+            <td style="text-align: center;">8</td>
+            </tr>
+            <tr class="even">
+            <td style="text-align: center;"><code>Q</code></td>
+            <td style="text-align: center;">unsigned long long</td>
+            <td style="text-align: center;">8</td>
+            </tr>
+            </tbody>
+            </table>
             </div>
     </div>
   </div>
+
   <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
 
 </body>

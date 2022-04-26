@@ -44,7 +44,7 @@
   
     <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/jquery.sticky-kit.js"></script>
     <meta name="generator" content="pandoc" />
-  <title>title WIKI</title>
+  <title>title web</title>
   <style type="text/css">code{white-space: pre;}</style>
 </head>
 <body>
@@ -53,7 +53,7 @@
     <div class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container">
-        <span class="doc-title">title WIKI</span>
+        <span class="doc-title">title web</span>
         <ul class="nav pull-right doc-info">
                             </ul>
       </div>
@@ -65,37 +65,70 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#data-structure" id="toc-data-structure">Data
-        Structure</a></li>
-        <li><a href="#shell" id="toc-shell">Shell</a></li>
-        <li><a href="#network" id="toc-network">Network</a></li>
-        <li><a href="#python" id="toc-python">Python</a></li>
-        <li><a href="#thoughts" id="toc-thoughts">Thoughts</a></li>
-        <li><a href="#diary" id="toc-diary"><span>Diary</span></a></li>
+        <li><a href="#web-form网页表单" id="toc-web-form网页表单">web
+        form（网页表单）</a></li>
+        <li><a href="#cgi-common-gateway-interface"
+        id="toc-cgi-common-gateway-interface">CGI (Common Gateway
+        Interface)</a>
+        <ul>
+        <li><a href="#web-server-web-framework"
+        id="toc-web-server-web-framework">web server &amp; web
+        framework</a></li>
+        <li><a href="#wsgi" id="toc-wsgi">wsgi</a></li>
+        </ul></li>
         </ul>
 
         </div>
       </div>
             <div class="span9">
-            <h2 id="data-structure">Data Structure</h2>
-            <p><a href="extendible_hash.html">extendible_hash</a></p>
-            <p><a href="AVL.html">AVL</a></p>
-            <h2 id="shell">Shell</h2>
-            <p><a href="git.html">git</a></p>
-            <p><a href="docker.html">docker</a></p>
-            <h2 id="network">Network</h2>
-            <p><a href="ARQ.html">ARQ</a></p>
-            <p><a href="socks.html">socks</a></p>
-            <p><a href="io_multiplex.html">io_multiplex</a></p>
-            <p><a href="web.html">web</a></p>
-            <h2 id="python">Python</h2>
-            <p><a href="types.html">types</a></p>
-            <p><a href="asyncio.html">asyncio</a></p>
-            <p><a href="libs.html">libs</a></p>
-            <p><a href="socket.html">socket</a></p>
-            <h2 id="thoughts">Thoughts</h2>
-            <p><a href="study.html">study</a></p>
-            <h2 id="diary"><a href="diary/diary.html">Diary</a></h2>
+            <h2 id="web-form网页表单">web form（网页表单）</h2>
+            <p>A web page allows a user to enter data that is sent to a
+            server for processing, which may includes the following
+            parts:</p>
+            <ul>
+            <li>checkbox</li>
+            <li>radio buttons</li>
+            <li>text fields …</li>
+            </ul>
+            <h2 id="cgi-common-gateway-interface">CGI (Common Gateway
+            Interface)</h2>
+            <p>A interface specification that enables web servers to
+            execute an external program to procoess user requests.</p>
+            <p>A typical use case occurs when a Web user submits a Web
+            form on a web page that uses CGI. The form’s data is sent to
+            the Web server within an HTTP request with a URL denoting a
+            CGI script. The Web server then launches the CGI script in a
+            new computer process, passing the form data to it. The
+            output of the CGI script, usually in the form of HTML, is
+            returned by the script to the Web server, and the server
+            relays it back to the browser as its response to the
+            browser’s request.</p>
+            <p>The very first version of a protocol that enables the web
+            server to be interactive. Still in use, CGI is less
+            efficient than the newer techs.</p>
+            <h3 id="web-server-web-framework">web server &amp; web
+            framework</h3>
+            <p>Web server establishes the connection, relays the
+            reqeusts to the web framework and send the responses to the
+            clients. It doesn’t care the content the certain
+            request.</p>
+            <p>Web framework is responsible for dealing with the detail
+            of request, which includes querying the database and
+            generate the response.</p>
+            <p>Exmaples:</p>
+            <ul>
+            <li>web servers: nginx, apache</li>
+            <li>web frameworks: django, express</li>
+            </ul>
+            <h3 id="wsgi">wsgi</h3>
+            <p><a
+            href="https://zhuanlan.zhihu.com/p/441743099.html">intro</a></p>
+            <p>Python Web Server Gateway Interface</p>
+            <pre><code>        WSGI
+SERVER -------- APP</code></pre>
+            <p>WSGI协议其实是定义了一种server与application解耦的规范，即可以有多个实现WSGI
+            server的服务器，也可以有多个实现WSGI
+            application的框架，那么就可以选择任意的server和application组合实现自己的Web应用。</p>
             </div>
     </div>
   </div>
