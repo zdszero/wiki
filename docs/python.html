@@ -44,7 +44,7 @@
   
     <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/jquery.sticky-kit.js"></script>
     <meta name="generator" content="pandoc" />
-  <title>title WIKI</title>
+  <title>title pythonic</title>
   <style type="text/css">code{white-space: pre;}</style>
 </head>
 <body>
@@ -53,7 +53,7 @@
     <div class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container">
-        <span class="doc-title">title WIKI</span>
+        <span class="doc-title">title pythonic</span>
         <ul class="nav pull-right doc-info">
                             </ul>
       </div>
@@ -65,38 +65,56 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#data-structure" id="toc-data-structure">Data
-        Structure</a></li>
-        <li><a href="#shell" id="toc-shell">Shell</a></li>
-        <li><a href="#network" id="toc-network">Network</a></li>
-        <li><a href="#python" id="toc-python">Python</a></li>
-        <li><a href="#thoughts" id="toc-thoughts">Thoughts</a></li>
-        <li><a href="#diary" id="toc-diary"><span>Diary</span></a></li>
+        <li><a href="#pythonic-object" id="toc-pythonic-object">pythonic
+        object</a>
+        <ul>
+        <li><a href="#string-functions" id="toc-string-functions">string
+        functions</a></li>
+        <li><a href="#math-ops" id="toc-math-ops">math ops</a></li>
+        </ul></li>
+        <li><a href="#hash" id="toc-hash">hash</a>
+        <ul>
+        <li><a href="#decorator" id="toc-decorator">decorator</a></li>
+        <li><a href="#statements"
+        id="toc-statements">statements</a></li>
+        </ul></li>
         </ul>
 
         </div>
       </div>
             <div class="span9">
-            <h2 id="data-structure">Data Structure</h2>
-            <p><a href="extendible_hash.html">extendible_hash</a></p>
-            <p><a href="AVL.html">AVL</a></p>
-            <h2 id="shell">Shell</h2>
-            <p><a href="git.html">git</a></p>
-            <p><a href="docker.html">docker</a></p>
-            <h2 id="network">Network</h2>
-            <p><a href="ARQ.html">ARQ</a></p>
-            <p><a href="socks.html">socks</a></p>
-            <p><a href="io_multiplex.html">io_multiplex</a></p>
-            <p><a href="web.html">web</a></p>
-            <h2 id="python">Python</h2>
-            <p><a href="types.html">types</a></p>
-            <p><a href="asyncio.html">asyncio</a></p>
-            <p><a href="libs.html">libs</a></p>
-            <p><a href="socket.html">socket</a></p>
-            <p><a href="python.html">python</a></p>
-            <h2 id="thoughts">Thoughts</h2>
-            <p><a href="study.html">study</a></p>
-            <h2 id="diary"><a href="diary/diary.html">Diary</a></h2>
+            <h2 id="pythonic-object">pythonic object</h2>
+            <p>make an object support python standard functions</p>
+            <h3 id="string-functions">string functions</h3>
+            <ul>
+            <li><code>__str__</code></li>
+            <li><code>__format__</code></li>
+            </ul>
+            <h3 id="math-ops">math ops</h3>
+            <ul>
+            <li><code>__add__</code></li>
+            <li><code>__iadd__</code></li>
+            <li><code>__mul__</code></li>
+            <li><code>__imul__</code></li>
+            <li><code>__eq__</code></li>
+            </ul>
+            <h2 id="hash">hash</h2>
+            <ul>
+            <li><code>__hash__</code></li>
+            </ul>
+            <p>to support <code>hash()</code> function, because objects
+            that compare equal should have the same hash</p>
+            <h3 id="decorator">decorator</h3>
+            <ul>
+            <li><code>@classmethod</code></li>
+            <li><code>@staticmethod</code></li>
+            <li><code>@property</code>: getter</li>
+            </ul>
+            <h3 id="statements">statements</h3>
+            <ul>
+            <li><code>__iter__</code>: <code>for elem in obj</code></li>
+            <li><code>__enter__, __exit__</code>: context manager</li>
+            </ul>
             </div>
     </div>
   </div>

@@ -32,6 +32,8 @@
 
 [socket](socket)
 
+[python](python)
+
 ## Thoughts
 
 [study](study)
