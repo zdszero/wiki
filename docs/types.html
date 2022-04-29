@@ -65,33 +65,54 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#numeric-types">numeric types</a></li>
-        <li><a href="#sequence-types">sequence types</a></li>
-        <li><a href="#binary-sequence">binary sequence</a><ul>
-        <li><a href="#bytes-object">bytes object</a></li>
-        <li><a href="#bytearray-object">bytearray object</a></li>
+        <li><a href="#numeric-types" id="toc-numeric-types">numeric
+        types</a></li>
+        <li><a href="#sequence-types" id="toc-sequence-types">sequence
+        types</a></li>
+        <li><a href="#binary-sequence" id="toc-binary-sequence">binary
+        sequence</a>
+        <ul>
+        <li><a href="#bytes-object" id="toc-bytes-object">bytes
+        object</a></li>
+        <li><a href="#bytearray-object"
+        id="toc-bytearray-object">bytearray object</a></li>
         </ul></li>
-        <li><a href="#other-built-in-types">other built-in types</a><ul>
-        <li><a href="#functions">functions</a></li>
+        <li><a href="#other-built-in-types"
+        id="toc-other-built-in-types">other built-in types</a>
+        <ul>
+        <li><a href="#functions" id="toc-functions">functions</a></li>
+        <li><a href="#dataclass" id="toc-dataclass">dataclass</a></li>
         </ul></li>
+        <li><a href="#typing" id="toc-typing">typing</a></li>
         </ul>
 
         </div>
       </div>
             <div class="span9">
             <h2 id="numeric-types">numeric types</h2>
-<h2 id="sequence-types">sequence types</h2>
-<h2 id="binary-sequence">binary sequence</h2>
-<h3 id="bytes-object">bytes object</h3>
-<p>bytes object is mutable</p>
-<p>creation:</p>
-<ul>
-<li>literal string: <code>b""</code></li>
-<li>A zero-filled bytes object of a specified length: <code>bytes(10)</code></li>
-<li>From an iterable of integers: <code>bytes(range(20))</code></li>
-<li>Copying existing binary data via the buffer protocol: <code>bytes(obj)</code></li>
-</ul>
-<pre><code># get hex string
+            <ul>
+            <li>int</li>
+            <li>float</li>
+            </ul>
+            <h2 id="sequence-types">sequence types</h2>
+            <ul>
+            <li>list</li>
+            <li>tuple</li>
+            </ul>
+            <h2 id="binary-sequence">binary sequence</h2>
+            <h3 id="bytes-object">bytes object</h3>
+            <p>bytes object is mutable</p>
+            <p>creation:</p>
+            <ul>
+            <li>literal string: <code>b""</code></li>
+            <li>A zero-filled bytes object of a specified length:
+            <code>bytes(10)</code></li>
+            <li>From an iterable of integers:
+            <code>bytes(range(20))</code></li>
+            <li>Copying existing binary data via the buffer protocol:
+            <code>bytes(obj)</code></li>
+            </ul>
+            <pre><code># get hex string
 hex()
 
 # construct bytes from string. The string must contain two hexadecimal digits per byte, with ASCII whitespace being ignored.
@@ -99,13 +120,33 @@ bytes.fromhex()
 
 # decode to str
 bytes.decode(&#39;utf-8&#39;)</code></pre>
-<h3 id="bytearray-object">bytearray object</h3>
-<p>bytearray is <code>immutable counterpart</code> of bytes object</p>
-<h2 id="other-built-in-types">other built-in types</h2>
-<h3 id="functions">functions</h3>
+            <h3 id="bytearray-object">bytearray object</h3>
+            <p>bytearray is <code>immutable counterpart</code> of bytes
+            object</p>
+            <h2 id="other-built-in-types">other built-in types</h2>
+            <h3 id="functions">functions</h3>
+            <ul>
+            <li>function by <code>def</code> statement</li>
+            <li>lambda</li>
+            </ul>
+            <h3 id="dataclass">dataclass</h3>
+            <pre><code>from dataclasses import dataclass
+
+@dataclass
+class Foo:
+    attr1: type1 = default_val</code></pre>
+            <ul>
+            <li>use
+            <code>lst: list[str] = filed(default_factory=list)</code> to
+            specify default value for list</li>
+            <li>use <code>__post_init__</code> function to do post
+            creation check</li>
+            </ul>
+            <h2 id="typing">typing</h2>
             </div>
     </div>
   </div>
+
   <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
 
 </body>

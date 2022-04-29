@@ -32,7 +32,7 @@
 
 [socket](socket)
 
-[python](python)
+[pythonic](pythonic)
 
 ## Thoughts
 

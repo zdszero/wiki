@@ -2,7 +2,13 @@
 
 ## numeric types
 
+* int
+* float
+
 ## sequence types
+
+* list
+* tuple
 
 ## binary sequence
 
@@ -35,3 +41,21 @@ bytearray is `immutable counterpart` of bytes object
 ## other built-in types
 
 ### functions
+
+* function by `def` statement
+* lambda
+
+### dataclass
+
+```
+from dataclasses import dataclass
+
+@dataclass
+class Foo:
+    attr1: type1 = default_val
+```
+
+* use `lst: list[str] = filed(default_factory=list)` to specify default value for list
+* use `__post_init__` function to do post creation check
+
+## typing

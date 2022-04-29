@@ -68,15 +68,18 @@
         <li><a href="#pythonic-object" id="toc-pythonic-object">pythonic
         object</a>
         <ul>
-        <li><a href="#string-functions" id="toc-string-functions">string
-        functions</a></li>
-        <li><a href="#math-ops" id="toc-math-ops">math ops</a></li>
-        </ul></li>
-        <li><a href="#hash" id="toc-hash">hash</a>
-        <ul>
-        <li><a href="#decorator" id="toc-decorator">decorator</a></li>
+        <li><a href="#string" id="toc-string">string</a></li>
+        <li><a href="#bytes" id="toc-bytes">bytes</a></li>
+        <li><a href="#math" id="toc-math">math</a></li>
+        <li><a href="#hash" id="toc-hash">hash</a></li>
+        <li><a href="#memory" id="toc-memory">memory</a></li>
+        <li><a href="#fields-and-methods"
+        id="toc-fields-and-methods">fields and methods</a></li>
         <li><a href="#statements"
         id="toc-statements">statements</a></li>
+        <li><a href="#private-member-convention"
+        id="toc-private-member-convention">private member
+        convention</a></li>
         </ul></li>
         </ul>
 
@@ -85,35 +88,79 @@
             <div class="span9">
             <h2 id="pythonic-object">pythonic object</h2>
             <p>make an object support python standard functions</p>
-            <h3 id="string-functions">string functions</h3>
+            <h3 id="string">string</h3>
             <ul>
+            <li><code>__repr__</code>: how python view this object</li>
             <li><code>__str__</code></li>
             <li><code>__format__</code></li>
             </ul>
-            <h3 id="math-ops">math ops</h3>
+            <h3 id="bytes">bytes</h3>
+            <ul>
+            <li><code>__bytes__</code>: call bytes() on that object will
+            trigger this function</li>
+            </ul>
+            <h3 id="math">math</h3>
             <ul>
             <li><code>__add__</code></li>
             <li><code>__iadd__</code></li>
             <li><code>__mul__</code></li>
             <li><code>__imul__</code></li>
             <li><code>__eq__</code></li>
+            <li><code>__abs__</code></li>
             </ul>
-            <h2 id="hash">hash</h2>
+            <h3 id="hash">hash</h3>
             <ul>
             <li><code>__hash__</code></li>
             </ul>
             <p>to support <code>hash()</code> function, because objects
             that compare equal should have the same hash</p>
-            <h3 id="decorator">decorator</h3>
+            <h3 id="memory">memory</h3>
+            <ul>
+            <li><code>__dict__, __slot__</code></li>
+            </ul>
+            <p>using <code>__slot__</code> will tell python to create a
+            more compat memory model, but at the same time the
+            <code>__dict__</code> attribute is disabled, and you cannot
+            add attributes to that class.</p>
+            <h3 id="fields-and-methods">fields and methods</h3>
             <ul>
             <li><code>@classmethod</code></li>
             <li><code>@staticmethod</code></li>
             <li><code>@property</code>: getter</li>
+            <li><code>__len__</code></li>
+            <li><code>__getitem__</code>: simulate sequence behavior,
+            slice and index can be used to get the element</li>
+            <li><code>__getattr__</code>: invoked when attribute lookup
+            fails</li>
+            <li><code>__setattr__</code>: use this function to customize
+            variable setting logic</li>
+            <li><code>__delattr__</code></li>
             </ul>
             <h3 id="statements">statements</h3>
             <ul>
             <li><code>__iter__</code>: <code>for elem in obj</code></li>
             <li><code>__enter__, __exit__</code>: context manager</li>
+            </ul>
+            <h3 id="private-member-convention">private member
+            convention</h3>
+            <ul>
+            <li>use name mangling, which prefix variables with to
+            leading underscore <code>__</code></li>
+            </ul>
+            <pre><code>&gt;&gt;&gt; class Foo:
+...     def __init__(self, x, y, z) -&gt; None:
+...         self.__x = x
+...         self.__y = y
+...         self._z = z
+...
+&gt;&gt;&gt; f = Foo(3.0, 4.0, 5.0)
+&gt;&gt;&gt; f.__dict__
+{&#39;_Foo__x&#39;: 3.0, &#39;_Foo__y&#39;: 4.0, &#39;_z&#39;: 5.0}</code></pre>
+            <p>python intepretor automatically change the var name to
+            avoid it being overriden</p>
+            <ul>
+            <li><strong>conventionly</strong>, use one leading
+            underscore</li>
             </ul>
             </div>
     </div>
