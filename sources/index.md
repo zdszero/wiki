@@ -1,41 +1,46 @@
-%title WIKI
+% THE WIKI!
+% zdszero
+
+## Computer
+
+[Thuring](Thuring.md)
 
 ## Data Structure
 
-[extendible_hash](extendible_hash)
+[extendible_hash](extendible_hash.md)
 
-[AVL](AVL)
+[AVL](AVL.md)
 
 ## Shell
 
-[git](git)
+[git](git.md)
 
-[docker](docker)
+[docker](docker.md)
 
 ## Network
 
-[ARQ](ARQ)
+[ARQ](ARQ.md)
 
-[socks](socks)
+[socks](socks.md)
 
-[io_multiplex](io_multiplex)
+[io_multiplex](io_multiplex.md)
 
-[web](web)
+[web](web.md)
 
 ## Python
 
-[types](types)
+[types](types.md)
 
-[asyncio](asyncio)
+[asyncio](asyncio.md)
 
-[libs](libs)
+[libs](libs.md)
 
-[socket](socket)
+[socket](socket.md)
 
-[pythonic](pythonic)
+[pythonic](pythonic.md)
 
-## Thoughts
+## Other Links
 
-[study](study)
+[study](study.md)
 
-## [Diary](diary/diary)
+[Diary](diary.md)

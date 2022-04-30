@@ -30,7 +30,7 @@
   
     <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/jquery.sticky-kit.js"></script>
     <meta name="generator" content="pandoc" />
-  <title>title extendible_hash</title>
+  <title>title Diary</title>
   <style type="text/css">code{white-space: pre;}</style>
 </head>
 <body>
@@ -39,7 +39,7 @@
     <div class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container">
-        <span class="doc-title">title extendible_hash</span>
+        <span class="doc-title">title Diary</span>
         <ul class="nav pull-right doc-info">
                             </ul>
       </div>
@@ -51,72 +51,19 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#invariant" id="toc-invariant">invariant</a></li>
-        <li><a href="#data" id="toc-data">data</a></li>
-        <li><a href="#methods" id="toc-methods">methods</a></li>
+        <li><a href="#diary" id="toc-diary">Diary</a>
+        <ul>
+        <li><a href="#section" id="toc-section">2022</a></li>
+        </ul></li>
         </ul>
 
         </div>
       </div>
             <div class="span9">
-            <p>&lt;Key, Value&gt; is stored in bucket</p>
-            <p>Use Hash(Key) and global depth to get the index of the
-            bucket which stores the &lt;Key, Value&gt;</p>
-            <h2 id="invariant">invariant</h2>
-            <pre><code>buckets_.size() = 2^(global_depth_)
-bucket_num_ &lt;= buckets_.size()
-
-global_depth &gt;= any(local_depth)
-global_depth = max(local_depth)
-
-bucket_reference_count = 2^(global_depth - local_depth)
-
-for all the indexes that point to the same bucket with local_depth(ld):
-    the ld LSB are the same
-    index interval = (1 &lt;&lt; ld)</code></pre>
-            <h2 id="data">data</h2>
-            <ul>
-            <li>hash table</li>
-            <li>bucket</li>
-            </ul>
-            <h2 id="methods">methods</h2>
-            <ul>
-            <li><code>getIdx(key) → int</code></li>
-            </ul>
-            <pre><code>return ((1 &lt;&lt; global_depth) - 1) * Hash(key);</code></pre>
-            <p>use lower bits is more convenient</p>
-            <ul>
-            <li><code>insert(key, value) → void</code></li>
-            </ul>
-            <pre><code>get key bucket
-loop {
-    if key in bucket or bucket is not full {
-        update/insert key
-        break
-    }
-    increase local depth
-    if (local depth &gt; global depth) {
-        copy the buckets into itself
-        increase global depth
-    }
-    create new bucket and redistribute key and values
-    put new bueket into buckets
-    get key bucket again
-}</code></pre>
-            <p>only when the bucket that is referenced only once
-            overflows, the hash table doubles its size</p>
-            <p>May loop several times before break</p>
-            <ul>
-            <li><code>redistribute()</code></li>
-            </ul>
-            <pre><code>// before increasing local depth
-high_bit = (1 &lt;&lt; local_depth)
-//  we used to get to the bucket by the local_depth LSB bits
-//  so the pairs should be split into old/new page according to the high bitkk</code></pre>
-            <ul>
-            <li><code>find(key) → bool</code></li>
-            <li><code>remove(key) → bool</code></li>
-            </ul>
+            <h1 id="diary">Diary</h1>
+            <h2 id="section">2022</h2>
+            <p><a href="2022_Objectives.html">2022_Objectives</a></p>
+            <p><a href="2022-04.html">2022-04</a></p>
             </div>
     </div>
   </div>
