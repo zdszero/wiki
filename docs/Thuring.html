@@ -9,40 +9,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
 
-    <!-- <link rel="stylesheet" type="text/css" href="template.css" /> -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/template.css" />
-
-    <link href="https://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="../css/template.css" />
+    <!-- <link href="https://cdn.rawgit.com/ryangrose/easy-pandoc-templates/948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" /> -->
+    <link href="../css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
 
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
-    <!-- <script type='text/javascript' src='menu/js/jquery.cookie.js'></script> -->
-    <!-- <script type='text/javascript' src='menu/js/jquery.hoverIntent.minified.js'></script> -->
-    <!-- <script type='text/javascript' src='menu/js/jquery.dcjqaccordion.2.7.min.js'></script> -->
-
-    <!-- <link href="menu/css/skins/blue.css" rel="stylesheet" type="text/css" /> -->
-    <!-- <link href="menu/css/skins/graphite.css" rel="stylesheet" type="text/css" /> -->
-    <!-- <link href="menu/css/skins/grey.css" rel="stylesheet" type="text/css" /> -->
   
     <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-        
-  
-    <!-- <script src="script.js"></script> -->
   
     <!-- <script src="jquery.sticky-kit.js "></script> -->
-    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.cookie.js'></script>
-    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.hoverIntent.minified.js'></script>
-    <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.dcjqaccordion.2.7.min.js'></script>
-
-    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/blue.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/graphite.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/grey.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.rawgit.com/ryangrose/easy-pandoc-templates/948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
   
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
-    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/script.js"></script>
-  
-    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/jquery.sticky-kit.js"></script>
     <meta name="generator" content="pandoc" />
   <meta name="author" content="zdszero" />
   <title>turing machine</title>
@@ -73,7 +50,12 @@
         <ul>
         <li><a href="#constitution"
         id="toc-constitution">constitution</a></li>
-        <li><a href="#section" id="toc-section"></a></li>
+        <li><a href="#configuration"
+        id="toc-configuration">configuration</a></li>
+        <li><a href="#defination"
+        id="toc-defination">defination</a></li>
+        <li><a href="#variants" id="toc-variants">variants</a></li>
+        <li><a href="#problems" id="toc-problems">problems</a></li>
         </ul></li>
         </ul>
 
@@ -82,6 +64,9 @@
             <div class="span9">
             <h2 id="turing-machine">turing machine</h2>
             <h3 id="constitution">constitution</h3>
+            <p>什么是图灵机？</p>
+            <p>图灵机是一个 <strong>计算模型</strong>,
+            是一个概念上的可以进行各种逻辑计算的机器，包含如下部分：</p>
             <ul>
             <li>infinite tape</li>
             <li>read-write head, which can move left or right</li>
@@ -92,8 +77,86 @@
             <li>loop</li>
             </ul></li>
             </ul>
-            <p>第一次提出了 <strong>状态存储</strong> 模型</p>
-            <h3 id="section"></h3>
+            <p>图灵机是一个提出了 <strong>状态存储</strong>
+            概念的模型，简单的来说，就是有一条无限长的磁带，然后有一个磁头可以在上面左右移动，并且可以读读写写，通过这些操作可以模拟问题的求解过程。</p>
+            <h3 id="configuration">configuration</h3>
+            <ul>
+            <li>current state</li>
+            <li>current tape contents</li>
+            <li>current head location</li>
+            </ul>
+            <p><strong>yield</strong>: if configuration C1 yields
+            configuration C2, then turing machine can go from C1 to C2
+            in one step</p>
+            <p>简单的来说，就是给定一个输入字符时，图灵机会根据当前的配置（当前的状态，磁头在磁带上的位置，当前位置上的内容），来决定下一步的操作：是否修改这个位置的内容？磁头向左还是向右移动？跳转到哪一个状态？</p>
+            <h3 id="defination">defination</h3>
+            <p><strong>Turing machine</strong> is a 7-tuple, <span
+            class="math inline">(<em>Q</em>, <em>Σ</em>, <em>Γ</em>, <em>δ</em>, <em>q</em><sub>0</sub>, <em>q</em><sub><em>a</em><em>c</em><em>c</em><em>e</em><em>p</em><em>t</em></sub>, <em>q</em><sub><em>r</em><em>e</em><em>j</em><em>e</em><em>c</em><em>t</em></sub>)</span></p>
+            <ol type="1">
+            <li><span class="math inline"><em>Q</em></span> is the
+            <strong>set of states</strong></li>
+            <li><span class="math inline"><em>Σ</em></span> is the
+            <strong>input alphabet</strong> not containing the blank
+            symbol ␣</li>
+            <li><span class="math inline"><em>Γ</em></span> is
+            <strong>tape alphabet</strong>, where <span
+            class="math inline">␣ ⊆ <em>Γ</em></span> and <span
+            class="math inline"><em>Σ</em> ⊆ <em>Γ</em></span></li>
+            <li><span class="math inline"><em>δ</em></span>: <span
+            class="math inline"><em>Q</em> × <em>Γ</em> → <em>Q</em> × <em>Γ</em> × {<em>L</em>, <em>R</em>}</span>
+            is the <strong>transition function</strong></li>
+            <li><span
+            class="math inline"><em>q</em><sub>0</sub> ∈ <em>Q</em></span>:
+            <strong>start state</strong></li>
+            <li><span
+            class="math inline"><em>q</em><sub><em>a</em><em>c</em><em>c</em><em>e</em><em>p</em><em>t</em></sub> ∈ <em>Q</em></span>:
+            <strong>accept state</strong></li>
+            <li><span
+            class="math inline"><em>q</em><sub><em>r</em><em>e</em><em>j</em><em>e</em><em>c</em><em>t</em></sub> ∈ <em>Q</em></span>:
+            <strong>reject state</strong></li>
+            </ol>
+            <h3 id="variants">variants</h3>
+            <h4 id="multitape-turing-machine">multitape turing
+            machine</h4>
+            <p>prove single tape TM is equivalant to multitape TM</p>
+            <p>enlightment：</p>
+            <ul>
+            <li>store all the tapes in one tape</li>
+            <li>transform a move in the multitape TM into one or more
+            moves in single tape TM</li>
+            </ul>
+            <pre><code>multitape TM with 3 tapes
+    b-&gt;a,L
+A1 --------&gt; A2
+    1-&gt;0,L
+B1 --------&gt; B2
+    y-&gt;x,R
+C1 --------&gt; C2
+
+single tape TM
+        b1y-&gt;a0x,LLR
+S1 -----------------------&gt; S2</code></pre>
+            <p>简单来说就是用一个磁带存储多个磁带的内容，并且设置delimeter，然后处理的时候扫描几趟，分别处理即可。</p>
+            <h4 id="nondeterministic-turing-machine">nondeterministic
+            turing machine</h4>
+            <p><span class="math inline"><em>δ</em></span>: <span
+            class="math inline"><em>Q</em> × <em>Γ</em> → <em>P</em>{<em>Q</em> × <em>Γ</em> × {<em>L</em>, <em>R</em>}}</span>
+            is the <strong>transition function</strong></p>
+            <ul>
+            <li>tape1: input tape</li>
+            <li>tape2: simulation tape</li>
+            <li>tape3: address tape</li>
+            </ul>
+            <p>在tape2模拟的过程中，根据tape3提供的内容选取下一个状态转移，如果被reject的话，将tape3中的内容变换到下一个结点。</p>
+            <h3 id="problems">problems</h3>
+            <ul>
+            <li>为什么图灵机要接受string作为input？</li>
+            </ul>
+            <p>Strings can easily represent polynomials, graphs,
+            grammars, automata, and any combination of those objects. A
+            Turing machine may be programmed to decode the
+            representation so that it can be interpreted in the way we
+            intend.</p>
             </div>
     </div>
   </div>

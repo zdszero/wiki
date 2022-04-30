@@ -1,4 +1,4 @@
-%title socks
+% socks
 
 [rfc 1928 -- socks5](https://www.rfc-editor.org/rfc/rfc1928.txt)
 

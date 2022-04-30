@@ -1,4 +1,4 @@
-%title asyncio
+% asyncio
 
 ## overview
 

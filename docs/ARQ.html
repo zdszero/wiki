@@ -9,42 +9,22 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
 
-    <!-- <link rel="stylesheet" type="text/css" href="template.css" /> -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/template.css" />
-
-    <link href="https://vjs.zencdn.net/5.4.4/video-js.css" rel="stylesheet" />
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="../css/template.css" />
+    <!-- <link href="https://cdn.rawgit.com/ryangrose/easy-pandoc-templates/948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" /> -->
+    <link href="../css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
 
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
-    <!-- <script type='text/javascript' src='menu/js/jquery.cookie.js'></script> -->
-    <!-- <script type='text/javascript' src='menu/js/jquery.hoverIntent.minified.js'></script> -->
-    <!-- <script type='text/javascript' src='menu/js/jquery.dcjqaccordion.2.7.min.js'></script> -->
-
-    <!-- <link href="menu/css/skins/blue.css" rel="stylesheet" type="text/css" /> -->
-    <!-- <link href="menu/css/skins/graphite.css" rel="stylesheet" type="text/css" /> -->
-    <!-- <link href="menu/css/skins/grey.css" rel="stylesheet" type="text/css" /> -->
   
     <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-        
-  
-    <!-- <script src="script.js"></script> -->
   
     <!-- <script src="jquery.sticky-kit.js "></script> -->
     <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.cookie.js'></script>
     <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.hoverIntent.minified.js'></script>
     <script type='text/javascript' src='https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/js/jquery.dcjqaccordion.2.7.min.js'></script>
-
-    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/blue.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/graphite.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/menu/css/skins/grey.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.rawgit.com/ryangrose/easy-pandoc-templates/948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
   
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
-    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/script.js"></script>
-  
-    <script src="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/jquery.sticky-kit.js"></script>
     <meta name="generator" content="pandoc" />
-  <title>title ARQ</title>
+  <title>ARQ</title>
   <style type="text/css">code{white-space: pre;}</style>
 </head>
 <body>
@@ -53,7 +33,7 @@
     <div class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container">
-        <span class="doc-title">title ARQ</span>
+        <span class="doc-title">ARQ</span>
         <ul class="nav pull-right doc-info">
                             </ul>
       </div>
@@ -65,10 +45,12 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#gbn">GBN</a><ul>
-        <li><a href="#design">design</a></li>
-        <li><a href="#pseudocode">pseudocode</a></li>
-        <li><a href="#problems">problems</a></li>
+        <li><a href="#gbn" id="toc-gbn">GBN</a>
+        <ul>
+        <li><a href="#design" id="toc-design">design</a></li>
+        <li><a href="#pseudocode"
+        id="toc-pseudocode">pseudocode</a></li>
+        <li><a href="#problems" id="toc-problems">problems</a></li>
         </ul></li>
         </ul>
 
@@ -76,20 +58,23 @@
       </div>
             <div class="span9">
             <h2 id="gbn">GBN</h2>
-<h3 id="design">design</h3>
-<p>if the seqno ranges from <code>0 ~ 2^n-1</code>, which means the bit width of the seqno is n. Then the gbn window size is <code>2^n - 1</code></p>
-<p>when receiver receives <code>seqno</code>, it should send <code>ackno = (seqno + 1) % winsize</code></p>
-<p>sender logic to judge a valid ackno</p>
-<pre><code>settings: seqno_bit_width = 3, seqno set = (0, 1, 2, 3 ,4 ,5, 6, 7)
+            <h3 id="design">design</h3>
+            <p>if the seqno ranges from <code>0 ~ 2^n-1</code>, which
+            means the bit width of the seqno is n. Then the gbn window
+            size is <code>2^n - 1</code></p>
+            <p>when receiver receives <code>seqno</code>, it should send
+            <code>ackno = (seqno + 1) % winsize</code></p>
+            <p>sender logic to judge a valid ackno</p>
+            <pre><code>settings: seqno_bit_width = 3, seqno set = (0, 1, 2, 3 ,4 ,5, 6, 7)
 
 if current sending buffer is (3, 4, 5, 6, 7, 0, 1) --- 2 not in
 then the valid ackno no is (4, 5, 6, 7, 0, 1, 2) --- 3 not in
 
 if (0 &lt;= ackno &lt;= winsize and ackno != buffer.front().seqno)
     return true</code></pre>
-<h3 id="pseudocode">pseudocode</h3>
-<p>logic</p>
-<pre><code>sender():
+            <h3 id="pseudocode">pseudocode</h3>
+            <p>logic</p>
+            <pre><code>sender():
     upon Start:
         send winsize packets to destination
         add sent packets to buffer
@@ -113,8 +98,8 @@ receiver():
             return
         add p to receiving pool
         send corresponding ack</code></pre>
-<p>implementation</p>
-<pre><code>vars:
+            <p>implementation</p>
+            <pre><code>vars:
     buffer
     winsize
     timer
@@ -157,14 +142,17 @@ receiver():
             return
         send(Packet(ackno=next_expect_seqno))
         next_expect_seqno = (next_expect_seqno + 1) % winsize</code></pre>
-<h3 id="problems">problems</h3>
-<ul>
-<li><p>receiver receives delayed seq and regards it as the current one</p></li>
-<li><p>ack problem, when the sending buffer has size &lt; winsize and delayed ack arrives</p></li>
-</ul>
+            <h3 id="problems">problems</h3>
+            <ul>
+            <li><p>receiver receives delayed seq and regards it as the
+            current one</p></li>
+            <li><p>ack problem, when the sending buffer has size &lt;
+            winsize and delayed ack arrives</p></li>
+            </ul>
             </div>
     </div>
   </div>
+
   <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
 
 </body>

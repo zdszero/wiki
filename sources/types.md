@@ -1,4 +1,4 @@
-%title python types
+% python types
 
 ## numeric types
 

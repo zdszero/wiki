@@ -1,4 +1,4 @@
-%title study
+% study
 
 ## 效率
 

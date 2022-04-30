@@ -1,4 +1,4 @@
-%title ARQ
+% ARQ
 
 ## GBN
 

@@ -1,4 +1,4 @@
-%title git
+% Git
 
 ## CONCEPTS
 

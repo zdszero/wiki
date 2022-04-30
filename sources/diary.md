@@ -1,6 +1,4 @@
-%title Diary
-
-# Diary
+% Diary
 
 ## 2022
 

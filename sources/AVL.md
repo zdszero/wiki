@@ -1,4 +1,4 @@
-%title AVL
+% AVL
 
 - What is AVL?
 

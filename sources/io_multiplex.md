@@ -1,4 +1,4 @@
-%title IO multiplex
+% IO multiplex
 
 ## some concepts
 

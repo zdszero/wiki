@@ -1,4 +1,4 @@
-%title pythonic
+% pythonic
 
 ## pythonic object
 

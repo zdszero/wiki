@@ -1,4 +1,4 @@
-%title socket
+% socket
 
 ## socket
 

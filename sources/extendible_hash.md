@@ -1,4 +1,4 @@
-%title extendible_hash
+% extendible_hash
 
 <Key, Value> is stored in bucket
 

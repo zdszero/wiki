@@ -1,0 +1,104 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if lt IE 9]>
+                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+        <![endif]-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/template.css" /> -->
+    <link rel="stylesheet" type="text/css" href="../css/template.css" />
+    <!-- <link href="https://cdn.rawgit.com/ryangrose/easy-pandoc-templates/948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" /> -->
+    <link href="../css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+  
+    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+  
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-04-30" />
+  <title>Decidability</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">Decidability</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-04-30</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#decidability"
+        id="toc-decidability">Decidability</a>
+        <ul>
+        <li><a href="#dfa" id="toc-dfa">DFA</a></li>
+        </ul></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h2 id="decidability">Decidability</h2>
+            <h3 id="dfa">DFA</h3>
+            <p>Here are some examples (all of them are decidable):</p>
+            <ol type="1">
+            <li><span
+            class="math inline"><em>A</em><sub><em>D</em><em>F</em><em>A</em></sub></span>
+            = { &lt;B, w&gt; | B is a DFA that accepts input stirng w
+            }</li>
+            </ol>
+            <p>use TM <span class="math inline"><em>M</em></span> to run
+            w on B, which saves the current state of B and the next
+            input token.</p>
+            <ol start="2" type="1">
+            <li><span
+            class="math inline"><em>A</em><sub><em>N</em><em>F</em><em>A</em></sub></span>
+            = { &lt;B, w&gt; | B is a NFA that accepts input stirng w
+            }</li>
+            </ol>
+            <p>use TM to convert NFA to DFA first</p>
+            <ol start="3" type="1">
+            <li><span
+            class="math inline"><em>A</em><sub><em>R</em><em>E</em><em>X</em></sub></span>
+            = { &lt;B, w&gt; | B is a regular expression that accepts
+            input stirng w }</li>
+            </ol>
+            <p>use TM convert REX to NFA first</p>
+            <ol start="4" type="1">
+            <li><span
+            class="math inline"><em>E</em><sub><em>D</em><em>F</em><em>A</em></sub></span>
+            = { &lt;A&gt; | A is a DFA and L(A) = <span
+            class="math inline">∅</span> }</li>
+            </ol>
+            <p>use bfs to traverse all states</p>
+            <ol start="5" type="1">
+            <li><span
+            class="math inline"><em>D</em><em>Q</em><sub><em>D</em><em>F</em><em>A</em></sub></span>
+            = { &lt;A,B&gt; | A and B are DFAs and L(A) = L(B) }</li>
+            </ol>
+            </div>
+    </div>
+  </div>
+
+  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
+
+</body>
+</html>

@@ -25,12 +25,12 @@ OUTPUT="${OUTDIR}/${FILENAME}.html"
 CSSFILENAME=$(basename "$6")
 FULL_TEMPLATE="${TEMPLATE_PATH}/${TEMPLATE_DEFAULT}"
 
-HAS_MATH=$(grep -o "\$\$.\+\$\$" "$INPUT")
-if [ -n "$HAS_MATH" ]; then
-    MATH="--mathjax=https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
-else
-    MATH=""
-fi
+# HAS_MATH=$(grep -o "\$\$.\+\$\$" "$INPUT")
+# if [ -n "$HAS_MATH" ]; then
+#     MATH="--mathjax=https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+# else
+#     MATH=""
+# fi
 
 # >&2 echo "MATH: $MATH"
 

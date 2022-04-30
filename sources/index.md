@@ -5,6 +5,8 @@
 
 [Thuring](Thuring.md)
 
+[Decidability](Decidability.md)
+
 ## Data Structure
 
 [extendible_hash](extendible_hash.md)

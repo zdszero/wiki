@@ -1,4 +1,4 @@
-%title python libs
+% python libs
 
 ## concurrency
 
