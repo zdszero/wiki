@@ -3,21 +3,13 @@
 <head>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <!--[if lt IE 9]>
-                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-        <![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
 
-    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/template.css" /> -->
     <link rel="stylesheet" type="text/css" href="../css/template.css" />
-    <!-- <link href="https://cdn.rawgit.com/ryangrose/easy-pandoc-templates/948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" /> -->
     <link href="../css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
 
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
-  
-    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-  
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
     <!-- <script src="jquery.sticky-kit.js "></script> -->
   
     <meta name="generator" content="pandoc" />
@@ -25,6 +17,9 @@
   <meta name="date" content="2022-04-30" />
   <title>Decidability</title>
   <style type="text/css">code{white-space: pre;}</style>
+  <script
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+  type="text/javascript"></script>
 </head>
 <body>
 
@@ -46,59 +41,166 @@
         <div class="well toc">
 
         <ul>
+        <li><a href="#concepts" id="toc-concepts">Concepts</a></li>
         <li><a href="#decidability"
         id="toc-decidability">Decidability</a>
         <ul>
         <li><a href="#dfa" id="toc-dfa">DFA</a></li>
+        <li><a href="#cfg" id="toc-cfg">CFG</a></li>
+        </ul></li>
+        <li><a href="#undecidability"
+        id="toc-undecidability">Undecidability</a>
+        <ul>
+        <li><a href="#diagonalization"
+        id="toc-diagonalization">Diagonalization</a></li>
+        <li><a href="#samples" id="toc-samples">samples</a></li>
         </ul></li>
         </ul>
 
         </div>
       </div>
             <div class="span9">
+            <h2 id="concepts">Concepts</h2>
+            <blockquote>
+            <p>Def: A language is called Turing Recognizable if some TM
+            recoginzes it.</p>
+            </blockquote>
+            <blockquote>
+            <p>Def: A language is called Turing Decidable if some TM
+            decides it. (if a decider can be designed to decide it)</p>
+            </blockquote>
+            <blockquote>
+            <p>Def: A language is decidable iff it is
+            Turing-recognizable and co-Turing-recognizable.</p>
+            </blockquote>
+            <p>When TM M is given some input w, there might be three
+            results:</p>
+            <ul>
+            <li>Accept by reaching <span
+            class="math inline">\(q_{accept}\)</span></li>
+            <li>Reject by reaching <span
+            class="math inline">\(q_{reject}\)</span></li>
+            <li>Keep computing forever, which is <span
+            class="math inline">\(loop\)</span></li>
+            </ul>
+            <p><strong>A Language of a Turing Machine</strong> is simply
+            the set of all strings that are accepted by the Turing
+            Machine.</p>
+            <p>Consider a Turing Machine <span
+            class="math inline">\(M\)</span> and a language <span
+            class="math inline">\(L\)</span> that is recognized by <span
+            class="math inline">\(M\)</span>. Thus, when we simulate a
+            string <span class="math inline">\(\omega \in L\)</span>on
+            <span class="math inline">\(M\)</span>, the result is always
+            acception.</p>
+            <p>Consider the languages that are not in <span
+            class="math inline">\(L\)</span> (we call it <span
+            class="math inline">\(\bar L\)</span>). When we simulate a
+            string <span class="math inline">\(\omega \in \bar
+            L\)</span> on <span class="math inline">\(M\)</span>, there
+            are two possibilites:</p>
+            <ul>
+            <li>Reject</li>
+            <li>Loop</li>
+            </ul>
+            <p>If <span class="math inline">\(M\)</span> only reject in
+            this scenario, then <span class="math inline">\(M\)</span>
+            is a <strong>decider</strong> for <span
+            class="math inline">\(L\)</span></p>
             <h2 id="decidability">Decidability</h2>
             <h3 id="dfa">DFA</h3>
             <p>Here are some examples (all of them are decidable):</p>
             <ol type="1">
-            <li><span
-            class="math inline"><em>A</em><sub><em>D</em><em>F</em><em>A</em></sub></span>
-            = { &lt;B, w&gt; | B is a DFA that accepts input stirng w
-            }</li>
+            <li><span class="math inline">\(A_{DFA}\)</span> = { &lt;B,
+            w&gt; | B is a DFA that accepts input stirng w }</li>
             </ol>
-            <p>use TM <span class="math inline"><em>M</em></span> to run
-            w on B, which saves the current state of B and the next
-            input token.</p>
+            <p><span class="math inline">\(A_{DFA}\)</span> is
+            <strong>language</strong> which contains the encodings of
+            all DFAs together with strings that DFAs accept.</p>
+            <p>Why we introduce languge in this problem? Because we can
+            transform the problem of testing wheather a DFA B accepts w
+            into the problem of testing wheather &lt;B, w&gt; is a
+            member of the language <span
+            class="math inline">\(A_{DFA}\)</span></p>
+            <p>And we have this theorem</p>
+            <blockquote>
+            <p><span class="math inline">\(A_{NFA}\)</span> is decidable
+            language</p>
+            </blockquote>
+            <p>So we can construct a TM <span
+            class="math inline">\(M\)</span> to decide the language. In
+            other words, run w on B, which saves the current state of B
+            and the next input token.</p>
+            <p>简单来说，就是我们现将问题抽象一下，变成一个语言，也就包含所有这种种类的问题了。然后我们再引入图灵机，尝试decide这个语言，也就是我们应该设计一个algorithm，具有有限的步骤，来决定这门语言（对于这个问题，也就是设计一个方法，来确定DFA可以接受w，或者拒绝w）。</p>
             <ol start="2" type="1">
-            <li><span
-            class="math inline"><em>A</em><sub><em>N</em><em>F</em><em>A</em></sub></span>
-            = { &lt;B, w&gt; | B is a NFA that accepts input stirng w
-            }</li>
+            <li><span class="math inline">\(A_{NFA}\)</span> = { &lt;B,
+            w&gt; | B is a NFA that accepts input stirng w }</li>
             </ol>
             <p>use TM to convert NFA to DFA first</p>
             <ol start="3" type="1">
-            <li><span
-            class="math inline"><em>A</em><sub><em>R</em><em>E</em><em>X</em></sub></span>
-            = { &lt;B, w&gt; | B is a regular expression that accepts
-            input stirng w }</li>
+            <li><span class="math inline">\(A_{REX}\)</span> = { &lt;B,
+            w&gt; | B is a regular expression that accepts input stirng
+            w }</li>
             </ol>
             <p>use TM convert REX to NFA first</p>
             <ol start="4" type="1">
-            <li><span
-            class="math inline"><em>E</em><sub><em>D</em><em>F</em><em>A</em></sub></span>
-            = { &lt;A&gt; | A is a DFA and L(A) = <span
-            class="math inline">∅</span> }</li>
+            <li><span class="math inline">\(E_{DFA}\)</span> = {
+            &lt;A&gt; | A is a DFA and L(A) = <span
+            class="math inline">\(\emptyset\)</span> }</li>
             </ol>
             <p>use bfs to traverse all states</p>
             <ol start="5" type="1">
-            <li><span
-            class="math inline"><em>D</em><em>Q</em><sub><em>D</em><em>F</em><em>A</em></sub></span>
-            = { &lt;A,B&gt; | A and B are DFAs and L(A) = L(B) }</li>
+            <li><span class="math inline">\(DQ_{DFA}\)</span> = {
+            &lt;A,B&gt; | A and B are DFAs and L(A) = L(B) }</li>
             </ol>
+            <p><span class="math display">\[
+            L(C) = (L(A) \cap \overline{L(B)}) \cup (\overline{L(A)}
+            \cap L(B))
+            \]</span></p>
+            <p>如果<span class="math inline">\(L(A) =
+            L(B)\)</span>，那么两个子表达式都是<span
+            class="math inline">\(\emptyset\)</span>，所以只需用两个TM证明子表达式都是空集即可。</p>
+            <figure>
+            <img src="../images/DFA_equal_TM.png" alt="DFA-equal-TM" />
+            <figcaption aria-hidden="true">DFA-equal-TM</figcaption>
+            </figure>
+            <h3 id="cfg">CFG</h3>
+            <ol type="1">
+            <li><span class="math inline">\(A_{CFG}\)</span> = { &lt;G,
+            w&gt; | G is a CFG that generates string w }</li>
+            </ol>
+            <p>convert G to an equivalent grammar in Chomsky normal
+            form, and yield all the strings</p>
+            <ol start="2" type="1">
+            <li><p><span class="math inline">\(E_{CFG}\)</span> = { <G>
+            | G is a CFG and L(G) = <span
+            class="math inline">\(\emptyset\)</span> }</p></li>
+            <li><p><span class="math inline">\(EQ_{CFG}\)</span> = {
+            &lt;G, H&gt; | G and H are CFGs and L(G) = L(H) }</p></li>
+            </ol>
+            <p>not decidable!</p>
+            <h2 id="undecidability">Undecidability</h2>
+            <h3 id="diagonalization">Diagonalization</h3>
+            <p>证明无理数是uncountable的，首先假设无理数是countable的，那么我们选取区间[0,
+            1]间的无理数，一行行地罗列出所有这些无理数：</p>
+            <pre><code>r1 = 0 . 5 1 0 5 1 1 0
+r2 = 0 . 4 1 3 2 0 4 3
+r3 = 0 . 8 2 4 5 0 2 6
+r4 = 0 . 2 3 3 0 1 2 6
+r5 = 0 . 4 1 0 7 2 4 6
+r6 = 0 . 9 9 3 7 8 3 8
+r7 = 0 . 0 1 0 5 1 3 5...</code></pre>
+            <p>选择对角线的数字<code>x</code>，将其变换为<code>(x+1) % 10</code>，那么可以得到一个新的无理数，这个无理数不是在已经罗列出的无理数中的，所以无理数是uncountable的。</p>
+            <h3 id="samples">samples</h3>
+            <p><span class="math inline">\(A_{TM}\)</span> = { &lt;M,
+            w&gt; | M is a TM and M accepts w }</p>
+            <p><span class="math inline">\(A_{TM}\)</span> is turing
+            recognizable but not turing decidable.</p>
+            <p>这也就是停机问题的形式化表述：不存在一个图灵机，能判断另一个图灵机在给定输入的情况下会不会停机。</p>
             </div>
     </div>
   </div>
 
-  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
-
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
 </body>
 </html>

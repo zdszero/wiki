@@ -122,13 +122,17 @@ pre, code, kbd, samp {
   color: #000;
   font-family: monospace, monospace;
   _font-family: 'courier new', monospace;
-  font-size: 0.88em;
+  font-size: 1.1em;
 }
 
 pre {
   white-space: pre;
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+
+code {
+  font-size: 0.68em
 }
 
 b, strong {

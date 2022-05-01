@@ -25,20 +25,18 @@ OUTPUT="${OUTDIR}/${FILENAME}.html"
 CSSFILENAME=$(basename "$6")
 FULL_TEMPLATE="${TEMPLATE_PATH}/${TEMPLATE_DEFAULT}"
 
-# HAS_MATH=$(grep -o "\$\$.\+\$\$" "$INPUT")
-# if [ -n "$HAS_MATH" ]; then
-#     MATH="--mathjax=https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
-# else
-#     MATH=""
-# fi
-
-# >&2 echo "MATH: $MATH"
+HAS_MATH=$(grep -o "\$.\+\$" "$INPUT")
+if [ -n "$HAS_MATH" ]; then
+    MATH="--mathjax=https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+else
+    MATH=""
+fi
 
 # sed -r 's/(\[.+\])\(([^)]+)\)/\1(\2.html)/g' <"$INPUT" | pandoc $MATH --template="$FULL_TEMPLATE" -f "$SYNTAX" -t html -c "$CSSFILENAME" -M root_path:"$ROOT_PATH" | sed -r 's/<li>(.*)\[ \]/<li class="todo done0">\1/g; s/<li>(.*)\[X\]/<li class="todo done4">\1/g' > /tmp/crap.html
 
 # [test](test.md) -> <link href="test.html">
 # [test](test) -> <link href="test.html">
-sed -r 's/(\[.+\])\((.+)\.md\)/\1(\2.html)/g' < $INPUT | pandoc --template=$FULL_TEMPLATE -f markdown -t html --toc > $OUTPUT
+sed -r 's/(\[.+\])\((.+)\.md\)/\1(\2.html)/g' < $INPUT | pandoc $MATH --template=$FULL_TEMPLATE -f markdown -t html --toc > $OUTPUT
 
 # With this you can have ![pic of sharks](file:../sharks.jpg) in your markdown file and it removes "file" 
 # and the unnecesary dot html that the previous command added to the image. 
