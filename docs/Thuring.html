@@ -3,27 +3,22 @@
 <head>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <!--[if lt IE 9]>
-                <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
-        <![endif]-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
 
-    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/diversen/pandoc-bootstrap-adaptive-template/959c3622/template.css" /> -->
     <link rel="stylesheet" type="text/css" href="../css/template.css" />
-    <!-- <link href="https://cdn.rawgit.com/ryangrose/easy-pandoc-templates/948e28e5/css/elegant_bootstrap.css" rel="stylesheet" type="text/css" /> -->
     <link href="../css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
 
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
-  
-    <!-- <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-  
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
     <!-- <script src="jquery.sticky-kit.js "></script> -->
   
     <meta name="generator" content="pandoc" />
   <meta name="author" content="zdszero" />
   <title>turing machine</title>
   <style type="text/css">code{white-space: pre;}</style>
+  <script
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+  type="text/javascript"></script>
 </head>
 <body>
 
@@ -91,28 +86,27 @@
             <p>简单的来说，就是给定一个输入字符时，图灵机会根据当前的配置（当前的状态，磁头在磁带上的位置，当前位置上的内容），来决定下一步的操作：是否修改这个位置的内容？磁头向左还是向右移动？跳转到哪一个状态？</p>
             <h3 id="defination">defination</h3>
             <p><strong>Turing machine</strong> is a 7-tuple, <span
-            class="math inline">(<em>Q</em>, <em>Σ</em>, <em>Γ</em>, <em>δ</em>, <em>q</em><sub>0</sub>, <em>q</em><sub><em>a</em><em>c</em><em>c</em><em>e</em><em>p</em><em>t</em></sub>, <em>q</em><sub><em>r</em><em>e</em><em>j</em><em>e</em><em>c</em><em>t</em></sub>)</span></p>
+            class="math inline">\((Q,\ \Sigma,\ \Gamma,\ \delta,\ q_0,\
+            q_{accept},\ q_{reject})\)</span></p>
             <ol type="1">
-            <li><span class="math inline"><em>Q</em></span> is the
+            <li><span class="math inline">\(Q\)</span> is the
             <strong>set of states</strong></li>
-            <li><span class="math inline"><em>Σ</em></span> is the
+            <li><span class="math inline">\(\Sigma\)</span> is the
             <strong>input alphabet</strong> not containing the blank
             symbol ␣</li>
-            <li><span class="math inline"><em>Γ</em></span> is
+            <li><span class="math inline">\(\Gamma\)</span> is
             <strong>tape alphabet</strong>, where <span
-            class="math inline">␣ ⊆ <em>Γ</em></span> and <span
-            class="math inline"><em>Σ</em> ⊆ <em>Γ</em></span></li>
-            <li><span class="math inline"><em>δ</em></span>: <span
-            class="math inline"><em>Q</em> × <em>Γ</em> → <em>Q</em> × <em>Γ</em> × {<em>L</em>, <em>R</em>}</span>
-            is the <strong>transition function</strong></li>
-            <li><span
-            class="math inline"><em>q</em><sub>0</sub> ∈ <em>Q</em></span>:
+            class="math inline">\(␣ \subseteq \Gamma\)</span> and <span
+            class="math inline">\(\Sigma \subseteq \Gamma\)</span></li>
+            <li><span class="math inline">\(\delta\)</span>: <span
+            class="math inline">\(Q \times \Gamma \rightarrow Q \times
+            \Gamma \times \{L, R\}\)</span> is the <strong>transition
+            function</strong></li>
+            <li><span class="math inline">\(q_0 \in Q\)</span>:
             <strong>start state</strong></li>
-            <li><span
-            class="math inline"><em>q</em><sub><em>a</em><em>c</em><em>c</em><em>e</em><em>p</em><em>t</em></sub> ∈ <em>Q</em></span>:
+            <li><span class="math inline">\(q_{accept} \in Q\)</span>:
             <strong>accept state</strong></li>
-            <li><span
-            class="math inline"><em>q</em><sub><em>r</em><em>e</em><em>j</em><em>e</em><em>c</em><em>t</em></sub> ∈ <em>Q</em></span>:
+            <li><span class="math inline">\(q_{reject} \in Q\)</span>:
             <strong>reject state</strong></li>
             </ol>
             <h3 id="variants">variants</h3>
@@ -139,9 +133,10 @@ S1 -----------------------&gt; S2</code></pre>
             <p>简单来说就是用一个磁带存储多个磁带的内容，并且设置delimeter，然后处理的时候扫描几趟，分别处理即可。</p>
             <h4 id="nondeterministic-turing-machine">nondeterministic
             turing machine</h4>
-            <p><span class="math inline"><em>δ</em></span>: <span
-            class="math inline"><em>Q</em> × <em>Γ</em> → <em>P</em>{<em>Q</em> × <em>Γ</em> × {<em>L</em>, <em>R</em>}}</span>
-            is the <strong>transition function</strong></p>
+            <p><span class="math inline">\(\delta\)</span>: <span
+            class="math inline">\(Q \times \Gamma \rightarrow P\{Q
+            \times \Gamma \times \{L, R\}\}\)</span> is the
+            <strong>transition function</strong></p>
             <ul>
             <li>tape1: input tape</li>
             <li>tape2: simulation tape</li>
@@ -161,7 +156,6 @@ S1 -----------------------&gt; S2</code></pre>
     </div>
   </div>
 
-  <script src="https://vjs.zencdn.net/5.4.4/video.js"></script>
-
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
 </body>
 </html>

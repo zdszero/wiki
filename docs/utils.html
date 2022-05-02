@@ -1,0 +1,150 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="../css/template.css" />
+    <link href="../css/elegant_bootstrap.css" rel="stylesheet" type="text/css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-05-02" />
+  <title>utils</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">utils</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-05-02</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#purepath" id="toc-purepath">PurePath</a>
+        <ul>
+        <li><a href="#访问个别部分"
+        id="toc-访问个别部分">访问个别部分</a></li>
+        <li><a href="#方法" id="toc-方法">方法</a></li>
+        </ul></li>
+        <li><a href="#实际路径path"
+        id="toc-实际路径path">实际路径Path</a>
+        <ul>
+        <li><a href="#方法-1" id="toc-方法-1">方法</a></li>
+        </ul></li>
+        <li><a href="#subprocess"
+        id="toc-subprocess">subprocess</a></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h2 id="purepath">PurePath</h2>
+            <h3 id="访问个别部分">访问个别部分</h3>
+            <ul>
+            <li><code>parts</code>: 路径中各个目录和文件名的元组</li>
+            <li><code>parent</code>：父路径</li>
+            <li><code>parents</code>:
+            用<code>parents[i]</code>返回第i个父目录</li>
+            <li><code>name</code>：文件名</li>
+            <li><code>suffix</code>：后缀名</li>
+            <li><code>suffixes</code>: 后缀名列表</li>
+            <li><code>stem</code>：name去除suffix的部分</li>
+            </ul>
+            <h3 id="方法">方法</h3>
+            <ul>
+            <li><code>as_posix() -&gt; str</code></li>
+            <li><code>as_uri() -&gt; str</code></li>
+            <li><code>is_absolute() -&gt; bool</code></li>
+            <li><code>is_relative_to(str) -&gt; bool</code></li>
+            <li><code>relative_to(str) -&gt; PurePath</code>：计算两个路径间的相对路径</li>
+            <li><code>match(pat: str) -&gt; bool</code></li>
+            </ul>
+            <h2 id="实际路径path">实际路径Path</h2>
+            <p>PurePath可以只能以字符串的方式对路径进行操作，并不能获得路径（即目录和文件）的具体信息，获得具体信息要用Path。</p>
+            <h3 id="方法-1">方法</h3>
+            <ul>
+            <li>基本
+            <ul>
+            <li><code>cwd() -&gt; PosixPath or WindowsPath</code></li>
+            <li><code>home()</code></li>
+            <li><code>expanduser()</code></li>
+            <li><code>resolve() -&gt; Path</code>：获取绝对路径</li>
+            <li><code>exists() -&gt; bool</code></li>
+            <li><code>rename() -&gt; Path</code>：重命名，如果存在相同文件且权限足够，则替换</li>
+            </ul></li>
+            <li>操作文件
+            <ul>
+            <li>获取文件属性
+            <ul>
+            <li><code>stat() -&gt; os.Stat</code></li>
+            <li><code>owner()</code></li>
+            <li><code>gourp()</code></li>
+            <li><code>chmod()</code></li>
+            <li><code>lchmod()</code></li>
+            <li><code>lstat()</code></li>
+            </ul></li>
+            <li>链接
+            <ul>
+            <li><code>symlink_to()</code></li>
+            <li><code>hardlink_to()</code></li>
+            <li><code>unlink()</code></li>
+            </ul></li>
+            <li>目录
+            <ul>
+            <li><code>rmdir()</code>：移除一个空目录</li>
+            <li><code>touch()</code></li>
+            </ul></li>
+            <li>文件
+            <ul>
+            <li><code>open()</code>：以传统打开文件的方式操作这个文件</li>
+            <li><code>read_bytes() -&gt; bytes()</code></li>
+            <li><code>write_bytes()</code></li>
+            <li><code>read_text()</code></li>
+            <li><code>write_text()</code></li>
+            </ul></li>
+            </ul></li>
+            <li>查找、遍历
+            <ul>
+            <li><code>glob(pat: str)</code></li>
+            <li><code>rglob(pat: str)</code>：查找所有子目录，在pat前自动加上<code>**/</code></li>
+            <li><code>iterdir()</code></li>
+            </ul></li>
+            <li>判断文件类型
+            <ul>
+            <li><code>is_dir()</code></li>
+            <li><code>is_file()</code></li>
+            <li><code>is_mount()</code></li>
+            <li><code>is_symlink()</code></li>
+            <li><code>is_socket()</code></li>
+            <li><code>is_fifo()</code></li>
+            <li><code>is_block_device()</code></li>
+            <li><code>is_char_device()</code></li>
+            <li><code>same_file(other_path)</code></li>
+            </ul></li>
+            </ul>
+            <h2 id="subprocess">subprocess</h2>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>
