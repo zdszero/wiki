@@ -15,4 +15,4 @@ fi
 
 # [test](test.md) -> <link href="test.html">
 # [test](test) -> <link href="test.html">
-sed -r 's/(\[.+\])\((.+)\.md\)/\1(\2.html)/g' < $INPUT | pandoc $MATH --template=$TEMPLATE -f markdown -t html --toc > $OUTPUT
+sed -r 's/(\[.+\])\((.+)\.md\)/\1(\2.html)/g' < $INPUT | pandoc $MATH --template=$TEMPLATE -f markdown -t html --toc | sed 's/\.\.\/docs/\./g' > $OUTPUT

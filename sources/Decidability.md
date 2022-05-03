@@ -67,7 +67,7 @@ $$
 
 如果$L(A) = L(B)$，那么两个子表达式都是$\emptyset$，所以只需用两个TM证明子表达式都是空集即可。 
 
-![DFA-equal-TM](../images/DFA_equal_TM.png)
+![DFA-equal-TM](../docs/images/DFA_equal_TM.png)
 
 ### CFG
 
