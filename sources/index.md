@@ -13,7 +13,7 @@
 
 ## Shell
 
-* [git](git.md)
+* [git](./git.md)
 * [docker](docker.md)
 
 ## Network
@@ -25,7 +25,9 @@
 
 ## Python
 
+* [vim](vim.md)
 * [utils](utils.md)
+* [parallelism](parallelism.md)
 * [types](types.md)
 * [asyncio](asyncio.md)
 * [libs](libs.md)

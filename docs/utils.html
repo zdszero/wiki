@@ -49,8 +49,13 @@
         <ul>
         <li><a href="#方法-1" id="toc-方法-1">方法</a></li>
         </ul></li>
-        <li><a href="#subprocess"
-        id="toc-subprocess">subprocess</a></li>
+        <li><a href="#subprocess" id="toc-subprocess">subprocess</a>
+        <ul>
+        <li><a href="#run" id="toc-run">run</a></li>
+        <li><a href="#use-asyncio-to-create-subprocess"
+        id="toc-use-asyncio-to-create-subprocess">use asyncio to create
+        subprocess</a></li>
+        </ul></li>
         </ul>
 
         </div>
@@ -141,6 +146,32 @@
             </ul></li>
             </ul>
             <h2 id="subprocess">subprocess</h2>
+            <h3 id="run">run</h3>
+            <p>the core function is
+            <strong>subprocess.run()</strong></p>
+            <p>parameters:</p>
+            <ul>
+            <li><code>capture_output=False</code>: save output to result
+            or print it directly</li>
+            <li><code>timeout=None</code>: execution time limit</li>
+            <li><code>check=None</code>: if throwing
+            <em>CalledProcessError</em> when process exits with a
+            non-zero return value</li>
+            <li><code>shell=False</code>: execute through shell</li>
+            </ul>
+            <p>return type:
+            <strong>subprocess.CompletedProcess</strong>, attributes
+            containing:</p>
+            <ul>
+            <li>args</li>
+            <li>returncode</li>
+            <li>stdout, stderr</li>
+            <li>check_returncode()</li>
+            </ul>
+            <h3 id="use-asyncio-to-create-subprocess">use asyncio to
+            create subprocess</h3>
+            <p>use <code>await asyncio.create_subprocess_exec()</code>
+            to return a <code>Process</code> instance</p>
             </div>
     </div>
   </div>

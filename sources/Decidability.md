@@ -106,4 +106,3 @@ $A_{TM}$ = { <M, w> | M is a TM and M accepts w }
 $A_{TM}$ is turing recognizable but not turing decidable.
 
 这也就是停机问题的形式化表述：不存在一个图灵机，能判断另一个图灵机在给定输入的情况下会不会停机。
-

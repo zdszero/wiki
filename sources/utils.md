@@ -73,3 +73,25 @@ PurePath可以只能以字符串的方式对路径进行操作，并不能获得
     * `same_file(other_path)`
 
 ## subprocess
+
+### run
+
+the core function is **subprocess.run()**
+
+parameters:
+
+* `capture_output=False`: save output to result or print it directly
+* `timeout=None`: execution time limit
+* `check=None`: if throwing *CalledProcessError* when process exits with a non-zero return value
+* `shell=False`: execute through shell
+
+return type: **subprocess.CompletedProcess**, attributes containing:
+
+* args
+* returncode
+* stdout, stderr
+* check_returncode()
+
+### use asyncio to create subprocess
+
+use `await asyncio.create_subprocess_exec()` to return a `Process` instance
