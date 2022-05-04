@@ -1,0 +1,148 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="./css/template.css" />
+    <link rel="stylesheet" type="text/css" href="./css/elegant_bootstrap.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-05-04" />
+  <title>IPC</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">IPC</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-05-04</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#communication"
+        id="toc-communication">communication</a>
+        <ul>
+        <li><a href="#pipe" id="toc-pipe">pipe</a></li>
+        <li><a href="#fifos" id="toc-fifos">fifos</a></li>
+        </ul></li>
+        <li><a href="#synchronization"
+        id="toc-synchronization">synchronization</a></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h2 id="communication">communication</h2>
+            <h3 id="pipe">pipe</h3>
+            <p>a pipe is simply a buffer maintained by kernel</p>
+            <ul>
+            <li>limited capacity</li>
+            <li>unidirectional</li>
+            <li>byte stream</li>
+            </ul>
+            <h3 id="fifos">fifos</h3>
+            <p>pipe can be used only between parent and child process,
+            while fifo (can be called named pipe) can be used between
+            unrelated processes.</p>
+            <ul>
+            <li>sematics of reading n bytes from pipe, the current bytes
+            available in pipe is p</li>
+            </ul>
+            <table>
+            <colgroup>
+            <col style="width: 20%" />
+            <col style="width: 20%" />
+            <col style="width: 20%" />
+            <col style="width: 20%" />
+            <col style="width: 20%" />
+            </colgroup>
+            <thead>
+            <tr class="header">
+            <th style="text-align: center;">O_NONBLOCK enabled?</th>
+            <th style="text-align: center;">p = 0, write end open</th>
+            <th style="text-align: center;">p = 0, write end closed</th>
+            <th style="text-align: center;">p &lt; n</th>
+            <th style="text-align: center;">p &gt;= n</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="odd">
+            <td style="text-align: center;">NO</td>
+            <td style="text-align: center;">block</td>
+            <td style="text-align: center;">return 0(EOF)</td>
+            <td style="text-align: center;">read p bytes</td>
+            <td style="text-align: center;">read n bytes</td>
+            </tr>
+            <tr class="even">
+            <td style="text-align: center;">YES</td>
+            <td style="text-align: center;">fail (EAGAIN)</td>
+            <td style="text-align: center;">return 0(EOF)</td>
+            <td style="text-align: center;">read p bytes</td>
+            <td style="text-align: center;">read n bytes</td>
+            </tr>
+            </tbody>
+            </table>
+            <ul>
+            <li>sematics of writing n bytes to pipe, the buffer size is
+            p</li>
+            </ul>
+            <table>
+            <colgroup>
+            <col style="width: 25%" />
+            <col style="width: 25%" />
+            <col style="width: 25%" />
+            <col style="width: 25%" />
+            </colgroup>
+            <thead>
+            <tr class="header">
+            <th style="text-align: center;">O_NONBLOCK enable?</th>
+            <th style="text-align: center;">n &lt;= p</th>
+            <th style="text-align: center;">n &gt; p</th>
+            <th style="text-align: center;">read end close</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="odd">
+            <td style="text-align: center;">NO</td>
+            <td style="text-align: center;">write n bytes</td>
+            <td style="text-align: center;">write available bytes,
+            return until all bytes have been written</td>
+            <td style="text-align: center;">SIGPIPE + EPIPE</td>
+            </tr>
+            <tr class="even">
+            <td style="text-align: center;">YES</td>
+            <td style="text-align: center;">write n bytes</td>
+            <td style="text-align: center;">write available bytes,
+            EAGAIN</td>
+            <td style="text-align: center;">SIGPIPE + EPIPE</td>
+            </tr>
+            </tbody>
+            </table>
+            <p>简单来说，这里的非阻塞就是当前操作如果不能成功，比如打开管道时另一方还没有打开，写数据时缓冲区不够全部写入了，马上返回一个错误值<code>EAGAIN</code></p>
+            <h2 id="synchronization">synchronization</h2>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>

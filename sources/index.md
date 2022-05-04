@@ -5,6 +5,7 @@
 
 * [Thuring](Thuring.md)
 * [Decidability](Decidability.md)
+* [IPC](IPC.md)
 
 ## Data Structure
 
@@ -26,16 +27,17 @@
 ## Python
 
 * [vim](vim.md)
+* [function](function.md)
 * [utils](utils.md)
 * [parallelism](parallelism.md)
 * [types](types.md)
 * [asyncio](asyncio.md)
-* [libs](libs.md)
 * [socket](socket.md)
-* [pythonic](pythonic.md)
+* [oop](./oop.md)
 
 ## Other Links
 
 * [Diary](diary.md)
 * [study](study.md)
+* [videos](videos.md)
 * [useful links](useful_links.md)

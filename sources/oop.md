@@ -1,4 +1,6 @@
-% pythonic
+% oop
+% zdszero
+% 2022-05-04
 
 ## pythonic object
 

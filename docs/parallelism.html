@@ -104,8 +104,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
         <ul>
         <li><a href="#popen" id="toc-popen">Popen</a></li>
-        <li><a href="#processexecutor"
-        id="toc-processexecutor">ProcessExecutor</a></li>
+        <li><a href="#concurrent"
+        id="toc-concurrent">concurrent</a></li>
         </ul>
 
         </div>
@@ -135,7 +135,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> retcode <span class="op">!=</span> <span class="dv">0</span>:</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="co">&quot;&quot;&quot;Error handling.&quot;&quot;&quot;</span></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    handle_results(proc.stdout)</span></code></pre></div>
-            <h3 id="processexecutor">ProcessExecutor</h3>
+            <h3 id="concurrent">concurrent</h3>
+            <ul>
+            <li>working with <code>futures.Future</code></li>
+            </ul>
+            <div class="sourceCode" id="cb2"><pre
+            class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> concurrent <span class="im">import</span> futures</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> futures.ThreadPoolExecutor() <span class="im">as</span> executor:</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># each iterable element is the parameter of callable</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    executor.<span class="bu">map</span>(<span class="bu">callable</span>, iterable)</span></code></pre></div>
+            <div class="sourceCode" id="cb3"><pre
+            class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> concurrent <span class="im">import</span> futures</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> futures.ThreadPoolExecutor() <span class="im">as</span> executor:</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># each iterable element is the parameter of callable</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    todos <span class="op">=</span> []</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> it <span class="kw">in</span> iterable:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        fut <span class="op">=</span> executor.submit(<span class="bu">callable</span>, it)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        todos.append(fut)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> fut <span class="kw">in</span> futures.as_completed(todos):</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> fut.result()</span></code></pre></div>
             </div>
     </div>
   </div>
