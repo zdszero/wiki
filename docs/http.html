@@ -1,0 +1,111 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="./css/template.css" />
+    <link rel="stylesheet" type="text/css" href="./css/elegant_bootstrap.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-05-06" />
+  <title>http</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">http</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-05-06</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#evolution" id="toc-evolution">evolution</a>
+        <ul>
+        <li><a href="#http0.9" id="toc-http0.9">http/0.9</a></li>
+        <li><a href="#http1.0" id="toc-http1.0">http/1.0</a></li>
+        <li><a href="#http1.1" id="toc-http1.1">http/1.1</a></li>
+        <li><a href="#http2.0" id="toc-http2.0">http/2.0</a></li>
+        </ul></li>
+        <li><a href="#message" id="toc-message">message</a>
+        <ul>
+        <li><a href="#start-line" id="toc-start-line">start
+        line</a></li>
+        <li><a href="#message-headers" id="toc-message-headers">message
+        headers</a></li>
+        </ul></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h2 id="evolution">evolution</h2>
+            <h3 id="http0.9">http/0.9</h3>
+            <h3 id="http1.0">http/1.0</h3>
+            <h3 id="http1.1">http/1.1</h3>
+            <h3 id="http2.0">http/2.0</h3>
+            <h2 id="message">message</h2>
+            <pre><code>HTTP-message    = Request | Response
+generic-message = start-line
+                  *message-header
+                  CRLF
+                  [ message-body ]
+start-line      = Request-Line | Status-Line</code></pre>
+            <h3 id="start-line">start line</h3>
+            <h4 id="request-line">Request Line</h4>
+            <pre><code>Request-Line = Method SP Request-URI SP HTTP-Version CRLF
+
+Method = &quot;OPTIONS&quot;
+       | &quot;GET&quot;
+       | &quot;HEAD&quot;
+       | &quot;POST&quot;
+       | &quot;PUT&quot;
+       | &quot;DELETE&quot;
+       | &quot;TRACE&quot;
+       | extendible-method
+extendible-method = token
+
+Request-URL = &quot;*&quot; | absoluteURI | abs_path</code></pre>
+            <h3 id="message-headers">message headers</h3>
+            <ul>
+            <li>HTTP header fields:
+            <ul>
+            <li>general-header</li>
+            <li>request-header</li>
+            <li>response-header</li>
+            <li>entity-header</li>
+            </ul></li>
+            </ul>
+            <pre><code>message-header = field-name &quot;:&quot; [ field-value ] CRLF
+
+field-name     = token
+field-value    = *( field-content | LWS )
+
+field-content  = &lt;the OCTETs making up the field-value
+                 and consisting of either *TEXT or combinations
+                 of token, tspecials, and quoted-string&gt;</code></pre>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>

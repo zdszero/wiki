@@ -22,8 +22,9 @@
 
 * [ARQ](ARQ.md)
 * [socks](socks.md)
-* [io_multiplex](io_multiplex.md)
+* [http](http.md)
 * [web](web.md)
+* [io_multiplex](io_multiplex.md)
 
 ## Python
 

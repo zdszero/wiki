@@ -18,7 +18,7 @@ When TM M is given some input w, there might be three results:
 
 **A Language of a Turing Machine** is simply the set of all strings that are accepted by the Turing Machine.
 
-Consider a Turing Machine $M$ and a language $L$ that is recognized by $M$. Thus, when we simulate a string $\omega \in L$on $M$, the result is always acception. 
+Consider a Turing Machine $M$ and a language $L$ that is recognized by $M$. Thus, when we simulate a string $\omega \in L$ on $M$, the result is always acception. 
 
 Consider the languages that are not in $L$ (we call it $\bar L$). When we simulate a string $\omega \in \bar L$ on $M$, there are two possibilites:
 
@@ -27,17 +27,19 @@ Consider the languages that are not in $L$ (we call it $\bar L$). When we simula
 
 If $M$ only reject in this scenario, then $M$ is a **decider** for $L$ 
 
+更加通俗的解释就是一个问题如果是decidable的，我们总能设计一个算法在有限的时间内解决它。
+
 ## Decidability
 
 ### DFA
 
 Here are some examples (all of them are decidable):
 
-1. $A_{DFA}$ =  { <B, w> | B is a DFA that accepts input stirng w }
+1. $A_{DFA} =  \text{\{ <B,w> | B is a DFA that accepts input stirng w \}}$
 
 $A_{DFA}$ is **language** which contains the encodings of all DFAs together with strings that DFAs accept. 
 
-Why we introduce languge in this problem? Because we can transform the problem of testing wheather a DFA B accepts w into the problem of testing wheather <B, w> is a member of the language $A_{DFA}$
+Why we introduce languge in this problem? Because we can transform the problem of testing wheather a DFA B accepts w into the problem of testing wheather $<B,w>$ is a member of the language $A_{DFA}$
 
 And we have this theorem
 
@@ -47,19 +49,19 @@ So we can construct a TM $M$ to decide the language. In other words, run w on B,
 
 简单来说，就是我们现将问题抽象一下，变成一个语言，也就包含所有这种种类的问题了。然后我们再引入图灵机，尝试decide这个语言，也就是我们应该设计一个algorithm，具有有限的步骤，来决定这门语言（对于这个问题，也就是设计一个方法，来确定DFA可以接受w，或者拒绝w）。
 
-2. $A_{NFA}$ =  { <B, w> | B is a NFA that accepts input stirng w }
+2. $A_{NFA} =  \text{\{ <B, w> | B is a NFA that accepts input stirng w \}}$
 
 use TM to convert NFA to DFA first
 
-3. $A_{REX}$ =  { <B, w> | B is a regular expression that accepts input stirng w }
+3. $A_{REX} =  \text{\{ <B, w> | B is a regular expression that accepts input stirng w \}}$
 
 use TM convert REX to NFA first
 
-4. $E_{DFA}$ = { <A\> | A is a DFA and L(A) = $\emptyset$ }
+4. $E_{DFA} = \text{\{ <A> | A is a DFA and L(A) = $\emptyset$ \}}$
 
 use bfs to traverse all states
 
-5. $DQ_{DFA}$ = { <A,B> | A and B are DFAs and L(A) = L(B) }
+5. $DQ_{DFA} = \text{\{ <A,B> | A and B are DFAs and L(A) = L(B) \}}$
 
 $$
 L(C) = (L(A) \cap \overline{L(B)}) \cup (\overline{L(A)} \cap L(B))
@@ -71,13 +73,13 @@ $$
 
 ### CFG
 
-1. $A_{CFG}$ = { <G, w> | G is a CFG that generates string w } 
+1. $A_{CFG} = \text{\{ <G, w> | G is a CFG that generates string w \}}$
 
 convert G to an equivalent grammar in Chomsky normal form, and yield all the strings
 
-2. $E_{CFG}$ = { <G> | G is a CFG and L(G) = $\emptyset$ } 
+2. $E_{CFG} = \text{\{ <G> | G is a CFG and L(G) = $\emptyset$ \}}$
 
-3. $EQ_{CFG}$ = { <G, H> | G and H are CFGs and L(G) = L(H) } 
+3. $EQ_{CFG} = \text{{ <G, H> | G and H are CFGs and L(G) = L(H) }}$
 
 not decidable!
 
@@ -101,7 +103,7 @@ r7 = 0 . 0 1 0 5 1 3 5...
 
 ### samples
 
-$A_{TM}$ = { <M, w> | M is a TM and M accepts w } 
+$A_{TM} = \text{\{ <M, w> | M is a TM and M accepts w \}}$
 
 $A_{TM}$ is turing recognizable but not turing decidable.
 

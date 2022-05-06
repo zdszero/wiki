@@ -17,6 +17,9 @@
   <meta name="date" content="2022-05-05" />
   <title>Reducibility</title>
   <style type="text/css">code{white-space: pre;}</style>
+  <script
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+  type="text/javascript"></script>
 </head>
 <body>
 
@@ -39,6 +42,14 @@
 
         <ul>
         <li><a href="#concepts" id="toc-concepts">Concepts</a></li>
+        <li><a href="#reducibility"
+        id="toc-reducibility">Reducibility</a>
+        <ul>
+        <li><a href="#prove-undecidability"
+        id="toc-prove-undecidability">prove undecidability</a></li>
+        <li><a href="#samples" id="toc-samples">samples</a></li>
+        <li><a href="#problems" id="toc-problems">problems</a></li>
+        </ul></li>
         </ul>
 
         </div>
@@ -48,6 +59,39 @@
             <p>A <strong>reduction</strong> is a way of converting one
             problem to another problem in such a way that the second
             problem can be used to solve the first problem.</p>
+            <h2 id="reducibility">Reducibility</h2>
+            <h3 id="prove-undecidability">prove undecidability</h3>
+            <p>proof <strong>by contradiction</strong></p>
+            <h3 id="samples">samples</h3>
+            <ol type="1">
+            <li><span class="math inline">\(A_{TM} = \text{\{&lt;M,w&gt;
+            | M is a TM and M decides input w\}}\)</span></li>
+            <li><span class="math inline">\(HALT_{TM} =
+            \text{\{&lt;M,w&gt; | M is a TM and M halts on input
+            w\}}\)</span></li>
+            <li><span class="math inline">\(E_{TM} = \text{\{&lt;M&gt; |
+            M is a TM and L(M) = $\emptyset$\}}\)</span></li>
+            <li><span class="math inline">\(EQ_{TM} = \text{\{&lt;$M_1$,
+            $M_2$&gt;, | $M_1$ and $M_2$ are TMs and L($M_1$) =
+            L($M_2$)\}}\)</span></li>
+            <li><span class="math inline">\(PCP\)</span> (Post
+            Correspondence Problem)</li>
+            </ol>
+            <p><strong>An instance</strong> of the PCP is a collection
+            of dominos</p>
+            <p><span class="math display">\[P = \{\frac{t_1}{b_1},
+            \frac{t_2}{b_2}, \cdots, \frac{t_k}{b_k}\}\]</span></p>
+            <p><strong>A match</strong> is a sequence <span
+            class="math inline">\(i_1, i_2, \dots, i_l\)</span> where
+            <span class="math inline">\(t_{i_1}t_{i_2}\cdots t_{i_l} =
+            b_{i_1}b_{i_2}\cdots b_{i_l}\)</span></p>
+            <p><span class="math inline">\(PCP = \text{\{&lt;P&gt; | P
+            is an instance of the PCP with a match\}}\)</span></p>
+            <h3 id="problems">problems</h3>
+            <ul>
+            <li>为什么PCP问题不可解？</li>
+            </ul>
+            <p>因为每个domino出现的个数可以是任意次的，所以不能通过遍历所有排列方式来求解</p>
             </div>
     </div>
   </div>
