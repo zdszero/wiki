@@ -772,7 +772,7 @@ blockquote {
 }
 blockquote p {
   margin-bottom: 0;
-  font-size: 22px;
+  font-size: 20;
   font-weight: 300;
   line-height: 1.25;
 }

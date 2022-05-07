@@ -2,6 +2,14 @@
 % zdszero
 % 2022-05-04
 
+## OOP
+
+### duck typing
+
+> 当看到一只鸟走起来像鸭子、游泳起来像鸭子、叫起来也像鸭子，那么这只鸟就可以被称为鸭子
+
+在鸭子类型中，我们不关系对象的继承关系，只要它实现了某个类型的方法，我们就可以认为它是那个类型的。
+
 ## pythonic object
 
 make an object support python standard functions

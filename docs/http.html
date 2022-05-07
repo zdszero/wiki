@@ -84,6 +84,63 @@ Method = &quot;OPTIONS&quot;
 extendible-method = token
 
 Request-URL = &quot;*&quot; | absoluteURI | abs_path</code></pre>
+            <h4 id="response-line">Response Line</h4>
+            <ul>
+            <li>1xx: Informational - Request received, continuing
+            process</li>
+            <li>2xx: Success - The action was successfully received,
+            understood, and accepted</li>
+            <li>3xx: Redirection - Further action must be taken in order
+            to complete the request</li>
+            <li>4xx: Client Error - The request contains bad syntax or
+            cannot be fulfilled</li>
+            <li>5xx: Server Error - The server failed to fulfill an
+            apparently valid request</li>
+            </ul>
+            <pre><code>Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF
+
+Status-Code    = &quot;100&quot;   ; Continue
+               | &quot;101&quot;   ; Switching Protocols
+               | &quot;200&quot;   ; OK
+               | &quot;201&quot;   ; Created
+               | &quot;202&quot;   ; Accepted
+               | &quot;203&quot;   ; Non-Authoritative Information
+               | &quot;204&quot;   ; No Content
+               | &quot;205&quot;   ; Reset Content
+               | &quot;206&quot;   ; Partial Content
+               | &quot;300&quot;   ; Multiple Choices
+               | &quot;301&quot;   ; Moved Permanently
+               | &quot;302&quot;   ; Moved Temporarily
+               | &quot;303&quot;   ; See Other
+               | &quot;304&quot;   ; Not Modified
+               | &quot;305&quot;   ; Use Proxy
+               | &quot;400&quot;   ; Bad Request
+               | &quot;401&quot;   ; Unauthorized
+               | &quot;402&quot;   ; Payment Required
+               | &quot;403&quot;   ; Forbidden
+               | &quot;404&quot;   ; Not Found
+               | &quot;405&quot;   ; Method Not Allowed
+               | &quot;406&quot;   ; Not Acceptable
+               | &quot;407&quot;   ; Proxy Authentication Required
+               | &quot;408&quot;   ; Request Time-out
+               | &quot;409&quot;   ; Conflict
+               | &quot;410&quot;   ; Gone
+               | &quot;411&quot;   ; Length Required
+               | &quot;412&quot;   ; Precondition Failed
+               | &quot;413&quot;   ; Request Entity Too Large
+               | &quot;414&quot;   ; Request-URI Too Large
+               | &quot;415&quot;   ; Unsupported Media Type
+               | &quot;500&quot;   ; Internal Server Error
+               | &quot;501&quot;   ; Not Implemented
+               | &quot;502&quot;   ; Bad Gateway
+               | &quot;503&quot;   ; Service Unavailable
+               | &quot;504&quot;   ; Gateway Time-out
+               | &quot;505&quot;   ; HTTP Version not supported
+               | extension-code
+
+extension-code = 3DIGIT
+
+Reason-Phrase  = *&lt;TEXT, excluding CR, LF&gt;</code></pre>
             <h3 id="message-headers">message headers</h3>
             <ul>
             <li>HTTP header fields:

@@ -14,6 +14,7 @@
 every day has a web page, and the current .vimrc config, and ppt
 
 - [ ] vim in 14days
+- [ ] 我是如何用vim构建自己的笔记系统的
 - [ ] 学计算机的人，科学上网的正确姿势
 - [ ] arch linux installaction guide
 - [ ] git教程

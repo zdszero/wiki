@@ -17,6 +17,8 @@
 
 * [git](./git.md)
 * [docker](docker.md)
+* [network](network.md)
+* [regex](regex.md)
 
 ## Network
 

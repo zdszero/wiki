@@ -1,4 +1,6 @@
 % python types
+% zdszero
+% 2022-05-07
 
 ## numeric types
 
@@ -59,3 +61,27 @@ class Foo:
 * use `__post_init__` function to do post creation check
 
 ## typing
+
+* list
+    * `list[str]`
+    * `List[str]`
+    * `Sequence[str]`
+    * `Iterable[str]`
+* dict
+    * `dict[str, int]`
+    * `Mapping[str, int]`
+* tuple
+    * `tuple[A, B]`
+* Optional
+    * `plural: Optional[str] = None`
+    * `plural: str | None = None`
+* Union: any type of the provided types
+    * `Union[A, B, C, D]`
+* TypeVar
+    * `T = TypeVar('T')`
+    * `NumberT = TypeVar('NumberT', float, Decimal, Fraction)`
+* Protocol
+* Callable
+    * `Callable[[Parameters], ReturnType]`
+
+difference between `list` and `List`, `dict` and `Mapping`
