@@ -41,7 +41,8 @@
 
 ## Other Links
 
-* [Diary](diary.md)
+* [Diary](diary/diary.md)
 * [study](study.md)
 * [videos](videos.md)
 * [useful links](useful_links.md)
+* [markdown syntax test](./markdown_syntax_test.md)
