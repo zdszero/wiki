@@ -41,13 +41,16 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#concepts" id="toc-concepts">Concepts</a></li>
+        <li><a href="#concepts" id="toc-concepts">Concepts</a>
+        <ul>
+        <li><a href="#computable-function"
+        id="toc-computable-function">computable function</a></li>
+        </ul></li>
         <li><a href="#reducibility"
         id="toc-reducibility">Reducibility</a>
         <ul>
-        <li><a href="#prove-undecidability"
-        id="toc-prove-undecidability">prove undecidability</a></li>
         <li><a href="#samples" id="toc-samples">samples</a></li>
+        <li><a href="#pcp" id="toc-pcp">PCP</a></li>
         <li><a href="#problems" id="toc-problems">problems</a></li>
         </ul></li>
         </ul>
@@ -56,12 +59,11 @@
       </div>
             <div class="span9">
             <h2 id="concepts">Concepts</h2>
+            <h3 id="computable-function">computable function</h3>
             <p>A <strong>reduction</strong> is a way of converting one
             problem to another problem in such a way that the second
             problem can be used to solve the first problem.</p>
             <h2 id="reducibility">Reducibility</h2>
-            <h3 id="prove-undecidability">prove undecidability</h3>
-            <p>proof <strong>by contradiction</strong></p>
             <h3 id="samples">samples</h3>
             <ol type="1">
             <li><span class="math inline">\(A_{TM} = \text{\{&lt;M,w&gt;
@@ -77,6 +79,8 @@
             <li><span class="math inline">\(PCP\)</span> (Post
             Correspondence Problem)</li>
             </ol>
+            <h3 id="pcp">PCP</h3>
+            <h4 id="defination">defination</h4>
             <p><strong>An instance</strong> of the PCP is a collection
             of dominos</p>
             <p><span class="math display">\[P = \{\frac{t_1}{b_1},
@@ -87,6 +91,40 @@
             b_{i_1}b_{i_2}\cdots b_{i_l}\)</span></p>
             <p><span class="math inline">\(PCP = \text{\{&lt;P&gt; | P
             is an instance of the PCP with a match\}}\)</span></p>
+            <h4 id="provement">provement</h4>
+            <p>consider the <strong>MPCP</strong> problem</p>
+            <p><span class="math display">\[MPCP = \text{\{&lt;P&gt; | P
+            is an instance of PCP with at match that starts with the
+            first domino, i.e, [$\frac{t_1}{b_1}$]\}}\]</span></p>
+            <p>the key is to reduce <span
+            class="math inline">\(A_{TM}\)</span> to a PCP: encode <span
+            class="math inline">\(&lt;M, w&gt;\)</span> into a PCP
+            instance, there is a solution to the PCP iff there is an
+            acceptable computation history.</p>
+            <ul>
+            <li>encode each transition into a tile
+            <ul>
+            <li>start</li>
+            <li>move right</li>
+            <li>move left</li>
+            <li>single copy</li>
+            <li>end</li>
+            </ul></li>
+            </ul>
+            <p>So the process of a TM deciding a string w is transformed
+            into finding an instance of PCP with a match</p>
+            <ul>
+            <li>If you can find a solution to <span
+            class="math inline">\(PCP\)</span>, then you have found a
+            legal accepting computation history for <span
+            class="math inline">\(A_{TM}\)</span></li>
+            <li>If you could decide the answer, then you can decide
+            <span class="math inline">\(A_{TM}\)</span></li>
+            <li>While we know <span
+            class="math inline">\(A_{TM}\)</span> is undecidable, so
+            <span class="math inline">\(PCP\)</span> is also
+            undecidable</li>
+            </ul>
             <h3 id="problems">problems</h3>
             <ul>
             <li>为什么PCP问题不可解？</li>
