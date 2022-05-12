@@ -6,6 +6,7 @@
 * [Thuring](Thuring.md)
 * [Decidability](Decidability.md)
 * [Reducibility](Reducibility.md)
+* [Complexity](Complexity.md)
 * [IPC](IPC.md)
 
 ## Data Structure

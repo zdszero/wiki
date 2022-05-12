@@ -4,11 +4,17 @@
 
 ## Concepts
 
+### defs
+
 > Def: A language is called Turing Recognizable if some TM recoginzes it.
 
 > Def: A language is called Turing Decidable if some TM decides it. (if a decider can be designed to decide it)
 
 > Def: A language is decidable iff it is Turing-recognizable and co-Turing-recognizable. 
+
+### language
+
+**A Language of a Turing Machine** is simply the set of all strings that are accepted by the Turing Machine.
 
 When TM M is given some input w, there might be three results:
 
@@ -16,18 +22,24 @@ When TM M is given some input w, there might be three results:
 * Reject by reaching $q_{reject}$
 * Keep computing forever, which is $loop$
 
-**A Language of a Turing Machine** is simply the set of all strings that are accepted by the Turing Machine.
+### recognizable
 
-Consider a Turing Machine $M$ and a language $L$ that is recognized by $M$. Thus, when we simulate a string $\omega \in L$ on $M$, the result is always acception. 
+**A language** is turing recognizable iff there is a **machine** 
 
-Consider the languages that are not in $L$ (we call it $\bar L$). When we simulate a string $\omega \in \bar L$ on $M$, there are two possibilites:
+* for strings in the language
+    * accept
+* for strings not in language
+    * reject
+    * loop
 
-* Reject
-* Loop
+### decidable
 
-If $M$ only reject in this scenario, then $M$ is a **decider** for $L$ 
+**A language** is turing decidable iff there is a **machine** 
 
-更加通俗的解释就是一个问题如果是decidable的，我们总能设计一个算法在有限的时间内解决它。
+* for strings in the language
+    * accept
+* for strings not in language
+    * reject
 
 ## Decidability
 
