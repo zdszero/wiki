@@ -21,6 +21,7 @@ read the following books
 ## Working
 
 - [x] 华为软件精英挑战赛
+- [ ] 开一张visa卡
 - [ ] OceanBase 数据库比赛
 - [ ] Google KickStart Any Round
 - [ ] 做视频

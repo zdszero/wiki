@@ -43,6 +43,7 @@
 ## Other Links
 
 * [Diary](diary/diary.md)
+* [Books](books/index.md)
 * [study](study.md)
 * [videos](videos.md)
 * [useful links](useful_links.md)
