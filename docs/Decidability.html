@@ -41,7 +41,14 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#concepts" id="toc-concepts">Concepts</a></li>
+        <li><a href="#concepts" id="toc-concepts">Concepts</a>
+        <ul>
+        <li><a href="#defs" id="toc-defs">defs</a></li>
+        <li><a href="#language" id="toc-language">language</a></li>
+        <li><a href="#recognizable"
+        id="toc-recognizable">recognizable</a></li>
+        <li><a href="#decidable" id="toc-decidable">decidable</a></li>
+        </ul></li>
         <li><a href="#decidability"
         id="toc-decidability">Decidability</a>
         <ul>
@@ -61,6 +68,7 @@
       </div>
             <div class="span9">
             <h2 id="concepts">Concepts</h2>
+            <h3 id="defs">defs</h3>
             <blockquote>
             <p>Def: A language is called Turing Recognizable if some TM
             recoginzes it.</p>
@@ -73,6 +81,10 @@
             <p>Def: A language is decidable iff it is
             Turing-recognizable and co-Turing-recognizable.</p>
             </blockquote>
+            <h3 id="language">language</h3>
+            <p><strong>A Language of a Turing Machine</strong> is simply
+            the set of all strings that are accepted by the Turing
+            Machine.</p>
             <p>When TM M is given some input w, there might be three
             results:</p>
             <ul>
@@ -83,31 +95,33 @@
             <li>Keep computing forever, which is <span
             class="math inline">\(loop\)</span></li>
             </ul>
-            <p><strong>A Language of a Turing Machine</strong> is simply
-            the set of all strings that are accepted by the Turing
-            Machine.</p>
-            <p>Consider a Turing Machine <span
-            class="math inline">\(M\)</span> and a language <span
-            class="math inline">\(L\)</span> that is recognized by <span
-            class="math inline">\(M\)</span>. Thus, when we simulate a
-            string <span class="math inline">\(\omega \in L\)</span> on
-            <span class="math inline">\(M\)</span>, the result is always
-            acception.</p>
-            <p>Consider the languages that are not in <span
-            class="math inline">\(L\)</span> (we call it <span
-            class="math inline">\(\bar L\)</span>). When we simulate a
-            string <span class="math inline">\(\omega \in \bar
-            L\)</span> on <span class="math inline">\(M\)</span>, there
-            are two possibilites:</p>
+            <h3 id="recognizable">recognizable</h3>
+            <p><strong>A language</strong> is turing recognizable iff
+            there is a <strong>machine</strong></p>
             <ul>
-            <li>Reject</li>
-            <li>Loop</li>
+            <li>for strings in the language
+            <ul>
+            <li>accept</li>
+            </ul></li>
+            <li>for strings not in language
+            <ul>
+            <li>reject</li>
+            <li>loop</li>
+            </ul></li>
             </ul>
-            <p>If <span class="math inline">\(M\)</span> only reject in
-            this scenario, then <span class="math inline">\(M\)</span>
-            is a <strong>decider</strong> for <span
-            class="math inline">\(L\)</span></p>
-            <p>更加通俗的解释就是一个问题如果是decidable的，我们总能设计一个算法在有限的时间内解决它。</p>
+            <h3 id="decidable">decidable</h3>
+            <p><strong>A language</strong> is turing decidable iff there
+            is a <strong>machine</strong></p>
+            <ul>
+            <li>for strings in the language
+            <ul>
+            <li>accept</li>
+            </ul></li>
+            <li>for strings not in language
+            <ul>
+            <li>reject</li>
+            </ul></li>
+            </ul>
             <h2 id="decidability">Decidability</h2>
             <h3 id="dfa">DFA</h3>
             <p>Here are some examples (all of them are decidable):</p>
