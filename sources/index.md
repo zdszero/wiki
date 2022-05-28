@@ -45,6 +45,8 @@
 * [Diary](diary/diary.md)
 * [Books](books/index.md)
 * [EQ](EQ.md)
+* [photo](photo.md)
+* [topic](topic.md)
 * [study](study.md)
 * [videos](videos.md)
 * [useful links](useful_links.md)
