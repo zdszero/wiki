@@ -46,6 +46,7 @@
 * [Books](books/index.md)
 * [EQ](EQ.md)
 * [photo](photo.md)
+* [wearing](wearing.md)
 * [topic](topic.md)
 * [study](study.md)
 * [videos](videos.md)
