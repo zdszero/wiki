@@ -41,10 +41,22 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#measuring">Measuring</a>
+        <li><a href="#measuring" id="toc-measuring">Measuring</a>
         <ul>
-        <li><a href="#big-o">big-O</a></li>
-        <li><a href="#small-o">small-O</a></li>
+        <li><a href="#big-o" id="toc-big-o">big-O</a></li>
+        <li><a href="#small-o" id="toc-small-o">small-O</a></li>
+        </ul></li>
+        <li><a href="#p" id="toc-p">P</a></li>
+        <li><a href="#np" id="toc-np">NP</a>
+        <ul>
+        <li><a href="#verifier" id="toc-verifier">verifier</a></li>
+        <li><a href="#classic-problems"
+        id="toc-classic-problems">classic problems</a></li>
+        </ul></li>
+        <li><a href="#npc" id="toc-npc">NPC</a>
+        <ul>
+        <li><a href="#map-reducibility"
+        id="toc-map-reducibility">map-reducibility</a></li>
         </ul></li>
         </ul>
 
@@ -64,7 +76,81 @@
             class="math inline">\(g\)</span> be functions: <span
             class="math inline">\(N \rightarrow R^{+}\)</span>, if</p>
             <p><span class="math display">\[\lim_{n \to \infty}
-            \frac{f(n)}{g(n)}\]</span></p>
+            \frac{f(n)}{g(n)} = 0\]</span></p>
+            <h2 id="p">P</h2>
+            <p>P is the class of languages that are deciable that are
+            deciable in <em>polynomial time</em> on a <em>a
+            demterministic single-tape</em> Turing machine. In other
+            words,</p>
+            <p><span class="math display">\[P = \cup_{k}
+            TIME(n^k)\]</span></p>
+            <ul>
+            <li>how to prove that an algorithm runs in polynomial time
+            ?</li>
+            </ul>
+            <p>give a polynomial upper bound on the number of stages
+            that the algorithm uses when it runs on an input of length
+            n.</p>
+            <h2 id="np">NP</h2>
+            <p>NP is the class of languages that have <em>polynomial
+            time verifiers</em></p>
+            <blockquote>
+            <p>A language is in NP, iff it is decided by some
+            nondeterministic polynomial time Turing machine</p>
+            </blockquote>
+            <blockquote>
+            <p>A language A is <em>polynomially verifiable</em> if it
+            has a polynomial time verifier</p>
+            </blockquote>
+            <p>NTIME(t(n)) = {L |L is a language decided by an O(t(n))
+            time nondeterministic Turing machine}</p>
+            <p><span class="math display">\[NP = \cup_{k}
+            NTIME(n^k)\]</span></p>
+            <h3 id="verifier">verifier</h3>
+            <p>A <strong>verifier</strong> for a language A is an
+            algorithm <em>V</em>, where</p>
+            <p><span class="math display">\[A = \text{\{w | V accepts
+            &lt;w,c&gt; for some string c\}}\]</span></p>
+            <p>A <em>polynomial time verifier</em> runs in polynomial
+            time in the length of w</p>
+            <h3 id="classic-problems">classic problems</h3>
+            <ul>
+            <li><strong>Hamiltonian path</strong></li>
+            </ul>
+            <p>a direct path that goes through each node exactly once in
+            the graph.</p>
+            <figure>
+            <img src="./images/image_2022-06-01-19-39-39.png"
+            alt="Hamiltonian path image" />
+            <figcaption aria-hidden="true">Hamiltonian path
+            image</figcaption>
+            </figure>
+            <ul>
+            <li><strong>CLIQUE</strong></li>
+            </ul>
+            <p>A <em>k-clique</em> is a clique that contains <em>k</em>
+            nodes, wherein every two nodes are connected by an edge</p>
+            <p><span class="math display">\[CLIQUE = \text{\{&lt;G,k&gt;
+            |G is an undirected graph with a k-clique\}}\]</span></p>
+            <figure>
+            <img src="./images/image_2022-06-01-22-12-46.png"
+            alt="Clique image" />
+            <figcaption aria-hidden="true">Clique image</figcaption>
+            </figure>
+            <ul>
+            <li><strong>SUBSET-SUM</strong></li>
+            </ul>
+            <p><span class="math display">\[SUBSET-SUM =
+            \text{\{&lt;S,t&gt; | S = {$x_1, \cdots, x_k$}, and for some
+            {$y_1, \cdots, y_l$} $\subseteq$ {$x_1, \cdots, x_k$}, we
+            have $\sum y_i$ = t\}}\]</span></p>
+            <h2 id="npc">NPC</h2>
+            <p>A <em>Boolean formula</em> is an expression involving
+            Boolean variables and operations.</p>
+            <p><span class="math display">\[SAT =
+            \text{\{&lt;$\varphi$&gt; | $\varphi$ is a satisfiable
+            Boolean formula\}}\]</span></p>
+            <h3 id="map-reducibility">map-reducibility</h3>
             </div>
     </div>
   </div>
