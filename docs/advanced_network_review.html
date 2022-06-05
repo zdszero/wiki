@@ -15,7 +15,7 @@
     <meta name="generator" content="pandoc" />
   <meta name="author" content="zdszero" />
   <meta name="date" content="2022-06-04" />
-  <title>fat tree</title>
+  <title>Advanced Network Review</title>
   <style type="text/css">code{white-space: pre;}</style>
   <script
   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
@@ -27,7 +27,7 @@
     <div class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container">
-        <span class="doc-title">fat tree</span>
+        <span class="doc-title">Advanced Network Review</span>
         <ul class="nav pull-right doc-info">
                     <li><p class="navbar-text">zdszero</p></li>
                               <li><p class="navbar-text">2022-06-04</p></li>
@@ -45,6 +45,8 @@
         <ul>
         <li><a href="#addressing"
         id="toc-addressing">Addressing</a></li>
+        <li><a href="#routing-algorithm"
+        id="toc-routing-algorithm">routing algorithm</a></li>
         </ul></li>
         </ul>
 
@@ -68,6 +70,51 @@
             </ul></li>
             <li>adddress of a host: <code>10.pod.switch.ID</code></li>
             </ul>
+            <figure>
+            <img src="./images/fat_tree_demo.png"
+            alt="fat tree demo" />
+            <figcaption aria-hidden="true">fat tree demo</figcaption>
+            </figure>
+            <h3 id="routing-algorithm">routing algorithm</h3>
+            <ul>
+            <li>generating aggregation routing table for upper pod
+            switches</li>
+            </ul>
+            <pre><code>foreach pod x in [0, k-1] do
+    foreach switch z in [(k/2), k-1] do
+        foreach subnet i in [0, (k/2)-1] do
+            addPrefix(10.x.z.1, 10.x.i.0/24, i);
+        end
+        addPrefix(10.x.z.1, 0.0.0.0/0, 0);
+        foreach host ID i in [2, (k/2)+1] do
+            addSuffix(10.x.z.1, 0.0.0.i/8,
+            (i-2+z)mod(k/2)+(k/2));
+        end
+    end
+end</code></pre>
+            <ul>
+            <li>generating aggregation routing table for lower pod
+            switches</li>
+            </ul>
+            <pre><code>foreach pod x in [0, k-1] do
+    foreach switch z in [0, (k/2)-1] do
+        addPrefix(10.x.z.1, 0.0.0.0/0, 0);
+        foreach host ID i in [2, (k/2)+1] do
+            addSuffix(10.x.z.1, 0.0.0.i/8,
+            (i-2+z)mod(k/2)+(k/2));
+        end
+    end
+end</code></pre>
+            <ul>
+            <li>generating core switch routing table</li>
+            </ul>
+            <pre><code>foreach j in [1, (k/2)] do
+    foreach i in [1, (k/2)] do
+        foreach destination pod x in [0, (k/2) - 1] do
+            addPrefix(10.k.j.i, 10.x.0.0/16)
+        end
+    end
+end</code></pre>
             </div>
     </div>
   </div>
