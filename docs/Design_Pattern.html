@@ -1,0 +1,117 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="./css/template.css" />
+    <link rel="stylesheet" type="text/css" href="./css/elegant_bootstrap.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-06-06" />
+  <title>Design Pattern</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">Design Pattern</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-06-06</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#工厂模式">工厂模式</a></li>
+        <li><a href="#单例模式">单例模式</a></li>
+        <li><a href="#原型模式">原型模式</a></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h2 id="工厂模式">工厂模式</h2>
+            <ol type="1">
+            <li>有时候对象的创建可能需要多个步骤，可以将创建过程进行封装。</li>
+            </ol>
+            <pre><code>Pizza createPizza(String type) {
+    if (type.equals(“cheese”)) {
+        pizza = new CheesePizza();
+    } else if (type.equals(“greek”) {
+        pizza = new GreekPizza();
+    } else if (type.equals(“pepperoni”) {
+        pizza = new PepperoniPizza();
+    } else if (type.equals(“clam”) {
+        pizza = new ClamPizza();
+    } else if (type.equals(“veggie”) {
+        pizza = new VeggiePizza();
+    }
+}</code></pre>
+            <ol start="2" type="1">
+            <li>将相似对象中的通用的方法作为父类中的方法实现，同时将不同的行为作为抽象方法实现。</li>
+            </ol>
+            <pre><code>public abstract class PizzaStore {
+    public Pizza orderPizza(String type) {
+        Pizza pizza;
+        pizza = createPizza(type);
+        pizza.prepare();
+        pizza.bake();
+        pizza.cut();
+        pizza.box();
+        return pizza;
+    }
+    protected abstract Pizza createPizza(String type);
+    // other methods here
+}</code></pre>
+            <p><strong>优点</strong></p>
+            <ol type="1">
+            <li>你可以确保同一工厂生成的产品相互匹配。</li>
+            <li>你可以避免客户端和具体产品代码的耦合。</li>
+            <li>单一职责原则。 你可以将产品生成代码抽取到同一位置，
+            使得代码易于维护。</li>
+            <li>开闭原则。 向应用程序中引入新产品变体时，
+            你无需修改客户端代码。</li>
+            </ol>
+            <h2 id="单例模式">单例模式</h2>
+            <ol type="1">
+            <li>保证一个类只有一个实例。</li>
+            <li>为该实例提供一个全局访问点。</li>
+            </ol>
+            <pre><code>class Singleton {
+public:
+    Singleton(const Singleton &amp;) = delete;
+    Singleton&amp; operator=(const Singleton &amp;) = delete;
+    static Singleton *get() {
+        if (!instance) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+private:
+    Singleton() {}
+    static Singleton *instance{nullptr};
+};</code></pre>
+            <h2 id="原型模式">原型模式</h2>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>
