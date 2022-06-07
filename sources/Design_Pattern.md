@@ -2,11 +2,38 @@
 % zdszero
 % 2022-06-06
 
+## 体系结构
+
+分层、管道过滤器、Broker、MVC、映像
+
+## 设计模式分类
+
+* 创建型模式
+    * 工厂方法，抽象工厂
+    * 生成器
+    * 原型
+    * 单例
+* 结构型模式
+    * 适配器
+    * 桥接
+    * 组合
+    * 装饰
+    * 享元
+* 行为模式
+    * 责任链
+    * 命令
+    * 迭代
+    * 备忘录
+    * 观察者
+    * 状态
+    * 策略
+    * 访问者
+
 ## 工厂模式
 
 1. 有时候对象的创建可能需要多个步骤，可以将创建过程进行封装。
 
-```
+```java
 Pizza createPizza(String type) {
     if (type.equals(“cheese”)) {
         pizza = new CheesePizza();
@@ -24,7 +51,7 @@ Pizza createPizza(String type) {
 
 2. 将相似对象中的通用的方法作为父类中的方法实现，同时将不同的行为作为抽象方法实现。
 
-```
+```java
 public abstract class PizzaStore {
     public Pizza orderPizza(String type) {
         Pizza pizza;
@@ -52,7 +79,7 @@ public abstract class PizzaStore {
 1. 保证一个类只有一个实例。
 2. 为该实例提供一个全局访问点。
 
-```
+```cpp
 class Singleton {
 public:
     Singleton(const Singleton &) = delete;
@@ -70,3 +97,181 @@ private:
 ```
 
 ## 原型模式
+
+原型模式将克隆过程委派给被克隆的实际对象。 模式为所有支持克隆的对象声明了一个通用接口， 该接口让你能够克隆对象， 同时又无需将代码和对象所属类耦合。
+
+```cpp
+class Prototype {
+public:
+    virtual ~Prototype() {}
+
+    virtual Prototype *clone() = 0;
+    virtual std::string type() = 0;
+};
+
+class ConcretePrototypeA: public Prototype {
+public:
+    ~ConcretePrototypeA() {}
+    Prototype *clone() {
+        return new ConcretePrototypeA();
+    }
+    std::string type() {
+        return "type A";
+    }
+};
+
+// ConcretePrototypeB is the same
+```
+
+## 生成器模式
+
+分步创建复杂对象，生成器模式允许你使用相同的创建代码生成不同类型和形式的对象。
+
+```cpp
+class Product {
+public:
+    void makeA(const std::string &part) { partA = part; }
+    void makeB(const std::string &part) { partB = part; }
+    void makeC(const std::string &part) { partC = part; }
+private:
+    std::string partA, partB, partC;
+};
+
+class Builder {
+public:
+    virtual ~Builder() {}
+    Product() get() { return product; }
+    virtual void buildPartA = 0;
+    virtual void buildPartB = 0;
+    virtual void buildPartC = 0;
+protected:
+    Product product;
+};
+
+class ConcreteBuilder: public Builder {
+    // different implementation of buildParts
+};
+
+class Director {
+public:
+    void construct {
+        builder->buildPartA();
+        builder->buildPartB();
+        builder->buildPartC();
+    };
+private:
+    Builder *builder;
+};
+```
+
+**实现步骤**
+
+1. 清晰地定义通用步骤， 确保它们可以制造所有形式的产品。 否则你将无法进一步实施该模式。
+2. 在基本生成器接口中声明这些步骤。
+3. 为每个形式的产品创建具体生成器类， 并实现其构造步骤。
+
+不要忘记实现获取构造结果对象的方法。 你不能在生成器接口中声明该方法， 因为不同生成器构造的产品可能没有公共接口， 因此你就不知道该方法返回的对象类型。 但是， 如果所有产品都位于单一类层次中， 你就可以安全地在基本接口中添加获取生成对象的方法。
+
+4. 考虑创建主管类。 它可以使用同一生成器对象来封装多种构造产品的方式。
+5. 客户端代码会同时创建生成器和主管对象。 构造开始前， 客户端必须将生成器对象传递给主管对象。 通常情况下， 客户端只需调用主管类构造函数一次即可。 主管类使用生成器对象完成后续所有制造任务。 还有另一种方式， 那就是客户端可以将生成器对象直接传递给主管类的制造方法。
+6. 只有在所有产品都遵循相同接口的情况下， 构造结果可以直接通过主管类获取。 否则， 客户端应当通过生成器获取构造结果。
+
+## 适配器模式
+
+适配器模式将一个类的接口转化为另一个类的接口，适配器让不能一起工作的类可以一起工作。
+
+适配器分类：对象适配器、类适配器
+
+* 类适配器
+
+```cpp
+class Target {
+public:
+    virtual ~Target() {}
+    virtual void request() = 0;
+};
+
+class Adaptee {
+public:
+    ~Adaptee() {}
+    void specificRequest() {
+        cout << "specific request" << endl;
+    }
+};
+
+class Adatper: public Target, private Adaptee {
+public:
+    virtual void request() {
+        specificRequest();
+    }
+};
+```
+
+* 对象适配器
+
+```cpp
+class Adatper: public Target, private Adaptee {
+public:
+    void request() {
+        adaptee->specificRequest();
+    }
+private:
+    Adaptee adaptee;
+};
+```
+
+## 桥接模式
+
+桥接模式是一种结构型设计模式， 可将一个大类或一系列紧密相关的类拆分为抽象和实现两个独立的层次结构， 从而能在开发时分别使用。
+
+抽象部分和实现部分是对最常使用该模式的问题的一类总结。比如跨平台GUI程序，抽象部分就是GUI的实现，实现部分指不同操作系统的底层API，为了让GUI在不同的OS上都能获取符合预期的行为，就引入的桥接模式来抽象这一过程。
+
+![桥接模式](../docs/images/image_2022-06-07-15-42-20.png)
+
+举一个更加简单的例子。比如对于具有多种不同颜色、不同形状的物体，我们可以将颜色、形状抽象为两个不同的维度（类）。然后桥接模式在这个过程中会通过将继承改为组合来解决这个问题。
+
+![颜色，形状](../docs/images/image_2022-06-07-15-38-33.png)
+
+```cpp
+class Implementation {}
+class ConcereteImplementationA: public Implementation {}
+class ConcereteImplementationB: public Implementation {}
+
+class Abstraction {
+protected:
+    Implementation *implementation_;
+public:
+    virtual string Operation() const {}
+};
+
+class ExtendedAbstraction: public Abstraction {}
+
+void ClientCode(const Abstraction &abstraction) {
+    cout << abstraction.Operation();
+}
+```
+
+## 组合模式
+
+组合模式是一种结构型设计模式， 你可以使用它将对象组合成树状结构， 并且能像使用独立对象一样使用它们。
+
+![组合模式](../docs/images/image_2022-06-07-16-19-24.png)
+
+1. 确保应用的核心模型能够以树状结构表示。 尝试将其分解为简单元素和容器。 记住， 容器必须能够同时包含简单元素和其他容器。
+2. 声明组件接口及其一系列方法， 这些方法对简单和复杂元素都有意义。
+3. 创建一个叶节点类表示简单元素。 程序中可以有多个不同的叶节点类。
+创建一个容器类表示复杂元素。 在该类中， 创建一个数组成员变量来存储对于其子元素的引用。 该数组必须能够同时保存叶节点和容器， 因此请确保将其声明为组合接口类型。
+4. 实现组件接口方法时， 记住容器应该将大部分工作交给其子元素来完成。
+5. 最后， 在容器中定义添加和删除子元素的方法。
+
+## 装饰模式
+
+通过装饰器封装和改变一个对象的行为。
+
+![装饰模式](../docs/images/image_2022-06-07-20-21-32.png)
+
+## 享元模式
+
+对象的常量数据通常被称为内在状态， 其位于对象中， 其他对象只能读取但不能修改其数值。 而对象的其他状态常常能被其他对象 “从外部” 改变， 因此被称为外在状态。
+
+享元模式建议不在对象中存储外在状态， 而是将其传递给依赖于它的一个特殊方法。 程序只在对象中保存内在状态， 以方便在不同情景下重用。 

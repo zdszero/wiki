@@ -17,6 +17,71 @@
   <meta name="date" content="2022-06-06" />
   <title>Design Pattern</title>
   <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
 </head>
 <body>
 
@@ -38,47 +103,88 @@
         <div class="well toc">
 
         <ul>
+        <li><a href="#体系结构">体系结构</a></li>
+        <li><a href="#设计模式分类">设计模式分类</a></li>
         <li><a href="#工厂模式">工厂模式</a></li>
         <li><a href="#单例模式">单例模式</a></li>
         <li><a href="#原型模式">原型模式</a></li>
+        <li><a href="#生成器模式">生成器模式</a></li>
+        <li><a href="#适配器模式">适配器模式</a></li>
+        <li><a href="#桥接模式">桥接模式</a></li>
+        <li><a href="#组合模式">组合模式</a></li>
+        <li><a href="#装饰模式">装饰模式</a></li>
+        <li><a href="#享元模式">享元模式</a></li>
         </ul>
 
         </div>
       </div>
             <div class="span9">
+            <h2 id="体系结构">体系结构</h2>
+            <p>分层、管道过滤器、Broker、MVC、映像</p>
+            <h2 id="设计模式分类">设计模式分类</h2>
+            <ul>
+            <li>创建型模式
+            <ul>
+            <li>工厂方法，抽象工厂</li>
+            <li>生成器</li>
+            <li>原型</li>
+            <li>单例</li>
+            </ul></li>
+            <li>结构型模式
+            <ul>
+            <li>适配器</li>
+            <li>桥接</li>
+            <li>组合</li>
+            <li>装饰</li>
+            <li>享元</li>
+            </ul></li>
+            <li>行为模式
+            <ul>
+            <li>责任链</li>
+            <li>命令</li>
+            <li>迭代</li>
+            <li>备忘录</li>
+            <li>观察者</li>
+            <li>状态</li>
+            <li>策略</li>
+            <li>访问者</li>
+            </ul></li>
+            </ul>
             <h2 id="工厂模式">工厂模式</h2>
             <ol type="1">
             <li>有时候对象的创建可能需要多个步骤，可以将创建过程进行封装。</li>
             </ol>
-            <pre><code>Pizza createPizza(String type) {
-    if (type.equals(“cheese”)) {
-        pizza = new CheesePizza();
-    } else if (type.equals(“greek”) {
-        pizza = new GreekPizza();
-    } else if (type.equals(“pepperoni”) {
-        pizza = new PepperoniPizza();
-    } else if (type.equals(“clam”) {
-        pizza = new ClamPizza();
-    } else if (type.equals(“veggie”) {
-        pizza = new VeggiePizza();
-    }
-}</code></pre>
+            <div class="sourceCode" id="cb1"><pre
+            class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Pizza <span class="fu">createPizza</span><span class="op">(</span><span class="bu">String</span> type<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>type<span class="op">.</span><span class="fu">equals</span><span class="op">(</span>“cheese”<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        pizza <span class="op">=</span> <span class="kw">new</span> <span class="fu">CheesePizza</span><span class="op">();</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>type<span class="op">.</span><span class="fu">equals</span><span class="op">(</span>“greek”<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        pizza <span class="op">=</span> <span class="kw">new</span> <span class="fu">GreekPizza</span><span class="op">();</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>type<span class="op">.</span><span class="fu">equals</span><span class="op">(</span>“pepperoni”<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        pizza <span class="op">=</span> <span class="kw">new</span> <span class="fu">PepperoniPizza</span><span class="op">();</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>type<span class="op">.</span><span class="fu">equals</span><span class="op">(</span>“clam”<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        pizza <span class="op">=</span> <span class="kw">new</span> <span class="fu">ClamPizza</span><span class="op">();</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>type<span class="op">.</span><span class="fu">equals</span><span class="op">(</span>“veggie”<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        pizza <span class="op">=</span> <span class="kw">new</span> <span class="fu">VeggiePizza</span><span class="op">();</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
             <ol start="2" type="1">
             <li>将相似对象中的通用的方法作为父类中的方法实现，同时将不同的行为作为抽象方法实现。</li>
             </ol>
-            <pre><code>public abstract class PizzaStore {
-    public Pizza orderPizza(String type) {
-        Pizza pizza;
-        pizza = createPizza(type);
-        pizza.prepare();
-        pizza.bake();
-        pizza.cut();
-        pizza.box();
-        return pizza;
-    }
-    protected abstract Pizza createPizza(String type);
-    // other methods here
-}</code></pre>
+            <div class="sourceCode" id="cb2"><pre
+            class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> PizzaStore <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> Pizza <span class="fu">orderPizza</span><span class="op">(</span><span class="bu">String</span> type<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        Pizza pizza<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        pizza <span class="op">=</span> <span class="fu">createPizza</span><span class="op">(</span>type<span class="op">);</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        pizza<span class="op">.</span><span class="fu">prepare</span><span class="op">();</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        pizza<span class="op">.</span><span class="fu">bake</span><span class="op">();</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        pizza<span class="op">.</span><span class="fu">cut</span><span class="op">();</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        pizza<span class="op">.</span><span class="fu">box</span><span class="op">();</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pizza<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">protected</span> <span class="kw">abstract</span> Pizza <span class="fu">createPizza</span><span class="op">(</span><span class="bu">String</span> type<span class="op">);</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// other methods here</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
             <p><strong>优点</strong></p>
             <ol type="1">
             <li>你可以确保同一工厂生成的产品相互匹配。</li>
@@ -93,21 +199,222 @@
             <li>保证一个类只有一个实例。</li>
             <li>为该实例提供一个全局访问点。</li>
             </ol>
-            <pre><code>class Singleton {
-public:
-    Singleton(const Singleton &amp;) = delete;
-    Singleton&amp; operator=(const Singleton &amp;) = delete;
-    static Singleton *get() {
-        if (!instance) {
-            instance = new Singleton();
-        }
-        return instance;
-    }
-private:
-    Singleton() {}
-    static Singleton *instance{nullptr};
-};</code></pre>
+            <div class="sourceCode" id="cb3"><pre
+            class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Singleton <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    Singleton<span class="op">(</span><span class="at">const</span> Singleton <span class="op">&amp;)</span> <span class="op">=</span> <span class="kw">delete</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    Singleton<span class="op">&amp;</span> <span class="kw">operator</span><span class="op">=(</span><span class="at">const</span> Singleton <span class="op">&amp;)</span> <span class="op">=</span> <span class="kw">delete</span><span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">static</span> Singleton <span class="op">*</span>get<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(!</span>instance<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>            instance <span class="op">=</span> <span class="kw">new</span> Singleton<span class="op">();</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> instance<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    Singleton<span class="op">()</span> <span class="op">{}</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">static</span> Singleton <span class="op">*</span>instance<span class="op">{</span><span class="kw">nullptr</span><span class="op">};</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
             <h2 id="原型模式">原型模式</h2>
+            <p>原型模式将克隆过程委派给被克隆的实际对象。
+            模式为所有支持克隆的对象声明了一个通用接口，
+            该接口让你能够克隆对象，
+            同时又无需将代码和对象所属类耦合。</p>
+            <div class="sourceCode" id="cb4"><pre
+            class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Prototype <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">virtual</span> <span class="op">~</span>Prototype<span class="op">()</span> <span class="op">{}</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">virtual</span> Prototype <span class="op">*</span>clone<span class="op">()</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">virtual</span> <span class="bu">std::</span>string<span class="op"> </span>type<span class="op">()</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ConcretePrototypeA<span class="op">:</span> <span class="kw">public</span> Prototype <span class="op">{</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">~</span>ConcretePrototypeA<span class="op">()</span> <span class="op">{}</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    Prototype <span class="op">*</span>clone<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="kw">new</span> ConcretePrototypeA<span class="op">();</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>string<span class="op"> </span>type<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">&quot;type A&quot;</span><span class="op">;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">// ConcretePrototypeB is the same</span></span></code></pre></div>
+            <h2 id="生成器模式">生成器模式</h2>
+            <p>分步创建复杂对象，生成器模式允许你使用相同的创建代码生成不同类型和形式的对象。</p>
+            <div class="sourceCode" id="cb5"><pre
+            class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Product <span class="op">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> makeA<span class="op">(</span><span class="at">const</span> <span class="bu">std::</span>string<span class="op"> &amp;</span>part<span class="op">)</span> <span class="op">{</span> partA <span class="op">=</span> part<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> makeB<span class="op">(</span><span class="at">const</span> <span class="bu">std::</span>string<span class="op"> &amp;</span>part<span class="op">)</span> <span class="op">{</span> partB <span class="op">=</span> part<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> makeC<span class="op">(</span><span class="at">const</span> <span class="bu">std::</span>string<span class="op"> &amp;</span>part<span class="op">)</span> <span class="op">{</span> partC <span class="op">=</span> part<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">std::</span>string<span class="op"> </span>partA<span class="op">,</span> partB<span class="op">,</span> partC<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Builder <span class="op">{</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">virtual</span> <span class="op">~</span>Builder<span class="op">()</span> <span class="op">{}</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    Product<span class="op">()</span> get<span class="op">()</span> <span class="op">{</span> <span class="cf">return</span> product<span class="op">;</span> <span class="op">}</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">virtual</span> <span class="dt">void</span> buildPartA <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">virtual</span> <span class="dt">void</span> buildPartB <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">virtual</span> <span class="dt">void</span> buildPartC <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="kw">protected</span><span class="op">:</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    Product product<span class="op">;</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ConcreteBuilder<span class="op">:</span> <span class="kw">public</span> Builder <span class="op">{</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">// different implementation of buildParts</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Director <span class="op">{</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> construct <span class="op">{</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        builder<span class="op">-&gt;</span>buildPartA<span class="op">();</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        builder<span class="op">-&gt;</span>buildPartB<span class="op">();</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        builder<span class="op">-&gt;</span>buildPartC<span class="op">();</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="op">};</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    Builder <span class="op">*</span>builder<span class="op">;</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+            <p><strong>实现步骤</strong></p>
+            <ol type="1">
+            <li>清晰地定义通用步骤， 确保它们可以制造所有形式的产品。
+            否则你将无法进一步实施该模式。</li>
+            <li>在基本生成器接口中声明这些步骤。</li>
+            <li>为每个形式的产品创建具体生成器类，
+            并实现其构造步骤。</li>
+            </ol>
+            <p>不要忘记实现获取构造结果对象的方法。
+            你不能在生成器接口中声明该方法，
+            因为不同生成器构造的产品可能没有公共接口，
+            因此你就不知道该方法返回的对象类型。 但是，
+            如果所有产品都位于单一类层次中，
+            你就可以安全地在基本接口中添加获取生成对象的方法。</p>
+            <ol start="4" type="1">
+            <li>考虑创建主管类。
+            它可以使用同一生成器对象来封装多种构造产品的方式。</li>
+            <li>客户端代码会同时创建生成器和主管对象。 构造开始前，
+            客户端必须将生成器对象传递给主管对象。 通常情况下，
+            客户端只需调用主管类构造函数一次即可。
+            主管类使用生成器对象完成后续所有制造任务。 还有另一种方式，
+            那就是客户端可以将生成器对象直接传递给主管类的制造方法。</li>
+            <li>只有在所有产品都遵循相同接口的情况下，
+            构造结果可以直接通过主管类获取。 否则，
+            客户端应当通过生成器获取构造结果。</li>
+            </ol>
+            <h2 id="适配器模式">适配器模式</h2>
+            <p>适配器模式将一个类的接口转化为另一个类的接口，适配器让不能一起工作的类可以一起工作。</p>
+            <p>适配器分类：对象适配器、类适配器</p>
+            <ul>
+            <li>类适配器</li>
+            </ul>
+            <div class="sourceCode" id="cb6"><pre
+            class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Target <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">virtual</span> <span class="op">~</span>Target<span class="op">()</span> <span class="op">{}</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">virtual</span> <span class="dt">void</span> request<span class="op">()</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Adaptee <span class="op">{</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">~</span>Adaptee<span class="op">()</span> <span class="op">{}</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> specificRequest<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        cout <span class="op">&lt;&lt;</span> <span class="st">&quot;specific request&quot;</span> <span class="op">&lt;&lt;</span> endl<span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Adatper<span class="op">:</span> <span class="kw">public</span> Target<span class="op">,</span> <span class="kw">private</span> Adaptee <span class="op">{</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">virtual</span> <span class="dt">void</span> request<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        specificRequest<span class="op">();</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+            <ul>
+            <li>对象适配器</li>
+            </ul>
+            <div class="sourceCode" id="cb7"><pre
+            class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Adatper<span class="op">:</span> <span class="kw">public</span> Target<span class="op">,</span> <span class="kw">private</span> Adaptee <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> request<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        adaptee<span class="op">-&gt;</span>specificRequest<span class="op">();</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    Adaptee adaptee<span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+            <h2 id="桥接模式">桥接模式</h2>
+            <p>桥接模式是一种结构型设计模式，
+            可将一个大类或一系列紧密相关的类拆分为抽象和实现两个独立的层次结构，
+            从而能在开发时分别使用。</p>
+            <p>抽象部分和实现部分是对最常使用该模式的问题的一类总结。比如跨平台GUI程序，抽象部分就是GUI的实现，实现部分指不同操作系统的底层API，为了让GUI在不同的OS上都能获取符合预期的行为，就引入的桥接模式来抽象这一过程。</p>
+            <figure>
+            <img src="./images/image_2022-06-07-15-42-20.png"
+            alt="桥接模式" />
+            <figcaption aria-hidden="true">桥接模式</figcaption>
+            </figure>
+            <p>举一个更加简单的例子。比如对于具有多种不同颜色、不同形状的物体，我们可以将颜色、形状抽象为两个不同的维度（类）。然后桥接模式在这个过程中会通过将继承改为组合来解决这个问题。</p>
+            <figure>
+            <img src="./images/image_2022-06-07-15-38-33.png"
+            alt="颜色，形状" />
+            <figcaption aria-hidden="true">颜色，形状</figcaption>
+            </figure>
+            <div class="sourceCode" id="cb8"><pre
+            class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Implementation <span class="op">{}</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ConcereteImplementationA<span class="op">:</span> <span class="kw">public</span> Implementation <span class="op">{}</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ConcereteImplementationB<span class="op">:</span> <span class="kw">public</span> Implementation <span class="op">{}</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Abstraction <span class="op">{</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">protected</span><span class="op">:</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    Implementation <span class="op">*</span><span class="va">implementation_</span><span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">virtual</span> string Operation<span class="op">()</span> <span class="at">const</span> <span class="op">{}</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExtendedAbstraction<span class="op">:</span> <span class="kw">public</span> Abstraction <span class="op">{}</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> ClientCode<span class="op">(</span><span class="at">const</span> Abstraction <span class="op">&amp;</span>abstraction<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    cout <span class="op">&lt;&lt;</span> abstraction<span class="op">.</span>Operation<span class="op">();</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+            <h2 id="组合模式">组合模式</h2>
+            <p>组合模式是一种结构型设计模式，
+            你可以使用它将对象组合成树状结构，
+            并且能像使用独立对象一样使用它们。</p>
+            <figure>
+            <img src="./images/image_2022-06-07-16-19-24.png"
+            alt="组合模式" />
+            <figcaption aria-hidden="true">组合模式</figcaption>
+            </figure>
+            <ol type="1">
+            <li>确保应用的核心模型能够以树状结构表示。
+            尝试将其分解为简单元素和容器。 记住，
+            容器必须能够同时包含简单元素和其他容器。</li>
+            <li>声明组件接口及其一系列方法，
+            这些方法对简单和复杂元素都有意义。</li>
+            <li>创建一个叶节点类表示简单元素。
+            程序中可以有多个不同的叶节点类。
+            创建一个容器类表示复杂元素。 在该类中，
+            创建一个数组成员变量来存储对于其子元素的引用。
+            该数组必须能够同时保存叶节点和容器，
+            因此请确保将其声明为组合接口类型。</li>
+            <li>实现组件接口方法时，
+            记住容器应该将大部分工作交给其子元素来完成。</li>
+            <li>最后， 在容器中定义添加和删除子元素的方法。</li>
+            </ol>
+            <h2 id="装饰模式">装饰模式</h2>
+            <p>通过装饰器封装和改变一个对象的行为。</p>
+            <figure>
+            <img src="./images/image_2022-06-07-20-21-32.png"
+            alt="装饰模式" />
+            <figcaption aria-hidden="true">装饰模式</figcaption>
+            </figure>
+            <h2 id="享元模式">享元模式</h2>
+            <p>对象的常量数据通常被称为内在状态， 其位于对象中，
+            其他对象只能读取但不能修改其数值。
+            而对象的其他状态常常能被其他对象 “从外部” 改变，
+            因此被称为外在状态。</p>
+            <p>享元模式建议不在对象中存储外在状态，
+            而是将其传递给依赖于它的一个特殊方法。
+            程序只在对象中保存内在状态， 以方便在不同情景下重用。</p>
             </div>
     </div>
   </div>
