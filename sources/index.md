@@ -8,7 +8,8 @@
 * [Reducibility](Reducibility.md)
 * [Complexity](Complexity.md)
 * [IPC](IPC.md)
-* [Design Pattern](Design_Pattern.md)
+* [Design Pattern](design_pattern/index.md)
+* [UML](UML.md)
 
 ## Data Structure
 
