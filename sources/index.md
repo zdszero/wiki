@@ -10,6 +10,7 @@
 * [IPC](IPC.md)
 * [Design Pattern](design_pattern/index.md)
 * [UML](UML.md)
+* [advanced_os](advanced_os.md)
 
 ## Data Structure
 

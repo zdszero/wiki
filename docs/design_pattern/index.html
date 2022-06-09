@@ -121,6 +121,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li><a href="#备忘录模式">备忘录模式</a></li>
         <li><a href="#观察者模式">观察者模式</a></li>
         <li><a href="#状态模式">状态模式</a></li>
+        <li><a href="#策略模式">策略模式</a></li>
+        <li><a href="#访问者">访问者</a></li>
         </ul>
 
         </div>
@@ -627,6 +629,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <p>状态模式是一种行为设计模式，
             让你能在一个对象的内部状态变化时改变其行为，
             使其看上去就像改变了自身所属的类一样。</p>
+            <p>状态模式建议为对象的所有可能状态新建一个类，
+            然后将所有状态的对应行为抽取到这些类中。</p>
+            <p>原始对象被称为上下文 （context），
+            它并不会自行实现所有行为，
+            而是会保存一个指向表示当前状态的状态对象的引用，
+            且将所有与状态相关的工作委派给该对象。</p>
+            <figure>
+            <img src=".././images/image_2022-06-09-09-05-04.png"
+            alt="状态模式" />
+            <figcaption aria-hidden="true">状态模式</figcaption>
+            </figure>
+            <ul>
+            <li>与策略模式的不同点：</li>
+            </ul>
+            <p>这个结构可能看上去与策略模式相似，
+            但有一个关键性的不同——在状态模式中，
+            特定状态知道其他所有状态的存在，
+            且能触发从一个状态到另一个状态的转换；
+            策略则几乎完全不知道其他策略的存在。</p>
+            <div class="sourceCode" id="cb13"><pre
+            class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> State <span class="op">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">protected</span><span class="op">:</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    Context <span class="op">*</span><span class="va">context_</span><span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">virtual</span> <span class="op">~</span>State<span class="op">()</span> <span class="op">{}</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">virtual</span> <span class="dt">void</span> Handle<span class="op">()</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ConcreteStateA <span class="op">{};</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Context <span class="op">{</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="kw">private</span><span class="op">:</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    State <span class="op">*</span><span class="va">state_</span><span class="op">;</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    Context<span class="op">(</span>State <span class="op">*</span>state<span class="op">):</span> <span class="va">state_</span><span class="op">(</span><span class="kw">nullptr</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">-&gt;</span>TransitionTo<span class="op">(</span>state<span class="op">);</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">~</span>Context<span class="op">()</span> <span class="op">{</span> <span class="kw">delete</span> <span class="va">state_</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> TransitionTo<span class="op">();</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">void</span> Request<span class="op">();</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+            <h2 id="策略模式">策略模式</h2>
+            <p>策略模式是一种行为设计模式， 它能让你定义一系列算法，
+            并将每种算法分别放入独立的类中，
+            以使算法的对象能够相互替换。</p>
+            <figure>
+            <img src=".././images/image_2022-06-09-09-22-23.png"
+            alt="策略模式" />
+            <figcaption aria-hidden="true">策略模式</figcaption>
+            </figure>
+            <h2 id="访问者">访问者</h2>
+            <p>访问者模式是一种行为设计模式，
+            它能将算法与其所作用的对象隔离开来。</p>
+            <figure>
+            <img src=".././images/image_2022-06-09-09-39-49.png"
+            alt="访问者模式" />
+            <figcaption aria-hidden="true">访问者模式</figcaption>
+            </figure>
             </div>
     </div>
   </div>

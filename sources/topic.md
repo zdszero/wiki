@@ -2,10 +2,6 @@
 % zdszero
 % 2022-05-26
 
-## chatting
-
-把握好节奏感，
-
 ## story
 
 ## joke

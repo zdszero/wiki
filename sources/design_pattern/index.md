@@ -464,3 +464,49 @@ private:
 ## 状态模式
 
 状态模式是一种行为设计模式， 让你能在一个对象的内部状态变化时改变其行为， 使其看上去就像改变了自身所属的类一样。
+
+状态模式建议为对象的所有可能状态新建一个类， 然后将所有状态的对应行为抽取到这些类中。
+
+原始对象被称为上下文 （context）， 它并不会自行实现所有行为， 而是会保存一个指向表示当前状态的状态对象的引用， 且将所有与状态相关的工作委派给该对象。
+
+![状态模式](../../docs/images/image_2022-06-09-09-05-04.png)
+
+* 与策略模式的不同点：
+
+这个结构可能看上去与策略模式相似， 但有一个关键性的不同——在状态模式中， 特定状态知道其他所有状态的存在， 且能触发从一个状态到另一个状态的转换； 策略则几乎完全不知道其他策略的存在。
+
+```cpp
+class State {
+protected:
+    Context *context_;
+public:
+    virtual ~State() {}
+    virtual void Handle() = 0;
+};
+
+class ConcreteStateA {};
+
+class Context {
+private:
+    State *state_;
+public:
+    Context(State *state): state_(nullptr) {
+        this->TransitionTo(state);
+    }
+    ~Context() { delete state_; }
+    void TransitionTo();
+    void Request();
+};
+```
+
+## 策略模式
+
+策略模式是一种行为设计模式， 它能让你定义一系列算法， 并将每种算法分别放入独立的类中， 以使算法的对象能够相互替换。
+
+![策略模式](../../docs/images/image_2022-06-09-09-22-23.png)
+
+## 访问者
+
+访问者模式是一种行为设计模式， 它能将算法与其所作用的对象隔离开来。
+
+![访问者模式](../../docs/images/image_2022-06-09-09-39-49.png)
