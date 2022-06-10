@@ -17,6 +17,9 @@
   <meta name="date" content="2022-06-09" />
   <title>advanced_os</title>
   <style type="text/css">code{white-space: pre;}</style>
+  <script
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+  type="text/javascript"></script>
 </head>
 <body>
 
@@ -34,7 +37,34 @@
   </div>
     <div class="container">
     <div class="row">
-            <div class="span12">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#序章">序章</a></li>
+        <li><a href="#同步">同步</a>
+        <ul>
+        <li><a href="#时钟同步">时钟同步</a></li>
+        <li><a href="#分布式互斥">分布式互斥</a></li>
+        <li><a href="#分布式选举">分布式选举</a></li>
+        <li><a href="#原子事务">原子事务</a></li>
+        <li><a href="#分布式系统死锁">分布式系统死锁</a></li>
+        </ul></li>
+        <li><a href="#路由算法">路由算法</a>
+        <ul>
+        <li><a
+        href="#一般类型网络的最短路径路由算法">一般类型网络的最短路径路由算法</a></li>
+        <li><a
+        href="#特殊类型网络的单播路由算法">特殊类型网络的单播路由算法</a></li>
+        <li><a
+        href="#特殊类型网络的多播路由算法">特殊类型网络的多播路由算法</a></li>
+        </ul></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h2 id="序章">序章</h2>
             <ul>
             <li>什么是分布式系统？</li>
             </ul>
@@ -62,6 +92,176 @@
             <p>我们把所有MIMD分为两类：具有共享存储器的多处理器系统；没有共享存储器的多计算机系统。</p>
             <p>根据互连网络结构的不同，以上两个分类还可进一步细分：总线型、开关型。</p>
             <p>另一种分类：紧耦合、松散耦合</p>
+            <h2 id="同步">同步</h2>
+            <h3 id="时钟同步">时钟同步</h3>
+            <p><strong>逻辑时钟同步算法</strong></p>
+            <p>我们不关系绝对时间是否准备，只要所有的机器都认同一个逻辑时间就可以，这样就可以保持相对时间前后的关系。</p>
+            <ul>
+            <li><strong>Lamport算法</strong></li>
+            </ul>
+            <ol type="1">
+            <li>在同一进程中，如果事件a在事件b之前发生，则<span
+            class="math inline">\(C(a) &lt; C(b)\)</span></li>
+            <li>如果a和b分别是一个消息的发送和接收事件，则<span
+            class="math inline">\(C(a) &lt; C(b)\)</span></li>
+            <li>对所有事件a和b，<span class="math inline">\(C(a) \ne
+            C(b)\)</span></li>
+            </ol>
+            <p>每一个消息都含有一个发送者时钟的发送时间,当消息到达时,接收者将自己时钟的接收时间与发送时间相比较。如果接收时间小于等于发送时间,则接收者的时钟被修改成发送时间加1。如果接收时间大于发送时间,则不改变接收者的时钟。</p>
+            <p><strong>物理时钟同步算法</strong></p>
+            <ul>
+            <li><strong>Cristian算法</strong></li>
+            </ul>
+            <p>使用集中的时间服务器对所有的机器进行同步。</p>
+            <p>设<span
+            class="math inline">\(\rho\)</span>为最大漂移率，则若要保证两个时钟相差不超过<span
+            class="math inline">\(\delta\)</span>，则时钟必须每<span
+            class="math inline">\(\delta /
+            2\rho\)</span>秒就同步一次，每台机器周期性地向时间服务器请求当前的时间。</p>
+            <ul>
+            <li><strong>Berkeley算法</strong></li>
+            </ul>
+            <p>时间服务器周期地轮询每一个机器当前的时间。收到所有机器当前时间后,计算其平均值。然后,将该平均值发送给每一个机器。每一个机器都将自己的时钟调到这个平均值。</p>
+            <ul>
+            <li><strong>非集中时钟同步</strong></li>
+            </ul>
+            <p>每隔一段时间每个机器广播自己的当前时间，然后每个机器受到其他所有机器的当前时间后，计算平均值。</p>
+            <h3 id="分布式互斥">分布式互斥</h3>
+            <ul>
+            <li><strong>集中式互斥算法</strong></li>
+            <li><strong>分布式互斥算法</strong></li>
+            <li><strong>令牌环算法</strong></li>
+            </ul>
+            <h3 id="分布式选举">分布式选举</h3>
+            <ul>
+            <li><strong>欺负（bully）算法</strong></li>
+            </ul>
+            <p>某一个发现leader无相应的向其他所有序号比它大的机器发送ELECTION请求，返回OK说明有比它大的机器，当前机器放弃成为leader，然后这样迭代进行，直到选出一个leader，然后leader向其他所有机器发送COORDINATOR消息。</p>
+            <ul>
+            <li><strong>环算法</strong></li>
+            </ul>
+            <h3 id="原子事务">原子事务</h3>
+            <ul>
+            <li><strong>事务的特性</strong></li>
+            </ul>
+            <ol type="1">
+            <li>A: 全做或全部做</li>
+            <li>C: 系统的不变量在事务执行过程保持不变</li>
+            <li>I: 并发执行的事务与某个串行调度相同</li>
+            <li>D: 事务提交后不会丢失</li>
+            </ol>
+            <ul>
+            <li><strong>并发控制</strong></li>
+            </ul>
+            <p>加锁，2PL locking</p>
+            <p>乐观并发控制</p>
+            <h3 id="分布式系统死锁">分布式系统死锁</h3>
+            <ul>
+            <li><strong>分类</strong></li>
+            </ul>
+            <p>通信死锁、资源死锁</p>
+            <ul>
+            <li><strong>死锁处理方案</strong></li>
+            </ul>
+            <p>鸵鸟算法、检测、预防、避免</p>
+            <ul>
+            <li><strong>分布式死锁检测</strong></li>
+            </ul>
+            <p>协调者：通过一个协调者保存系统中的所有资源信息，以及资源的持有情况。</p>
+            <p>假死锁：</p>
+            <p>Chandy-Misra-Haas算法：message =
+            <code>&lt;blocking pid, sender pid, receiver pid&gt;</code>，通过DFS不断修改<code>sender pid</code>和<code>receiver pid</code>并且发送，若消息转了一圈又到发送者，则说明系统存在死锁。</p>
+            <ul>
+            <li><strong>分布式死锁预防</strong></li>
+            </ul>
+            <p>基于timestamp的 <em>wait die</em> 和 <em>wound
+            wait</em></p>
+            <p>Similarity: The older transaction will “win” over the
+            newer transaction</p>
+            <p>Difference:</p>
+            <pre><code>Wait-die:
+    The newer transactions are killed when:
+        It (= the newer transaction) makes a reqeust for a lock being held by an older transactions
+Wound-wait:
+    The newer transactions are killed when:
+        An older transaction makes a request for a lock being held by the newer transactions</code></pre>
+            <p>对于 <em>wait
+            die</em>，在老事务释放资源之前，新事务可能会多次abort自己，<em>wound
+            wait</em> 没有这么差的特性。</p>
+            <h2 id="路由算法">路由算法</h2>
+            <h3
+            id="一般类型网络的最短路径路由算法">一般类型网络的最短路径路由算法</h3>
+            <ul>
+            <li><p><strong>djkstra</strong></p></li>
+            <li><p><strong>ford</strong></p></li>
+            </ul>
+            <pre><code>init: d = destination, set D(d) = 0, mark all other nodes as (., ∞)
+
+foreach v != d
+    foreach adjacent node w of v
+        D(v) := min{D(v), D(w) + l(w, v)}
+    endfor
+endfor
+repeat the above operations util no change is made</code></pre>
+            <ul>
+            <li><strong>ARPAnet</strong></li>
+            </ul>
+            <p>与Ford算法比较相似，不同点如下：</p>
+            <ul>
+            <li>算法中的节点都维护一个一般化的路由表
+            <ul>
+            <li>这个路由表包含从这个节点到所有其它节点的最优路径的延迟</li>
+            </ul></li>
+            <li>每隔固定的时间间隔，路由表就被传送到它的所有邻接节点，直到最小延迟表在某一点达到稳定为止。</li>
+            </ul>
+            <h3
+            id="特殊类型网络的单播路由算法">特殊类型网络的单播路由算法</h3>
+            <ul>
+            <li><p><strong>双向环</strong></p></li>
+            <li><p><strong>2维网格</strong></p></li>
+            </ul>
+            <figure>
+            <img src="./images/image_2022-06-10-15-31-03.png"
+            alt="(1) (2) (3)" />
+            <figcaption aria-hidden="true">(1) (2) (3)</figcaption>
+            </figure>
+            <figure>
+            <img src="./images/image_2022-06-10-15-32-02.png"
+            alt="(4)" />
+            <figcaption aria-hidden="true">(4)</figcaption>
+            </figure>
+            <ol type="1">
+            <li>XY路由</li>
+            <li>最短且完全适应路由</li>
+            <li>折线路由</li>
+            <li>最大最短路径路由</li>
+            </ol>
+            <p>方案(1)(2)(3)适用于网格，方案(4)适用于圆环</p>
+            <ul>
+            <li><strong>超立方</strong></li>
+            </ul>
+            <p><span
+            class="math inline">\(Q_{0}\)</span>，是只有一个节点的退化图</p>
+            <p><span class="math inline">\(Q_{n} = K_{2} \times
+            Q_{n-1}\)</span>，具有<span
+            class="math inline">\(2^n\)</span>个节点，其中每一个节点的地址可以表示为<span
+            class="math inline">\(u = u_{n}u_{n-1} \cdots
+            u_{1}\)</span></p>
+            <p>两个节点<span class="math inline">\(\mu,
+            \omega\)</span>的最短路径长度（海明距离）为<span
+            class="math inline">\(H(\mu, \omega) = \sum_{i=1}^{n}
+            h(\mu_{i}, \omega_{i})\)</span>，其中<span
+            class="math inline">\(h(\mu_{i}, \omega_{i}) =
+            \begin{cases}  1 \text{, if $u_{i} \ne \omega_{i}$}\\  0
+            \text{, if $\mu_{i} = \omega_{i}$} \end{cases}\)</span></p>
+            <h3
+            id="特殊类型网络的多播路由算法">特殊类型网络的多播路由算法</h3>
+            <ul>
+            <li><p><strong>基于路径的方法</strong></p></li>
+            <li><p><strong>基于树的方法</strong></p></li>
+            </ul>
+            <p>Lan贪婪组播算法</p>
+            <p>U-网格算法</p>
             </div>
     </div>
   </div>
