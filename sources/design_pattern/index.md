@@ -78,48 +78,7 @@
 
 ## 工厂模式
 
-1. 有时候对象的创建可能需要多个步骤，可以将创建过程进行封装。
-
-```java
-Pizza createPizza(String type) {
-    if (type.equals(“cheese”)) {
-        pizza = new CheesePizza();
-    } else if (type.equals(“greek”) {
-        pizza = new GreekPizza();
-    } else if (type.equals(“pepperoni”) {
-        pizza = new PepperoniPizza();
-    } else if (type.equals(“clam”) {
-        pizza = new ClamPizza();
-    } else if (type.equals(“veggie”) {
-        pizza = new VeggiePizza();
-    }
-}
-```
-
-2. 将相似对象中的通用的方法作为父类中的方法实现，同时将不同的行为作为抽象方法实现。
-
-```java
-public abstract class PizzaStore {
-    public Pizza orderPizza(String type) {
-        Pizza pizza;
-        pizza = createPizza(type);
-        pizza.prepare();
-        pizza.bake();
-        pizza.cut();
-        pizza.box();
-        return pizza;
-    }
-    protected abstract Pizza createPizza(String type);
-    // other methods here
-}
-```
-
-**优点**
-
-1. 你可以确保同一工厂生成的产品相互匹配。
-2. 你可以避免客户端和具体产品代码的耦合。
-3. 单一职责原则。 你可以将产品生成代码抽取到同一位置， 使得代码易于维护。
-4. 开闭原则。 向应用程序中引入新产品变体时， 你无需修改客户端代码。
+![工厂模式](../../docs/images/image_2022-06-12-10-05-20.png)
 
 ## 单例模式
 
@@ -147,6 +106,8 @@ private:
 
 原型模式将克隆过程委派给被克隆的实际对象。 模式为所有支持克隆的对象声明了一个通用接口， 该接口让你能够克隆对象， 同时又无需将代码和对象所属类耦合。
 
+![原型模式](../../docs/images/image_2022-06-12-10-06-59.png)
+
 ```cpp
 class Prototype {
 public:
@@ -173,6 +134,8 @@ public:
 ## 生成器模式
 
 分步创建复杂对象，生成器模式允许你使用相同的创建代码生成不同类型和形式的对象。
+
+![生成器模式](../../docs/images/image_2022-06-12-10-07-31.png)
 
 ```cpp
 class Product {
@@ -231,6 +194,8 @@ private:
 
 * 类适配器
 
+![类适配器](../../docs/images/image_2022-06-12-10-08-54.png)
+
 ```cpp
 class Target {
 public:
@@ -255,6 +220,8 @@ public:
 ```
 
 * 对象适配器
+
+![对象适配器](../../docs/images/image_2022-06-12-10-09-08.png)
 
 ```cpp
 class Adatper: public Target, private Adaptee {

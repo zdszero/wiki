@@ -49,6 +49,7 @@
 * [Diary](diary/diary.md)
 * [Books](books/index.md)
 * [EQ](EQ.md)
+* [goal](goal.md)
 * [photo](photo.md)
 * [wearing](wearing.md)
 * [topic](topic.md)
