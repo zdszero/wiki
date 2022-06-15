@@ -71,9 +71,9 @@ use TM convert REX to NFA first
 
 4. $E_{DFA} = \text{\{ <A> | A is a DFA and L(A) = $\emptyset$ \}}$
 
-use bfs to traverse all states
+use bfs to traverse all states to see if there is accept state
 
-5. $DQ_{DFA} = \text{\{ <A,B> | A and B are DFAs and L(A) = L(B) \}}$
+5. $EQ_{DFA} = \text{\{ <A,B> | A and B are DFAs and L(A) = L(B) \}}$
 
 $$
 L(C) = (L(A) \cap \overline{L(B)}) \cup (\overline{L(A)} \cap L(B))

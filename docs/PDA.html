@@ -1,0 +1,131 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="./css/template.css" />
+    <link rel="stylesheet" type="text/css" href="./css/elegant_bootstrap.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-06-15" />
+  <title>PDA</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+  type="text/javascript"></script>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">PDA</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-06-15</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#context-free-grammers"
+        id="toc-context-free-grammers">Context-free Grammers</a>
+        <ul>
+        <li><a href="#def" id="toc-def">def</a></li>
+        <li><a href="#ambiguity" id="toc-ambiguity">ambiguity</a></li>
+        <li><a href="#cnf" id="toc-cnf">CNF</a></li>
+        </ul></li>
+        <li><a href="#pda" id="toc-pda">PDA</a></li>
+        <li><a href="#pumping-lemma" id="toc-pumping-lemma">pumping
+        lemma</a></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h2 id="context-free-grammers">Context-free Grammers</h2>
+            <h3 id="def">def</h3>
+            <p>4-tuple <span class="math inline">\((V, \Sigma, R,
+            S)\)</span></p>
+            <p>variables, terminals, rules, start variable</p>
+            <h3 id="ambiguity">ambiguity</h3>
+            <p>二义性文法：某个串可以通过两种不同的最左推导得到。</p>
+            <h3 id="cnf">CNF</h3>
+            <p>grammar is in <code>Chomsky Normal Form</code> if every
+            rule is of the form</p>
+            <p><span class="math display">\[A \rightarrow
+            BC\]</span></p>
+            <p><span class="math display">\[A \rightarrow a\]</span></p>
+            <ul>
+            <li>a: terminal</li>
+            <li>A、B、C: variables</li>
+            <li><span class="math inline">\(S \rightarrow
+            \varepsilon\)</span> is permitted</li>
+            </ul>
+            <p><strong>convert grammar into CNF</strong></p>
+            <ol type="1">
+            <li>add a new start variable</li>
+            <li>remove <span
+            class="math inline">\(\varepsilon\)</span>-productions: from
+            bottom to top</li>
+            <li>remove unit-productions</li>
+            </ol>
+            <p><span class="math inline">\(A \rightarrow B\)</span>
+            where B is also a production</p>
+            <ol start="4" type="1">
+            <li>add new variables as need</li>
+            </ol>
+            <p>adhere to <span class="math inline">\(A \rightarrow
+            a\)</span> and <span class="math inline">\(A \rightarrow
+            BC\)</span></p>
+            <h2 id="pda">PDA</h2>
+            <p>6-tuple <span class="math inline">\((Q, \Sigma, \Gamma,
+            \delta, q_{0}, F)\)</span></p>
+            <ol type="1">
+            <li>Q: set of states</li>
+            <li><span class="math inline">\(\Sigma\)</span>: input
+            alphabet</li>
+            <li><span class="math inline">\(\Gamma\)</span>: stack
+            alphabet</li>
+            <li><span class="math inline">\(\delta: Q \times
+            \Sigma_{\varepsilon} \times \Gamma_{\varepsilon} \rightarrow
+            P(Q \times \Gamma_{\varepsilon})\)</span></li>
+            <li><span class="math inline">\(q_{0}\)</span>: start
+            state</li>
+            <li><span class="math inline">\(F\)</span>: accept
+            states</li>
+            </ol>
+            <h2 id="pumping-lemma">pumping lemma</h2>
+            <p>如果一个语言s是上下文无关，则它的所有串可以被拆分为s =
+            uvxyz，并且满足如下条件</p>
+            <ol type="1">
+            <li>for each <span class="math inline">\(i \ge 0\)</span>,
+            <span class="math inline">\(uv^{i}xy^{i}z \in
+            A\)</span></li>
+            <li><span class="math inline">\(|vy| &gt; 0\)</span></li>
+            <li><span class="math inline">\(|vxy| \le
+            p\)</span>，这里p叫做pumping
+            length，可以为任意值，对于一个实例设定一个值就可以</li>
+            </ol>
+            <p>证明一个语言不是正则语言，举一个反例不满足pumping
+            lemma即可</p>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>

@@ -3,6 +3,8 @@
 
 ## Computer
 
+* [DFA](DFA.md)
+* [PDA](PDA.md)
 * [Thuring](Thuring.md)
 * [Decidability](Decidability.md)
 * [Reducibility](Reducibility.md)
@@ -49,6 +51,7 @@
 * [Diary](diary/diary.md)
 * [Books](books/index.md)
 * [EQ](EQ.md)
+* [better man](better_man.md)
 * [goal](goal.md)
 * [photo](photo.md)
 * [wearing](wearing.md)
