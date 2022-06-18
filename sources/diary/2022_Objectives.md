@@ -11,6 +11,18 @@
 - [x] 少玩手机
 - [ ] 变帅，衣品变好
 
+## Working
+
+- [x] 华为软件精英挑战赛
+- [ ] OceanBase 数据库比赛
+- [ ] google kickstart any round
+- [ ] IELTS 7.5
+
+## Course
+
+- [ ] MIT 6.824
+- [x] Finish CMU 15445, Take Notes on Database
+
 ## Books
 
 read the following books
@@ -25,17 +37,9 @@ read the following books
 - [ ] 聪明的投资者
 - [ ] 手把手教你读财报
 
-## Working
-
-- [x] 华为软件精英挑战赛
-- [ ] OceanBase 数据库比赛
-- [ ] Google KickStart Any Round
-
 ## Study
 
 - [ ] Learn nginx and test it
 - [ ] Learn simple muduo
 - [ ] Reading Python Internal Module Source Code: ThreadPool, Asyncio ...
-- [ ] MIT 6.824
-- [x] Finish CMU 15445, Take Notes on Database
 - [x] Vim Markdown Wiki Plugin
