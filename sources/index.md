@@ -19,6 +19,11 @@
 * [extendible_hash](extendible_hash.md)
 * [AVL](AVL.md)
 
+## Distributed System
+
+[intro](distributed/intro.md)
+[mapreduce](distributed/mapreduce.md)
+
 ## Shell
 
 * [git](./git.md)
@@ -52,7 +57,7 @@
 * [Books](books/index.md)
 * [EQ](EQ.md)
 * [better man](better_man.md)
-* [goal](goal.md)
+* [exercise](exercise.md)
 * [photo](photo.md)
 * [wearing](wearing.md)
 * [topic](topic.md)
