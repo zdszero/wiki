@@ -45,7 +45,18 @@
         <li><a href="#worker" id="toc-worker">worker</a></li>
         </ul></li>
         <li><a href="#fault-tolerance" id="toc-fault-tolerance">fault
-        tolerance</a></li>
+        tolerance</a>
+        <ul>
+        <li><a href="#worker-failure" id="toc-worker-failure">worker
+        failure</a></li>
+        <li><a href="#master-failure" id="toc-master-failure">master
+        failure</a></li>
+        </ul></li>
+        <li><a href="#locality" id="toc-locality">locality</a></li>
+        <li><a href="#back-tasks" id="toc-back-tasks">back
+        tasks</a></li>
+        <li><a href="#refinements"
+        id="toc-refinements">refinements</a></li>
         </ul>
 
         </div>
@@ -69,6 +80,33 @@
             <p>identidy of each worker machine</p>
             <h3 id="worker">worker</h3>
             <h2 id="fault-tolerance">fault tolerance</h2>
+            <h3 id="worker-failure">worker failure</h3>
+            <p>master pings every worker at some interval</p>
+            <h3 id="master-failure">master failure</h3>
+            <p>master write periodic checkpoints of the master data
+            structure, if master dies, a new copy can be started from
+            the last checkpoint.</p>
+            <h2 id="locality">locality</h2>
+            <p>GFS</p>
+            <p>master takes the file locations into account and attempts
+            to schedule task according to the information</p>
+            <h2 id="back-tasks">back tasks</h2>
+            <p>straggler: some machine that is very slow</p>
+            <p>When a MapReduce operation is close to completion, the
+            master schedules backup executions of the remaining
+            in-progress tasks. The task is marked as completed whenever
+            either the primary or the backup execution completes</p>
+            <h2 id="refinements">refinements</h2>
+            <ul>
+            <li>partitioning functions: split some content into a
+            partition</li>
+            <li>ordering garantee</li>
+            <li>combinator functions</li>
+            <li>various input and output types</li>
+            <li>skipping bad records</li>
+            <li>sequential local execution for debugging</li>
+            <li>counters</li>
+            </ul>
             </div>
     </div>
   </div>

@@ -55,12 +55,7 @@
 
 * [Diary](diary/diary.md)
 * [Books](books/index.md)
-* [EQ](EQ.md)
-* [better man](better_man.md)
-* [exercise](exercise.md)
-* [photo](photo.md)
-* [wearing](wearing.md)
-* [topic](topic.md)
+* [Life](life/index.md)
 * [study](study.md)
 * [videos](videos.md)
 * [useful links](useful_links.md)
