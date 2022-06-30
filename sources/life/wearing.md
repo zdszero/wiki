@@ -9,6 +9,13 @@
 
 ## 常见尺码记忆
 
+## 技巧
+
+* less is more，minimal is better for the most of time
+* 修身风格更加适合我
+* 内搭与裤子（裤子和鞋子）同色可以显得人更高
+* 用饰品点缀你的穿搭
+
 ## 基本搭配
 
 ### 衣服
