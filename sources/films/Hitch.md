@@ -2,9 +2,7 @@
 % zdszero
 % 2022-06-26
 
-**全名情敌**
-
-* **告白片段**
+* **confession**
 
 Because that's what people do
 
