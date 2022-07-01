@@ -23,6 +23,7 @@
 
 [intro](distributed/intro.md)
 [mapreduce](distributed/mapreduce.md)
+[gfs](distributed/gfs.md)
 
 ## Shell
 
@@ -53,12 +54,11 @@
 
 ## Other Links
 
-* [Diary](diary/diary.md)
+* [Diary](diary/index.md)
 * [Books](books/index.md)
-* [Life](life/index.md)
+* [Life](life/life.md)
 * [Films](films/index.md)
 * [Thoughts](Thoughts/index.md)
-* [TMP](TMP.md)
 * [study](study.md)
 * [videos](videos.md)
 * [useful links](useful_links.md)

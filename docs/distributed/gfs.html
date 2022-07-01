@@ -1,0 +1,101 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="../css/template.css" />
+    <link rel="stylesheet" type="text/css" href="../css/elegant_bootstrap.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-07-01" />
+  <title>gfs</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">gfs</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-07-01</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#思考" id="toc-思考">思考</a></li>
+        <li><a href="#intro" id="toc-intro">intro</a></li>
+        <li><a href="#design" id="toc-design">design</a>
+        <ul>
+        <li><a href="#assumption"
+        id="toc-assumption">assumption</a></li>
+        <li><a href="#interface" id="toc-interface">interface</a></li>
+        <li><a href="#architecture"
+        id="toc-architecture">architecture</a></li>
+        <li><a href="#metadata" id="toc-metadata">metadata</a></li>
+        </ul></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <p><strong>Google File System</strong>: a distributed file
+            system that work on a large cluster</p>
+            <h2 id="思考">思考</h2>
+            <ol type="1">
+            <li>master</li>
+            </ol>
+            <h2 id="intro">intro</h2>
+            <ol type="1">
+            <li>components failures are common</li>
+            <li>files are huge</li>
+            <li>most files are mutated by appending new data</li>
+            </ol>
+            <h2 id="design">design</h2>
+            <h3 id="assumption">assumption</h3>
+            <p>read: large read most of the time, some times random
+            small reads</p>
+            <h3 id="interface">interface</h3>
+            <p>not posix compliant, usual operations are supported:
+            <code>create, delete, open, close, read, write</code></p>
+            <p>additional operations:
+            <code>snapshot, record append</code></p>
+            <p>snapshot: create a copy at low cost</p>
+            <p>record append: concurrent append from multiple users with
+            atomicity</p>
+            <h3 id="architecture">architecture</h3>
+            <figure>
+            <img src=".././images/image_2022-07-01-16-08-15.png"
+            alt="gfs architecture" />
+            <figcaption aria-hidden="true">gfs architecture</figcaption>
+            </figure>
+            <p><strong>defs</strong></p>
+            <ul>
+            <li>master</li>
+            <li>chunkserver</li>
+            <li>client</li>
+            <li>chunks</li>
+            </ul>
+            <h3 id="metadata">metadata</h3>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>

@@ -8,6 +8,6 @@
 * [better man](better_man.md)
 * [haircut](haircut.md)
 * [exercise](exercise.md)
-* [photo](photo.md)
-* [wearing](wearing.md)
+* [photoing](./photoing.md)
+* [dressing](./dressing.md)
 * [topic](topic.md)
