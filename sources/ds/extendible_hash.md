@@ -1,5 +1,7 @@
 % extendible_hash
 
+![extendible_hash demo](../../docs/images/image_2022-07-02-12-03-53.png)
+
 <Key, Value> is stored in bucket
 
 Use Hash(Key) and global depth to get the index of the bucket which stores the <Key, Value>

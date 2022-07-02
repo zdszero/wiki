@@ -4,15 +4,23 @@
 
 **Google File System**: a distributed file system that work on a large cluster
 
-## 思考
-
-1. master
-
 ## intro
 
 1. components failures are common
 2. files are huge
 3. most files are mutated by appending new data
+
+**why hard?**
+
+* performance --> sharding
+* faults      --> tolerance
+* tolerance   --> replication
+* replication --> inconsistency
+* consistency --> low performance
+
+**tags**
+
+big, fast, global, sharding, automatic recovery
 
 ## design
 
@@ -42,3 +50,34 @@ record append: concurrent append from multiple users with atomicity
 * chunks
 
 ### metadata
+
+**chunk locations**
+
+poll chunkservers for that information at startup
+
+**operation log**
+
+critical, replicate it on multiple remote machines
+
+## system interaction
+
+![write control and data flow](../../docs/images/image_2022-07-02-20-24-30.png)
+
+**READ**
+
+1. name, offset → M
+2. 
+
+## master operation
+
+**master data**
+
+filename ---> array of chunk handler (NV)
+
+handle ---> list of chunkservers (V), version (NV), primary (V), lease expiration (V)
+
+log, checkpoint ---- disk
+
+**namespace management and locking**
+
+**garbage collection**

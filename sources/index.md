@@ -16,8 +16,8 @@
 
 ## Data Structure
 
-* [extendible_hash](extendible_hash.md)
-* [AVL](AVL.md)
+* [extendible_hash](./ds/extendible_hash.md)
+* [AVL](./ds/AVL.md)
 
 ## Distributed System
 
@@ -27,30 +27,30 @@
 
 ## Shell
 
-* [git](./git.md)
-* [docker](docker.md)
-* [network](network.md)
-* [regex](regex.md)
+* [git](./shell/git.md)
+* [docker](./shell/docker.md)
+* [network](./shell/network.md)
+* [regex](./shell/regex.md)
 
 ## Network
 
-* [ARQ](ARQ.md)
-* [socks](socks.md)
-* [http](http.md)
-* [web](web.md)
-* [io_multiplex](io_multiplex.md)
-* [advanced network review](./advanced_network_review.md)
+* [ARQ](./network/ARQ.md)
+* [socks](./network/socks.md)
+* [http](./network/http.md)
+* [web](./network/web.md)
+* [io_multiplex](./network/io_multiplex.md)
+* [advanced network review](./network/advanced_network_review.md)
 
 ## Python
 
-* [vim](vim.md)
-* [function](function.md)
-* [utils](utils.md)
-* [parallelism](parallelism.md)
-* [types](types.md)
-* [asyncio](asyncio.md)
-* [socket](socket.md)
-* [oop](./oop.md)
+* [vim](./python/vim.md)
+* [function](./python/function.md)
+* [utils](./python/utils.md)
+* [parallelism](./python/parallelism.md)
+* [types](./python/types.md)
+* [asyncio](./python/asyncio.md)
+* [socket](./python/socket.md)
+* [oop](./python/oop.md)
 
 ## Other Links
 

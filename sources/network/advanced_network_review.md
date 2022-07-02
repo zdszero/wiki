@@ -14,7 +14,7 @@
     * switch: `[0, k-1]`, starting from bottom to top, left to right
 * adddress of a host: `10.pod.switch.ID`
 
-![fat tree demo](../docs/images/fat_tree_demo.png)
+![fat tree demo](../../docs/images/fat_tree_demo.png)
 
 ### routing algorithm
 

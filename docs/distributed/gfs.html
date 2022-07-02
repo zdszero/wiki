@@ -38,7 +38,6 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#思考" id="toc-思考">思考</a></li>
         <li><a href="#intro" id="toc-intro">intro</a></li>
         <li><a href="#design" id="toc-design">design</a>
         <ul>
@@ -49,6 +48,10 @@
         id="toc-architecture">architecture</a></li>
         <li><a href="#metadata" id="toc-metadata">metadata</a></li>
         </ul></li>
+        <li><a href="#system-interaction"
+        id="toc-system-interaction">system interaction</a></li>
+        <li><a href="#master-operation" id="toc-master-operation">master
+        operation</a></li>
         </ul>
 
         </div>
@@ -56,16 +59,22 @@
             <div class="span9">
             <p><strong>Google File System</strong>: a distributed file
             system that work on a large cluster</p>
-            <h2 id="思考">思考</h2>
-            <ol type="1">
-            <li>master</li>
-            </ol>
             <h2 id="intro">intro</h2>
             <ol type="1">
             <li>components failures are common</li>
             <li>files are huge</li>
             <li>most files are mutated by appending new data</li>
             </ol>
+            <p><strong>why hard?</strong></p>
+            <ul>
+            <li>performance –&gt; sharding</li>
+            <li>faults –&gt; tolerance</li>
+            <li>tolerance –&gt; replication</li>
+            <li>replication –&gt; inconsistency</li>
+            <li>consistency –&gt; low performance</li>
+            </ul>
+            <p><strong>tags</strong></p>
+            <p>big, fast, global, sharding, automatic recovery</p>
             <h2 id="design">design</h2>
             <h3 id="assumption">assumption</h3>
             <p>read: large read most of the time, some times random
@@ -92,6 +101,30 @@
             <li>chunks</li>
             </ul>
             <h3 id="metadata">metadata</h3>
+            <p><strong>chunk locations</strong></p>
+            <p>poll chunkservers for that information at startup</p>
+            <p><strong>operation log</strong></p>
+            <p>critical, replicate it on multiple remote machines</p>
+            <h2 id="system-interaction">system interaction</h2>
+            <figure>
+            <img src=".././images/image_2022-07-02-20-24-30.png"
+            alt="write control and data flow" />
+            <figcaption aria-hidden="true">write control and data
+            flow</figcaption>
+            </figure>
+            <p><strong>READ</strong></p>
+            <ol type="1">
+            <li>name, offset → M</li>
+            <li></li>
+            </ol>
+            <h2 id="master-operation">master operation</h2>
+            <p><strong>master data</strong></p>
+            <p>filename —&gt; array of chunk handler (NV)</p>
+            <p>handle —&gt; list of chunkservers (V), version (NV),
+            primary (V), lease expiration (V)</p>
+            <p>log, checkpoint —- disk</p>
+            <p><strong>namespace management and locking</strong></p>
+            <p><strong>garbage collection</strong></p>
             </div>
     </div>
   </div>

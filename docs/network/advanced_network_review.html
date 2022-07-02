@@ -6,8 +6,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Style-Type" content="text/css" />
 
-    <link rel="stylesheet" type="text/css" href="./css/template.css" />
-    <link rel="stylesheet" type="text/css" href="./css/elegant_bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../css/template.css" />
+    <link rel="stylesheet" type="text/css" href="../css/elegant_bootstrap.css" />
 
     <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
     <!-- <script src="jquery.sticky-kit.js "></script> -->
@@ -41,21 +41,25 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#fattree">FatTree</a>
+        <li><a href="#fattree" id="toc-fattree">FatTree</a>
         <ul>
-        <li><a href="#addressing">Addressing</a></li>
-        <li><a href="#routing-algorithm">routing algorithm</a></li>
+        <li><a href="#addressing"
+        id="toc-addressing">Addressing</a></li>
+        <li><a href="#routing-algorithm"
+        id="toc-routing-algorithm">routing algorithm</a></li>
         </ul></li>
-        <li><a href="#bbr">BBR</a></li>
-        <li><a href="#mptcp">MPTCP</a>
+        <li><a href="#bbr" id="toc-bbr">BBR</a></li>
+        <li><a href="#mptcp" id="toc-mptcp">MPTCP</a>
         <ul>
-        <li><a href="#congestion-control">congestion control</a></li>
+        <li><a href="#congestion-control"
+        id="toc-congestion-control">congestion control</a></li>
         </ul></li>
-        <li><a href="#sdn">SDN</a>
+        <li><a href="#sdn" id="toc-sdn">SDN</a>
         <ul>
-        <li><a href="#why-sdn">Why SDN ?</a></li>
-        <li><a href="#controller">Controller</a></li>
-        <li><a href="#switches">Switches</a></li>
+        <li><a href="#why-sdn" id="toc-why-sdn">Why SDN ?</a></li>
+        <li><a href="#controller"
+        id="toc-controller">Controller</a></li>
+        <li><a href="#switches" id="toc-switches">Switches</a></li>
         </ul></li>
         </ul>
 
@@ -80,7 +84,7 @@
             <li>adddress of a host: <code>10.pod.switch.ID</code></li>
             </ul>
             <figure>
-            <img src="./images/fat_tree_demo.png"
+            <img src=".././images/fat_tree_demo.png"
             alt="fat tree demo" />
             <figcaption aria-hidden="true">fat tree demo</figcaption>
             </figure>
