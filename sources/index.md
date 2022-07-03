@@ -21,9 +21,9 @@
 
 ## Distributed System
 
-[intro](distributed/intro.md)
-[mapreduce](distributed/mapreduce.md)
-[gfs](distributed/gfs.md)
+* [intro](distributed/intro.md)
+* [mapreduce](distributed/mapreduce.md)
+* [gfs](distributed/gfs.md)
 
 ## Shell
 

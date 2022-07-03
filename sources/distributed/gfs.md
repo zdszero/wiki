@@ -63,10 +63,33 @@ critical, replicate it on multiple remote machines
 
 ![write control and data flow](../../docs/images/image_2022-07-02-20-24-30.png)
 
+### read & write
+
 **READ**
 
 1. name, offset → M
-2. 
+2. M sends H (chunk handler), list of S (cached)
+3. C → CS, data is returned
+
+**WRITE**
+
+* no primary
+
+1. master find up-to-date replicas
+2. pick P, S
+3. increment V#
+4. tell P, S V# ---- LEASE
+5. M writes V# to disk
+
+* primary exist
+
+P picks offset
+
+all replicas told to write at offset
+
+if all "yes", "success" → C
+
+else "no" → C
 
 ## master operation
 
@@ -81,3 +104,9 @@ log, checkpoint ---- disk
 **namespace management and locking**
 
 **garbage collection**
+
+## limitation
+
+single master, load may to too big
+
+master crash: no automatic recovery

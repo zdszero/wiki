@@ -49,9 +49,15 @@
         <li><a href="#metadata" id="toc-metadata">metadata</a></li>
         </ul></li>
         <li><a href="#system-interaction"
-        id="toc-system-interaction">system interaction</a></li>
+        id="toc-system-interaction">system interaction</a>
+        <ul>
+        <li><a href="#read-write" id="toc-read-write">read &amp;
+        write</a></li>
+        </ul></li>
         <li><a href="#master-operation" id="toc-master-operation">master
         operation</a></li>
+        <li><a href="#limitation"
+        id="toc-limitation">limitation</a></li>
         </ul>
 
         </div>
@@ -112,11 +118,31 @@
             <figcaption aria-hidden="true">write control and data
             flow</figcaption>
             </figure>
+            <h3 id="read-write">read &amp; write</h3>
             <p><strong>READ</strong></p>
             <ol type="1">
             <li>name, offset → M</li>
-            <li></li>
+            <li>M sends H (chunk handler), list of S (cached)</li>
+            <li>C → CS, data is returned</li>
             </ol>
+            <p><strong>WRITE</strong></p>
+            <ul>
+            <li>no primary</li>
+            </ul>
+            <ol type="1">
+            <li>master find up-to-date replicas</li>
+            <li>pick P, S</li>
+            <li>increment V#</li>
+            <li>tell P, S V# —- LEASE</li>
+            <li>M writes V# to disk</li>
+            </ol>
+            <ul>
+            <li>primary exist</li>
+            </ul>
+            <p>P picks offset</p>
+            <p>all replicas told to write at offset</p>
+            <p>if all “yes”, “success” → C</p>
+            <p>else “no” → C</p>
             <h2 id="master-operation">master operation</h2>
             <p><strong>master data</strong></p>
             <p>filename —&gt; array of chunk handler (NV)</p>
@@ -125,6 +151,9 @@
             <p>log, checkpoint —- disk</p>
             <p><strong>namespace management and locking</strong></p>
             <p><strong>garbage collection</strong></p>
+            <h2 id="limitation">limitation</h2>
+            <p>single master, load may to too big</p>
+            <p>master crash: no automatic recovery</p>
             </div>
     </div>
   </div>
