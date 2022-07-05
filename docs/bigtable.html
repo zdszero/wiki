@@ -1,0 +1,107 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="./css/template.css" />
+    <link rel="stylesheet" type="text/css" href="./css/elegant_bootstrap.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-07-05" />
+  <title>bigtable</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">bigtable</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-07-05</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#data-model" id="toc-data-model">data
+        model</a></li>
+        <li><a href="#implementation"
+        id="toc-implementation">implementation</a>
+        <ul>
+        <li><a href="#three-components" id="toc-three-components">three
+        components</a></li>
+        <li><a href="#tablet-location" id="toc-tablet-location">tablet
+        location</a></li>
+        <li><a href="#tablet-assignment"
+        id="toc-tablet-assignment">tablet assignment</a></li>
+        </ul></li>
+        <li><a href="#refinement"
+        id="toc-refinement">refinement</a></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <p>distributed storage system</p>
+            <h2 id="data-model">data model</h2>
+            <p>a table can contain many tablets, each tablet is located
+            using the three following indexes:</p>
+            <ul>
+            <li>rows</li>
+            <li>columns</li>
+            <li>timestamps</li>
+            </ul>
+            <h2 id="implementation">implementation</h2>
+            <h3 id="three-components">three components</h3>
+            <ul>
+            <li><p>a library that is linked into every client</p></li>
+            <li><p>one master server</p></li>
+            </ul>
+            <p>assigning tablets to tablet servers, detecting the
+            addition and expiration of tablet servers, balancing
+            tablet-server load, and garbage collection of files in GFS.
+            In addition, it handles schema changes such as table and
+            column family creations.</p>
+            <ul>
+            <li>many tablet servers</li>
+            </ul>
+            <p>manage a set of tablets, and handles read and write
+            requests.</p>
+            <h3 id="tablet-location">tablet location</h3>
+            <figure>
+            <img src="./images/image_2022-07-05-14-20-36.png"
+            alt="tablet location hierarchy" />
+            <figcaption aria-hidden="true">tablet location
+            hierarchy</figcaption>
+            </figure>
+            <p>root tablet –&gt; metadata tablet –&gt; user table</p>
+            <h3 id="tablet-assignment">tablet assignment</h3>
+            <p>When a tablet server starts, it creates, and acquires an
+            exclusive lock on, a uniquely-named file in a specific
+            Chubby directory.</p>
+            <p>To detect when a tablet server is no longer serving its
+            tablets, the master periodically asks each tablet server for
+            the status of its lock.</p>
+            <h2 id="refinement">refinement</h2>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>

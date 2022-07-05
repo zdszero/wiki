@@ -38,24 +38,37 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#important-indexes"
-        id="toc-important-indexes">important indexes</a></li>
+        <li><a href="#index" id="toc-index">INDEX</a></li>
+        <li><a href="#cap" id="toc-cap">CAP</a>
+        <ul>
+        <li><a href="#consistency"
+        id="toc-consistency">consistency</a></li>
+        <li><a href="#availability"
+        id="toc-availability">availability</a></li>
+        <li><a href="#partition-tolerance"
+        id="toc-partition-tolerance">partition tolerance</a></li>
+        </ul></li>
         </ul>
 
         </div>
       </div>
             <div class="span9">
-            <h2 id="important-indexes">important indexes</h2>
-            <ul>
-            <li><strong>scalability</strong></li>
-            </ul>
-            <p>2x computers = 2x throughput = 2x faster</p>
-            <ul>
-            <li><p><strong>fault tolerance</strong></p></li>
-            <li><p><strong>consistency</strong></p></li>
-            <li><p><strong>availability</strong></p></li>
-            <li><p><strong>recovery</strong></p></li>
-            </ul>
+            <h2 id="index">INDEX</h2>
+            <p>availability, scalability, performance</p>
+            <h2 id="cap">CAP</h2>
+            <p>一个分布式系统最多只能同时满足consistency, availability,
+            partition tolerance这三项中其中的两项</p>
+            <h3 id="consistency">consistency</h3>
+            <p>分布式存储不同结点上存储的信息版本是一致的</p>
+            <h3 id="availability">availability</h3>
+            <p>要求系统内的节点们接收到了无论是写请求还是读请求，都要能处理并给回响应结果。</p>
+            <ol type="1">
+            <li>在合理的时间内返回结果</li>
+            <li>如果内部数据有问题也必须返回结果</li>
+            </ol>
+            <h3 id="partition-tolerance">partition tolerance</h3>
+            <p>两个节点之间无法通信。可能是一个节点宕机了，也有可能是两个节点之间的网络出现了问题。</p>
+            <p>如果出现了分区问题，我们的分布式存储系统还需要继续运行。不能因为出现了分区问题，整个分布式节点全部就熄火了，罢工了，不做事情了。</p>
             </div>
     </div>
   </div>

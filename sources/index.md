@@ -14,6 +14,13 @@
 * [UML](UML.md)
 * [advanced_os](advanced_os.md)
 
+## Database
+
+* [relational db normalization](./db/relational_db_normalization.md)
+* [nosql](./db/nosql.md)
+* [LSM Tree](./db/LSM_Tree.md)
+* [B+ Tree](./db/B+_Tree.md)
+
 ## Data Structure
 
 * [extendible_hash](./ds/extendible_hash.md)
@@ -22,8 +29,9 @@
 ## Distributed System
 
 * [intro](distributed/intro.md)
-* [mapreduce](distributed/mapreduce.md)
 * [gfs](distributed/gfs.md)
+* [mapreduce](distributed/mapreduce.md)
+* [bigtable](bigtable.md)
 
 ## Shell
 
@@ -57,6 +65,7 @@
 * [Diary](diary/index.md)
 * [Books](books/index.md)
 * [Life](life/life.md)
+* [tedious_problems](./tedious_problems.md)
 * [Films](films/index.md)
 * [Thoughts](Thoughts/index.md)
 * [study](study.md)
