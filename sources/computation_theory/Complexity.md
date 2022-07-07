@@ -52,7 +52,7 @@ A *polynomial time verifier* runs in polynomial time in the length of w
 
 a direct path that goes through each node exactly once in the graph.
 
-![Hamiltonian path image](../docs/images/image_2022-06-01-19-39-39.png)
+![Hamiltonian path image](../../docs/images/image_2022-06-01-19-39-39.png)
 
 * **CLIQUE**
 
@@ -60,7 +60,7 @@ A *k-clique* is a clique that contains *k* nodes, wherein every two nodes are co
 
 $$CLIQUE = \text{\{<G,k> |G is an undirected graph with a k-clique\}}$$
 
-![Clique image](../docs/images/image_2022-06-01-22-12-46.png)
+![Clique image](../../docs/images/image_2022-06-01-22-12-46.png)
 
 * **SUBSET-SUM**
 

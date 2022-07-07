@@ -1,0 +1,68 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="../css/template.css" />
+    <link rel="stylesheet" type="text/css" href="../css/elegant_bootstrap.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-07-07" />
+  <title>atomic</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">atomic</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-07-07</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#atomic" id="toc-atomic">atomic</a></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h2 id="atomic">atomic</h2>
+            <p><strong>usage</strong></p>
+            <p>保证多个线程对于一个对象的操作是原子性的，也可以避免编译器重新安排代码执行的顺序。</p>
+            <p><strong>compared with volatile</strong></p>
+            <p><code>volatile</code> is not used for concurrent
+            programming, is the way we tell compilers that we’re dealing
+            with special memory. Its meaning to compilers is “Don’t
+            perform any optimizations on operations on this memory.”</p>
+            <pre><code>volatile int x;
+
+auto y = x;   // cannot be optimized away
+y = x;
+
+x = 10;  // cannot be optimized away
+x = 20;</code></pre>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>
