@@ -28,7 +28,7 @@ manage a set of tablets, and handles read and write requests.
 
 ### tablet location
 
-![tablet location hierarchy](../docs/images/image_2022-07-05-14-20-36.png)
+![tablet location hierarchy](../../docs/images/image_2022-07-05-14-20-36.png)
 
 root tablet --> metadata tablet --> user table
 

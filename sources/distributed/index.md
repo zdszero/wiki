@@ -5,4 +5,4 @@
 * [intro](./intro.md)
 * [gfs](./gfs.md)
 * [mapreduce](./mapreduce.md)
-* [bigtable](bigtable.md)
+* [bigtable](./bigtable.md)

@@ -19,29 +19,56 @@ skip list 所有的 node 就是一个排序的链表，考虑到操作效率，�
 
 * __algorithm__
 
-寻找最后一个结点，如果不存在的话返回nullptr
+寻找最后一个结点，如果不存在的话返回head
 
 ```cpp
-Node *x = head;
-int level = GetMaxHeight() - 1;
-while (true) {
-    Node *next = x->Next(level);
-    if (next == nullptr) {
-        if (level == 0) {
-            return x;
+Node *FindLast() {
+    Node *x = head;
+    int level = GetMaxHeight() - 1;
+    while (true) {
+        Node *next = x->Next(level);
+        if (next == nullptr) {
+            if (level == 0) {
+                return x;
+            } else {
+                level--;
+            }
         } else {
-            level--;
+            x = next;
         }
-    } else {
-        x = next;
     }
 }
 ```
 
-寻找lower_bound(key)的结点，不存在的话返回nullptr
+寻找lower_bound(key)的结点，不存在的话返回nullptr。思路：考虑实现`FindLessThan()`更加直观
 
 ```cpp
-Node *x = head;
-int level = GetMaxHeight() - 1;
-Node *next = x->Next(level);
+Node *FindLessThan(T val) {
+    Node *x = head;
+    int level = GetMaxHeight() - 1;
+    while (true) {
+        Node *next = x->Next(level);
+        if (next != nullptr && next->key < key) {
+            x = next;
+        } else {
+            if (level == 0) {
+                return x;
+            } else {
+                level--;
+            }
+        }
+    }
+}
+
+Node *FindGreaterOrEqual(T val) {
+    Node *n = FindLessThan(val);
+    if (n == head_) {
+        return nullptr;
+    }
+    return n->Next(0);
+}
 ```
+
+插入
+
+
