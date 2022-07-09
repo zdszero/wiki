@@ -14,8 +14,8 @@
   
     <meta name="generator" content="pandoc" />
   <meta name="author" content="zdszero" />
-  <meta name="date" content="2022-07-07" />
-  <title>leveldb</title>
+  <meta name="date" content="2022-07-09" />
+  <title>arena</title>
   <style type="text/css">code{white-space: pre;}</style>
 </head>
 <body>
@@ -24,10 +24,10 @@
     <div class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container">
-        <span class="doc-title">leveldb</span>
+        <span class="doc-title">arena</span>
         <ul class="nav pull-right doc-info">
                     <li><p class="navbar-text">zdszero</p></li>
-                              <li><p class="navbar-text">2022-07-07</p></li>
+                              <li><p class="navbar-text">2022-07-09</p></li>
                   </ul>
       </div>
     </div>
@@ -35,17 +35,18 @@
     <div class="container">
     <div class="row">
             <div class="span12">
+            <p>Manage a vector of blocks (each block’s size is 4KB).</p>
+            <p><strong>public functions</strong></p>
             <ul>
-            <li><a href="arch.html">arch</a></li>
-            <li><a href="sstable.html">sstable</a></li>
-            <li><a href="log.html">log</a></li>
-            <li><a href="operations.html">operations</a></li>
-            <li>utils
+            <li><code>Allocate(size_t bytes)</code></li>
+            <li><code>AllocateAligned(size_t bytes)</code></li>
+            </ul>
+            <p><strong>private members</strong></p>
             <ul>
-            <li><a href="arena.html">arena</a></li>
-            <li><a href="comparator.html">comparator</a></li>
-            <li><a href="slice.html">slice</a></li>
-            </ul></li>
+            <li><code>vector&lt;char *&gt; blocks_</code></li>
+            <li><code>atomic&lt;size_t&gt; memory_usage_</code></li>
+            <li><code>char *alloc_ptr_</code></li>
+            <li><code>size_t alloc_bytes_remaining_</code></li>
             </ul>
             </div>
     </div>

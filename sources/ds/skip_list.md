@@ -43,7 +43,7 @@ Node *FindLast() {
 寻找lower_bound(key)的结点，不存在的话返回nullptr。思路：考虑实现`FindLessThan()`更加直观
 
 ```cpp
-Node *FindLessThan(T val) {
+Node *FindLessThan(const Key &key) {
     Node *x = head;
     int level = GetMaxHeight() - 1;
     while (true) {
@@ -60,8 +60,8 @@ Node *FindLessThan(T val) {
     }
 }
 
-Node *FindGreaterOrEqual(T val) {
-    Node *n = FindLessThan(val);
+Node *FindGreaterOrEqual(const Key &key) {
+    Node *n = FindLessThan(key);
     if (n == head_) {
         return nullptr;
     }
@@ -71,4 +71,42 @@ Node *FindGreaterOrEqual(T val) {
 
 插入
 
+设置prev[kMaxSize]（其实只用到max_height）为指向新创建的结点的前一个位置的结点，在`FindGreaterOrEqual`函数中完成这一过程。
 
+```cpp
+Node *FindGreaterOrEqual(const Key &key, Node **prev) {
+    Node *x = head;
+    int level = GetMaxHeight() - 1;
+    while (true) {
+        Node *next = x->Next(level);
+        // key is after the current node
+        if (next != nullptr && next->key < key) {
+            x = next;
+        } else {
+            // setting the previous of next
+            if (prev != nullptr) prev[level] = x;
+            if (level == 0) {
+                return next;
+            } else {
+                level--;
+            }
+        }
+    }
+}
+
+void Insert(const Key &key) {
+    Node *prev[kMaxSize];
+    Node *x = FindGreaterOrEqual(key, prev);
+    int height = RandomHeight();
+    if (height > GetMaxHeight()) {
+        for (int i = GetMaxHeight(); i < height; i++) {
+            prev[i] = head_;
+        }
+        SetMaxHeight(height);
+    }
+    for (int i = 0; i < height; i++) {
+        x->SetNext(i, prev[i]->Next(i));
+        prev[i]->SetNext(i, x);
+    }
+}
+```

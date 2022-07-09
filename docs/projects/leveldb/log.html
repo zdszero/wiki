@@ -1,0 +1,87 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="../../css/template.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/elegant_bootstrap.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-07-09" />
+  <title>log</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">log</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-07-09</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#结构" id="toc-结构">结构</a></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <p>leveldb的写操作并不是直接写入磁盘的，而是首先写入到内存。假设写入到内存的数据还未来得及持久化，leveldb进程发生了异常，抑或是宿主机器发生了宕机，会造成用户的写入发生丢失。因此leveldb在写内存之前会首先将所有的写操作写到日志文件中，也就是log文件。当以下异常情况发生时，均可以通过日志文件进行恢复：</p>
+            <ol type="1">
+            <li>写log期间进程异常；</li>
+            <li>写log完成，写内存未完成；</li>
+            <li>write动作完成（即log、内存写入都完成）后，进程异常；</li>
+            <li>Immutable memtable持久化过程中进程异常；</li>
+            <li>其他压缩异常（较为复杂，首先不在这里介绍）；</li>
+            </ol>
+            <p>当第一类情况发生时，数据库重启读取log时，发现异常日志数据，抛弃该条日志数据，即视作这次用户写入失败，保障了数据库的一致性；</p>
+            <p>当第二类，第三类，第四类情况发生了，均可以通过redo日志文件中记录的写入操作完成数据库的恢复。</p>
+            <p>每次日志的写操作都是一次顺序写，因此写效率高，整体写入性能较好。</p>
+            <p>此外，leveldb的用户写操作的原子性同样通过日志来实现。</p>
+            <h2 id="结构">结构</h2>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-09-21-42-55.png"
+            alt="log structure" />
+            <figcaption aria-hidden="true">log structure</figcaption>
+            </figure>
+            <p>log &gt; block &gt; chunk</p>
+            <p><strong>chunk</strong></p>
+            <table>
+            <thead>
+            <tr class="header">
+            <th style="text-align: center;">checksum (4B)</th>
+            <th style="text-align: center;">length (2B)</th>
+            <th style="text-align: center;">type (1B)</th>
+            <th style="text-align: center;">data</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            </table>
+            <p>type: full, first, middle, last</p>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>

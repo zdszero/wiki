@@ -1,0 +1,72 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="../../css/template.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/elegant_bootstrap.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-07-09" />
+  <title>arch</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">arch</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-07-09</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div class="span12">
+            <p>leveldb是一个写性能十分优秀的存储引擎，是典型的LSM树(Log
+            Structured-Merge
+            Tree)实现。LSM树的核心思想就是放弃部分读的性能，换取最大的写入能力。</p>
+            <p>极高的性能来自于减少随机写的次数，对于每次写操作，不是直接将最新的数据驻留于磁盘中，而是将其拆分为</p>
+            <ol type="1">
+            <li>一次日志文件的顺序秀</li>
+            <li>一次内存中的数据插入</li>
+            </ol>
+            <p>当内存中的数据达到一定的阈值，就将这部分数据真正刷新到磁盘中，因此获得了极高的写性能</p>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-09-14-55-28.png"
+            alt="leveldb architecture" />
+            <figcaption aria-hidden="true">leveldb
+            architecture</figcaption>
+            </figure>
+            <ul>
+            <li><strong>memtable</strong>:
+            内存中一个按照键值排序的map</li>
+            <li><strong>immutable memtable</strong>:
+            当memtable的容量达到阈值时，便会被转换为一个不可修改的memtable（只读）。当一个immutable
+            memtable被创建时，leveldb的后台压缩进程便会将利用其中的内容，创建一个sstable，持久化到磁盘文件中。</li>
+            <li><strong>log</strong>:
+            保存写入memtable的内容，用于错误恢复</li>
+            <li><strong>sstable</strong>:
+            持久化地存储memtable中的数据，sstable文件的内容是不可更改的。</li>
+            <li><strong>manifest</strong>: 记录version edit的信息</li>
+            </ul>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>
