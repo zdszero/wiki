@@ -38,7 +38,9 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#结构" id="toc-结构">结构</a></li>
+        <li><a href="#结构">结构</a></li>
+        <li><a href="#写">写</a></li>
+        <li><a href="#读">读</a></li>
         </ul>
 
         </div>
@@ -63,7 +65,7 @@
             alt="log structure" />
             <figcaption aria-hidden="true">log structure</figcaption>
             </figure>
-            <p>log &gt; block &gt; chunk</p>
+            <p>log → block → chunk → entries</p>
             <p><strong>chunk</strong></p>
             <table>
             <thead>
@@ -78,6 +80,41 @@
             </tbody>
             </table>
             <p>type: full, first, middle, last</p>
+            <p><strong>data</strong></p>
+            <table>
+            <thead>
+            <tr class="header">
+            <th style="text-align: center;">sequence number</th>
+            <th style="text-align: center;">entry number</th>
+            <th style="text-align: center;">batch data</th>
+            <th style="text-align: center;">…</th>
+            <th style="text-align: center;">batch data</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            </table>
+            <h2 id="写">写</h2>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-10-09-46-11.png"
+            alt="write process" />
+            <figcaption aria-hidden="true">write process</figcaption>
+            </figure>
+            <p>日志写入流程较为简单，在leveldb内部，实现了一个journal的writer。首先调用Next函数获取一个singleWriter，这个singleWriter的作用就是写入一条journal记录。</p>
+            <p>singleWriter开始写入时，标志着第一个chunk开始写入。在写入的过程中，不断判断writer中buffer的大小，若超过32KiB，将chunk开始到现在做为一个完整的chunk，为其计算header之后将整个chunk写入文件。与此同时reset
+            buffer，开始新的chunk的写入。</p>
+            <p>若一条journal记录较大，则可能会分成几个chunk存储在若干个block中。</p>
+            <h2 id="读">读</h2>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-10-09-47-18.png"
+            alt="read process" />
+            <figcaption aria-hidden="true">read process</figcaption>
+            </figure>
+            <p>同样，日志读取也较为简单。为了避免频繁的IO读取，每次从文件中读取数据时，按block（32KiB）进行块读取。</p>
+            <p>每次读取一条日志记录，reader调用Next函数返回一个singleReader。singleReader每次调用Read函数就返回一个chunk的数据。每次读取一个chunk，都会检查这批数据的校验码、数据类型、数据长度等信息是否正确，若不正确，且用户要求严格的正确性，则返回错误，否则丢弃整个chunk的数据。</p>
+            <p>循环调用singleReader的read函数，直至读取到一个类型为Last的chunk，表示整条日志记录都读取完毕，返回。</p>
             </div>
     </div>
   </div>
