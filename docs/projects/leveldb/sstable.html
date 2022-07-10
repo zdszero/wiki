@@ -38,20 +38,68 @@
         <div class="well toc">
 
         <ul>
-        <li><a href="#sstable" id="toc-sstable">sstable</a></li>
-        <li><a href="#memory-model" id="toc-memory-model">memory
-        model</a></li>
+        <li><a href="#概述" id="toc-概述">概述</a></li>
+        <li><a href="#文件格式" id="toc-文件格式">文件格式</a>
+        <ul>
+        <li><a href="#物理结构" id="toc-物理结构">物理结构</a></li>
+        <li><a href="#逻辑结构" id="toc-逻辑结构">逻辑结构</a></li>
+        </ul></li>
+        <li><a href="#data-block" id="toc-data-block">data
+        block</a></li>
+        <li><a href="#filter-block" id="toc-filter-block">filter
+        block</a></li>
+        <li><a href="#meta-index-block" id="toc-meta-index-block">meta
+        index block</a></li>
+        <li><a href="#index-block" id="toc-index-block">index
+        block</a></li>
+        <li><a href="#meta-block" id="toc-meta-block">meta
+        block</a></li>
         </ul>
 
         </div>
       </div>
             <div class="span9">
-            <h2 id="sstable">sstable</h2>
+            <h2 id="概述">概述</h2>
             <p>虽然在内存中，所有的数据都是按序排列的，但是当多个memetable数据持久化到磁盘后，对应的不同的sstable之间是存在交集的，在读操作时，需要对所有的sstable文件进行遍历，严重影响了读取效率。因此leveldb后台会“定期“整合这些sstable文件，该过程也称为compaction。随着compaction的进行，sstable文件在逻辑上被分成若干层，由内存数据直接dump出来的文件称为level
             0层文件，后期整合而成的文件为level i
             层文件，这也是leveldb这个名字的由来。</p>
-            <h2 id="memory-model">memory model</h2>
+            <h2 id="文件格式">文件格式</h2>
+            <h3 id="物理结构">物理结构</h3>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-10-15-25-10.png"
+            alt="physical structure" />
+            <figcaption aria-hidden="true">physical
+            structure</figcaption>
+            </figure>
+            <h3 id="逻辑结构">逻辑结构</h3>
+            <p>在逻辑上，根据功能不同，leveldb在逻辑上又将sstable分为：</p>
+            <ol type="1">
+            <li>data block: 用来存储key value数据对；</li>
+            <li>filter block:
+            用来存储一些过滤器相关的数据（布隆过滤器），但是若用户不指定leveldb使用过滤器，leveldb在该block中不会存储任何内容；</li>
+            <li>meta Index block: 用来存储filter
+            block的索引信息（索引信息指在该sstable文件中的偏移量以及数据长度）；</li>
+            <li>index block：index block中用来存储每个data
+            block的索引信息；</li>
+            <li>footer: 用来存储meta index block及index
+            block的索引信息；</li>
+            </ol>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-10-15-29-05.png"
+            alt="logic structure" />
+            <figcaption aria-hidden="true">logic structure</figcaption>
+            </figure>
+            <h2 id="data-block">data block</h2>
             <p><strong>sstable</strong></p>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-10-15-31-43.png"
+            alt="data block的数据部分" />
+            <figcaption aria-hidden="true">data
+            block的数据部分</figcaption>
+            </figure>
             <table style="width:100%;">
             <colgroup>
             <col style="width: 16%" />
@@ -68,7 +116,7 @@
             <th style="text-align: center;">……</th>
             <th style="text-align: center;">restarts</th>
             <th style="text-align: center;">num_of_restarts</th>
-            <th style="text-align: center;">trailer</th>
+            <th style="text-align: center;"></th>
             </tr>
             </thead>
             <tbody>
@@ -78,7 +126,7 @@
             <td style="text-align: center;">……</td>
             <td style="text-align: center;">分区前缀的offset</td>
             <td style="text-align: center;">总共压缩的轮数</td>
-            <td style="text-align: center;">尾部其他信息</td>
+            <td style="text-align: center;"></td>
             </tr>
             </tbody>
             </table>
@@ -92,6 +140,12 @@
             前缀相同的字节（shared_bytes）以及自己独有的字节（unshared_bytes）。读取时，对
             block 进行遍历，每个 key 根据前一个 key 以及
             shared_bytes/unshared_bytes 可以构造出来。</p>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-10-15-33-31.png"
+            alt="entry 结构" />
+            <figcaption aria-hidden="true">entry 结构</figcaption>
+            </figure>
             <table>
             <colgroup>
             <col style="width: 20%" />
@@ -120,21 +174,62 @@
             </tr>
             </tbody>
             </table>
-            <p><strong>trailer</strong></p>
-            <table>
-            <thead>
-            <tr class="header">
-            <th style="text-align: center;">type(char)</th>
-            <th style="text-align: center;">crc(uint32)</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="odd">
-            <td style="text-align: center;">数据是否进行了压缩</td>
-            <td style="text-align: center;">block的校验码</td>
-            </tr>
-            </tbody>
-            </table>
+            <p>比如对于</p>
+            <pre><code>restart_interval = 2
+entry one    : key=deck, value=v1
+entry two    : key=dock, value=v2
+entry two    : key=duck, value=v2</code></pre>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-10-15-43-03.png"
+            alt="example storage" />
+            <figcaption aria-hidden="true">example storage</figcaption>
+            </figure>
+            <pre><code> restart points   num of restarts
+/                 \ /      \
++---------+--------+--------+
+|    0    |   16   |    2   |
++---------+--------+--------+</code></pre>
+            <h2 id="filter-block">filter block</h2>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-10-15-58-08.png"
+            alt="filter block structure" />
+            <figcaption aria-hidden="true">filter block
+            structure</figcaption>
+            </figure>
+            <h2 id="meta-index-block">meta index block</h2>
+            <p>只包含一条记录：</p>
+            <ul>
+            <li>key: 与过滤器名字组成的常量字符串</li>
+            <li>value: filter
+            block在sstable中的索引信息序列化后的内容，索引信息包括
+            <ul>
+            <li>在sstable中的偏移量</li>
+            <li>数据长度</li>
+            </ul></li>
+            </ul>
+            <h2 id="index-block">index block</h2>
+            <p>与meta index block类似，index block用来存储所有data
+            block的相关索引信息。</p>
+            <p>indexblock包含若干条记录，每一条记录代表一个data
+            block的索引信息。</p>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-10-16-24-34.png"
+            alt="index block structure" />
+            <figcaption aria-hidden="true">index block
+            structure</figcaption>
+            </figure>
+            <h2 id="meta-block">meta block</h2>
+            <p>footer大小固定，为48字节，用来存储meta index block与index
+            block在sstable中的索引信息</p>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-10-16-26-16.png"
+            alt="meta block" />
+            <figcaption aria-hidden="true">meta block</figcaption>
+            </figure>
             </div>
     </div>
   </div>

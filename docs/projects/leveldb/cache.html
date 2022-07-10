@@ -1,0 +1,105 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="../../css/template.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/elegant_bootstrap.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-07-10" />
+  <title>cache</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">cache</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-07-10</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#分段锁缓存"
+        id="toc-分段锁缓存">分段锁缓存</a></li>
+        <li><a href="#缓存" id="toc-缓存">缓存</a></li>
+        <li><a href="#lruhandle" id="toc-lruhandle">LRUHandle</a></li>
+        <li><a href="#哈希表" id="toc-哈希表">哈希表</a></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h2 id="分段锁缓存">分段锁缓存</h2>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-10-20-27-52.png"
+            alt="SharedLRUCache" />
+            <figcaption aria-hidden="true">SharedLRUCache</figcaption>
+            </figure>
+            <p>在LRUCache内部加锁，在SharedLRUCache通过哈希函数将不同的访问分布到不同的LRUCache中，从而实现并发度。</p>
+            <h2 id="缓存">缓存</h2>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-10-20-30-12.png"
+            alt="LRUCache" />
+            <figcaption aria-hidden="true">LRUCache</figcaption>
+            </figure>
+            <p><strong>data member</strong></p>
+            <pre><code>class LRUCache {
+    mutable port::Mutex mutex_;
+    size_t capacity_;
+    size_t usage;
+
+    LRUHandle in_use_;
+    LRUHandle cache_;
+    HandleTable table_;
+};</code></pre>
+            <h2 id="lruhandle">LRUHandle</h2>
+            <p>作为entry存在，作为链表中的结点，存储缓存中的key和value</p>
+            <p><strong>data member</strong></p>
+            <pre><code>struct LRUHandle {
+    void *value;            // 值
+    LRUHandle *next, *prev; // 双向链表中链接前后结点
+    LRUHandle *next_hash;   // 哈希表中bucket的链表下一个结点
+    size_t charge;          // 缓存项的大小
+    size_t key_length;      // 键值长度
+    bool in_cache;          // 是否在缓存中
+    uint32_t refs;          // 计数次数
+    uint32_t hash;          // 所在哈希表bucket链表中对应的哈希值
+    char key_data[1];       // 键值
+};</code></pre>
+            <p><strong>ref count</strong></p>
+            <ul>
+            <li>初始加入LRUCache，被放置在cache链表中，计数值为1</li>
+            <li>被访问后加入in_use链表（如果不在in_use链表中），计数值加一</li>
+            <li>访问结束后计数值减一，如果计数值为1，放回cache链表</li>
+            <li>当cache满了之后，如果有新的entry加入，选取cache链表中最后被访问的一个entry，计数值减一，调用删除函数将其删除</li>
+            </ul>
+            <h2 id="哈希表">哈希表</h2>
+            <p><strong>HandleTablea</strong> 是leveldb中哈希表的实现</p>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>
