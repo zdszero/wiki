@@ -1,0 +1,107 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="../../css/template.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/elegant_bootstrap.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-07-11" />
+  <title>keys</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">keys</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-07-11</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div class="span12">
+            <p>leveldb中包含三种键：</p>
+            <ul>
+            <li>User Key是用户提供的键，是我们看到的键；</li>
+            <li>Internal Key是实际存储的键，支持版本号和Tag的功能；</li>
+            <li>Lookup Key则是为了查找MemTable而构造的键。</li>
+            </ul>
+            <p><strong>internal key</strong></p>
+            <p>当数据项从batch中写入到内存数据库中时，需要将一个key值的转换，即在leveldb内部，所有数据项的key是经过特殊编码的，这种格式称为internalKey。</p>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-09-15-35-46.png"
+            alt="internal key structure" />
+            <figcaption aria-hidden="true">internal key
+            structure</figcaption>
+            </figure>
+            <pre><code>enum ValueType { kTypeDeletion = 0x0, kTypeValue = 0x1 };
+typedef uint64_t SequenceNumber;
+
+struct ParseInternalKey {
+    Slice user_key;
+    SequenceNumber sequence;
+    ValueType type;
+};</code></pre>
+            <p>sequence
+            number由leveldb内部维护，每进行一个操作就做一个累加，并且每一个操作都被赋予一个独特的sequence
+            number。</p>
+            <p>一次更新或者一次删除，采用的是append的方式，并非直接更新原数据。因此对应同样一个key，会有多个版本的数据记录，而最大的sequence
+            number对应的数据记录就是最新的。</p>
+            <p>当用户写入时，将User Key封装成Internal
+            Key，保留版本信息，存储到SSTable里，当需要读取时，将User
+            Key从Internal Key里提取出来，所有User Key相同的Internal
+            Key里面SequenceNumber最大的Internal
+            Key就是当前的键，它对应的值就是当前值。</p>
+            <p><strong>lookup key</strong></p>
+            <p>LookupKey is used in memtable</p>
+            <figure>
+            <img
+            src="../.././images/image_2022-07-11-10-35-47.png"
+            alt="internal key structure" />
+            <figcaption aria-hidden="true">internal key
+            structure</figcaption>
+            </figure>
+            <pre><code>class LookupKey {
+private:
+    // klength varint32                    &lt;-- start_
+    // userkey                             &lt;-- kstart_
+    // tag (sequence number, value type)   
+                                           &lt;-- end_
+    const char* start_;
+    const char *kstart_;
+    const char *end_;
+};
+
+| klength |        Internal Key        |
+| klength | user key | sequence + type |
+   varint     slice      7B        1B</code></pre>
+            <p>klength is the size of internal key stored in varint
+            format</p>
+            <p><strong>memtable entry</strong></p>
+            <p>LookupKey + Value</p>
+            <pre><code>| klength |        Internal Key        |  vlength  |  value  |
+| klength | user key | sequence + type |  vlength  |  value  |
+   varint     slice      7B        1B     varint      slice</code></pre>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>

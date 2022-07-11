@@ -9,8 +9,10 @@
 * [log](log.md)
 * [operations](operations.md)
 * [cache](cache.md)
+* [memtable](memtable.md)
 * utils
     * [arena](arena.md)
+    * [keys](keys.md)
     * [comparator](comparator.md)
     * [slice](slice.md)
     * [coding](coding.md)

@@ -14,15 +14,26 @@
 
 ![batch structure](../../../docs/images/image_2022-07-09-15-34-22.png)
 
-### internal key
+```
+class WriteBatch {
+    friend class WriteBatchInternal;
+public:
+    class Handler {
+        virtual void Put(const Key& key, const Key& value);
+        virtual void Delete(cosnt Slice& key);
+    };
+};
 
-当数据项从batch中写入到内存数据库中时，需要将一个key值的转换，即在leveldb内部，所有数据项的key是经过特殊编码的，这种格式称为internalKey。
+class MemTableInserter {
+public:
+    SequenceNumber sequence_;
+    MemTable* mem_;
 
-![internal key structure](../../../docs/images/image_2022-07-09-15-35-46.png)
+    virtual void Put(const Key& key, const Key& value);
+    virtual void Delete(cosnt Slice& key);
+};
+```
 
-sequence number由leveldb内部维护，每进行一个操作就做一个累加，并且每一个操作都被赋予一个独特的sequence number。
-
-一次更新或者一次删除，采用的是append的方式，并非直接更新原数据。因此对应同样一个key，会有多个版本的数据记录，而最大的sequence number对应的数据记录就是最新的。
 
 ### 合并写
 

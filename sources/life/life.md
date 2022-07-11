@@ -12,3 +12,4 @@
 * [dressing](./dressing.md)
 * [woman-dressing](woman-dressing.md)
 * [topic](topic.md)
+* [minimalist](minimalist.md)

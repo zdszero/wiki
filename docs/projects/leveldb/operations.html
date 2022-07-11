@@ -42,8 +42,6 @@
         <ul>
         <li><a href="#整体流程" id="toc-整体流程">整体流程</a></li>
         <li><a href="#batch" id="toc-batch">batch</a></li>
-        <li><a href="#internal-key" id="toc-internal-key">internal
-        key</a></li>
         <li><a href="#合并写" id="toc-合并写">合并写</a></li>
         <li><a href="#原子性" id="toc-原子性">原子性</a></li>
         </ul></li>
@@ -74,20 +72,23 @@
             alt="batch structure" />
             <figcaption aria-hidden="true">batch structure</figcaption>
             </figure>
-            <h3 id="internal-key">internal key</h3>
-            <p>当数据项从batch中写入到内存数据库中时，需要将一个key值的转换，即在leveldb内部，所有数据项的key是经过特殊编码的，这种格式称为internalKey。</p>
-            <figure>
-            <img
-            src="../.././images/image_2022-07-09-15-35-46.png"
-            alt="internal key structure" />
-            <figcaption aria-hidden="true">internal key
-            structure</figcaption>
-            </figure>
-            <p>sequence
-            number由leveldb内部维护，每进行一个操作就做一个累加，并且每一个操作都被赋予一个独特的sequence
-            number。</p>
-            <p>一次更新或者一次删除，采用的是append的方式，并非直接更新原数据。因此对应同样一个key，会有多个版本的数据记录，而最大的sequence
-            number对应的数据记录就是最新的。</p>
+            <pre><code>class WriteBatch {
+    friend class WriteBatchInternal;
+public:
+    class Handler {
+        virtual void Put(const Key&amp; key, const Key&amp; value);
+        virtual void Delete(cosnt Slice&amp; key);
+    };
+};
+
+class MemTableInserter {
+public:
+    SequenceNumber sequence_;
+    MemTable* mem_;
+
+    virtual void Put(const Key&amp; key, const Key&amp; value);
+    virtual void Delete(cosnt Slice&amp; key);
+};</code></pre>
             <h3 id="合并写">合并写</h3>
             <p>第一个获取到写锁的写操作</p>
             <ul>
