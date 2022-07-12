@@ -112,6 +112,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <h2 id="编解码">编解码</h2>
             <p>leveldb中使用little endian</p>
             <p><strong>int</strong></p>
+            <p>逐字节进行存储，将<code>char*</code>转化为<code>uint8_t*</code>，将<code>uint32_t</code>分为各个部分存储到对应内存地址中。</p>
             <div class="sourceCode" id="cb1"><pre
             class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> EncodeFixed32<span class="op">(</span><span class="dt">char</span><span class="op">*</span> dst<span class="op">,</span> <span class="dt">uint32_t</span> value<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">// clang and gcc will optimize this to a single mov/str instruction</span></span>
@@ -174,6 +175,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    res <span class="op">|=</span> <span class="op">(*</span>p <span class="op">&lt;&lt;</span> shift<span class="op">);</span></span>
 <span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> res<span class="op">;</span></span>
 <span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+            <p>在leveldb中，没有实现如上所示的 DecodeVarint32
+            函数，存储模型常常如下所示：</p>
+            <pre><code>| length(varint) | the following data(slice) |
+                 | --------&gt; length &lt;--------|</code></pre>
+            <p>所以为了使用方便设计了函数<code>const char* GetVarint32Ptr(const char* data, const char* limit, uint32_t *length)</code></p>
+            <ul>
+            <li>data和limit标记varint的开始和边界</li>
+            <li>计算出length的值后存储到参数</li>
+            <li>函数执行完成后返回data的开始位置</li>
+            </ul>
             </div>
     </div>
   </div>

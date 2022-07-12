@@ -154,7 +154,39 @@ private:
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="va">table_</span><span class="op">.</span>Insert<span class="op">(</span>buf<span class="op">);</span></span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
             <p><strong>get</strong></p>
-            <p>在table中寻找大于等于key的</p>
+            <p>在table中寻找大于包含key的entry</p>
+            <div class="sourceCode" id="cb4"><pre
+            class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Slice GetLengthPrefixedSlice<span class="op">(</span><span class="at">const</span> <span class="dt">char</span> <span class="op">*</span>data<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> len<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> <span class="op">*</span>p <span class="op">=</span> GetVarint32Ptr<span class="op">(</span>data<span class="op">,</span> data <span class="op">+</span> <span class="dv">5</span><span class="op">,</span> <span class="op">&amp;</span>len<span class="op">);</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Slice<span class="op">(</span>p<span class="op">,</span> len<span class="op">);</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="dt">bool</span> Get<span class="op">(</span><span class="at">const</span> LookupKey<span class="op">&amp;</span> key<span class="op">,</span> string<span class="op">*</span> value<span class="op">,</span> Status<span class="op">*</span> s<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    Slice memkey <span class="op">=</span> key<span class="op">.</span>memtable_key<span class="op">();</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    Table<span class="op">::</span>Iterator iter<span class="op">(</span><span class="va">table_</span><span class="op">);</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    iter<span class="op">.</span>Seek<span class="op">(</span>memkey<span class="op">);</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>iter<span class="op">.</span>Valid<span class="op">())</span> <span class="op">{</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">// | key_length | user_key | tag (sequence | type) | value_length | value |</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">const</span> <span class="dt">char</span><span class="op">*</span> entry <span class="op">=</span> iter<span class="op">.</span>key<span class="op">();</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">uint32_t</span> key_length<span class="op">;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">const</span> <span class="dt">char</span><span class="op">*</span> key_ptr <span class="op">=</span> GetVarint32Ptr<span class="op">(</span>entry<span class="op">,</span> entry <span class="op">+</span> <span class="dv">5</span><span class="op">,</span> <span class="op">&amp;</span>key_length<span class="op">);</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="co">// 比较entry中的user key和lookup key中的user key是否相同</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>user_comparator<span class="op">.</span>Compare<span class="op">(</span>Slice<span class="op">(</span>key_ptr<span class="op">,</span> key_length <span class="op">-</span> <span class="dv">8</span><span class="op">),</span> key<span class="op">.</span>user_key<span class="op">())</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>            <span class="co">// 获取entry中的type字段</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">const</span> <span class="dt">uint64_t</span> tag <span class="op">=</span> DecodeFixed64<span class="op">(</span>key_ptr <span class="op">+</span> key_length <span class="op">-</span> <span class="dv">8</span><span class="op">);</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">const</span> <span class="dt">uint8_t</span> type <span class="op">=</span> tag <span class="op">&amp;</span> <span class="bn">0xff</span><span class="op">;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>type <span class="op">==</span> kTypeValue<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>                Slice v <span class="op">=</span> GetLengthPrefixedSlice<span class="op">(</span>key_ptr <span class="op">+</span> key_length<span class="op">);</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                value<span class="op">.</span>assing<span class="op">(</span>v<span class="op">.</span>data<span class="op">(),</span> v<span class="op">.</span>size<span class="op">());</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>type <span class="op">==</span> kTypeDeletion<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>                <span class="op">*</span>s <span class="op">=</span> Status<span class="op">::</span>NotFound<span class="op">(</span>Slice<span class="op">());</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
             </div>
     </div>
   </div>

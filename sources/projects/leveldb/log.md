@@ -20,38 +20,201 @@ leveldb的写操作并不是直接写入磁盘的，而是首先写入到内存�
 
 ## 结构
 
+```
+block := record* trailer?
+record :=
+  checksum: uint32     // crc32c of type and data[] ; little-endian
+  length: uint16       // little-endian
+  type: uint8          // One of FULL, FIRST, MIDDLE, LAST
+  data: uint8[length]
+```
+
 ![log structure](../../../docs/images/image_2022-07-09-21-42-55.png)
 
-log → block → chunk → entries
+log → block → chunk (record) → entries
 
-__chunk__
+__chunk (record)__
 
 | checksum (4B) | length (2B) | type (1B) | data |
 |:-:|:-:|:-:|:-:|
+| uint32_t | uint16_t | uint8_t | uint8_t[length] |
 
 type: full, first, middle, last
 
-__data__
+```
+enum RecordType {
+    // Zero is reserved for preallocated files
+    kZeroType = 0,
+
+    kFullType = 1,
+
+    // For fragments
+    kFirstType = 2,
+    kMiddleType = 3,
+    kLastType = 4
+};
+```
+
+record中的type的意思是当前record中的data位于slice中的哪个部分
+
+* `kFullType`: 当前Log Block里的空间足以容纳写入的数据，type为kFullType，表示当前Log Record里包含所有的数据；
+* `kFirstType`: 当前的Log Block里的空间不足以容纳写入的数据时，将写入的数据拆分，用前面部分将当前Log Block填满，这时候type就是KFirstType，表示当前的Log Record是数据的第一个部分；
+* `kMiddleType`: 接下来开始一个新的Log Block，如果这个Log Block依然不能容纳所有的数据，这时候type就是kMiddleType，表示这个Log Record保存了中间部分的数据，后面还有数据；
+* `kLastType`: 当剩余的数据可以容纳到新的Log Block时，这时候type就是kLastType，表示这个记录的数据结束了，可以和前面的数据组合起来；
+* `kZeroType`: kZeroType是为了兼容mmap相关的代码，这种方式会先将数据分配好，置0，所以当读取日志的文件读取这些0时，就可以跳过这些数据，我们不会写入这种类型的日志记录。
+
+一个record不会开始于一个block的最后6个字节，因为一个不包含任何data的record都需要7个字节。如果一个chunk最后还剩7个字节，那么writer必须写入一个FIRST record，然后将用户数据写入下一个block。
+
+__record:data__
 
 | sequence number | entry number | batch data | ... | batch data |
 | :-: | :-: | :-: | :-: | :-: |
 
 ## 写
 
-![write process](../../../docs/images/image_2022-07-10-09-46-11.png)
+__add logic record__
 
-日志写入流程较为简单，在leveldb内部，实现了一个journal的writer。首先调用Next函数获取一个singleWriter，这个singleWriter的作用就是写入一条journal记录。
+```cpp
+Status Writer::AddRecord(const Slice& slice) {
+  const char* ptr = slice.data();
+  size_t left = slice.size();
 
-singleWriter开始写入时，标志着第一个chunk开始写入。在写入的过程中，不断判断writer中buffer的大小，若超过32KiB，将chunk开始到现在做为一个完整的chunk，为其计算header之后将整个chunk写入文件。与此同时reset buffer，开始新的chunk的写入。
+  // Fragment the record if necessary and emit it.  Note that if slice
+  // is empty, we still want to iterate once to emit a single
+  // zero-length record
+  Status s;
+  bool begin = true;
+  do {
+    const int leftover = kBlockSize - block_offset_;
+    assert(leftover >= 0);
+    if (leftover < kHeaderSize) {
+      // Switch to a new block
+      if (leftover > 0) {
+        // Fill the trailer (literal below relies on kHeaderSize being 7)
+        static_assert(kHeaderSize == 7, "");
+        dest_->Append(Slice("\x00\x00\x00\x00\x00\x00", leftover));
+      }
+      block_offset_ = 0;
+    }
 
-若一条journal记录较大，则可能会分成几个chunk存储在若干个block中。
+    // available size in current block
+    const size_t avail = kBlockSize - block_offset_ - kHeaderSize;
+    // Invariant: we never leave < kHeaderSize bytes in a block.
+    assert(avail >= 0);
+
+    // fragment might be the whole record data
+    const size_t fragment_length = (left < avail) ? left : avail;
+
+    RecordType type;
+    const bool end = (left == fragment_length);
+    if (begin && end) {
+      type = kFullType;
+    } else if (begin) {
+      type = kFirstType;
+    } else if (end) {
+      type = kLastType;
+    } else {
+      type = kMiddleType;
+    }
+
+    s = EmitPhysicalRecord(type, ptr, fragment_length);
+    ptr += fragment_length;
+    left -= fragment_length;
+    begin = false;
+  } while (s.ok() && left > 0);
+  return s;
+}
+```
+
+`begin`意思是当前fragment是slice中的第一个fragment，`end`意思是当前fragment是slice中的最后一个fragment，可以通过这两个flag来判断当前fragment的type。
+
+__add physical record__
+
+```cpp
+Status Writer::EmitPhysicalRecord(RecordType t, const char* ptr,
+                                  size_t length) {
+  assert(length <= 0xffff);  // Must fit in two bytes
+  assert(block_offset_ + kHeaderSize + length <= kBlockSize);
+
+  // Format the header
+  char buf[kHeaderSize];
+  buf[4] = static_cast<char>(length & 0xff);
+  buf[5] = static_cast<char>(length >> 8);
+  buf[6] = static_cast<char>(t);
+
+  // Compute the crc of the record type and the payload.
+  uint32_t crc = crc32c::Extend(type_crc_[t], ptr, length);
+  crc = crc32c::Mask(crc);  // Adjust for storage
+  EncodeFixed32(buf, crc);
+
+  // Write the header and the payload
+  Status s = dest_->Append(Slice(buf, kHeaderSize));
+  if (s.ok()) {
+    s = dest_->Append(Slice(ptr, length));
+    if (s.ok()) {
+      s = dest_->Flush();
+    }
+  }
+  block_offset_ += kHeaderSize + length;
+  return s;
+}
+```
 
 ## 读
 
-![read process](../../../docs/images/image_2022-07-10-09-47-18.png)
+__log reader__
 
-同样，日志读取也较为简单。为了避免频繁的IO读取，每次从文件中读取数据时，按block（32KiB）进行块读取。
+```
+class Reader {
+    SequentialFile *file_;
+    Slice buffer_;
+};
+```
 
-每次读取一条日志记录，reader调用Next函数返回一个singleReader。singleReader每次调用Read函数就返回一个chunk的数据。每次读取一个chunk，都会检查这批数据的校验码、数据类型、数据长度等信息是否正确，若不正确，且用户要求严格的正确性，则返回错误，否则丢弃整个chunk的数据。
+__read logic record__
 
-循环调用singleReader的read函数，直至读取到一个类型为Last的chunk，表示整条日志记录都读取完毕，返回。
+```
+// record is only a view of string, use scratch to store the result
+bool Reader::ReadRecord(Slice* record, string* scratch) {
+    scratch.clear();
+    record.clear();
+
+    // if the reading record is fragmented
+    bool in_fragmented_record = false;
+    // save the fragment
+    Slice fragment;
+
+    while (true) {
+        // read physical record into buffer_ and remove the entry header
+        const unsigned int record_type = ReadPhysicalRecord(&fragment);
+
+        // the just reading record offset
+        uint64_t physical_record_offset =
+            end_of_buffer_offset_ - buffer.size() - kHeaderSize - fragment.size();
+
+    }
+}
+```
+
+__read physical record__
+
+```
+unsigned int Reader::ReadPhysicalRecord(Slice* record) {
+    while (true) {
+        if (buffer_.size() < kHeaderSize) {
+            if (!eof) {
+                buffer_.clear();
+                // read block into buffer
+            } else {
+                buffer_.clear();
+                return kEof;
+            }
+        }
+        // parse header
+        const char* header = buffer_.data();
+        // check CRC
+        // skip physical record that started before initial_offset_
+        *result = Slice(header + kHeaderSize, length);
+    }
+}
+```

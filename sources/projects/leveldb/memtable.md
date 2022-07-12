@@ -67,4 +67,38 @@ void MemTable::Add(SequenceNumber s, ValueType type, const Slice& key,
 
 __get__
 
-在table中寻找大于等于key的
+在table中寻找大于包含key的entry
+
+```cpp
+Slice GetLengthPrefixedSlice(const char *data) {
+    uint32_t len;
+    char *p = GetVarint32Ptr(data, data + 5, &len);
+    return Slice(p, len);
+}
+
+bool Get(const LookupKey& key, string* value, Status* s) {
+    Slice memkey = key.memtable_key();
+    Table::Iterator iter(table_);
+    iter.Seek(memkey);
+    if (iter.Valid()) {
+        // | key_length | user_key | tag (sequence | type) | value_length | value |
+        const char* entry = iter.key();
+        uint32_t key_length;
+        const char* key_ptr = GetVarint32Ptr(entry, entry + 5, &key_length);
+        // 比较entry中的user key和lookup key中的user key是否相同
+        if (user_comparator.Compare(Slice(key_ptr, key_length - 8), key.user_key()) == 0) {
+            // 获取entry中的type字段
+            const uint64_t tag = DecodeFixed64(key_ptr + key_length - 8);
+            const uint8_t type = tag & 0xff;
+            if (type == kTypeValue) {
+                Slice v = GetLengthPrefixedSlice(key_ptr + key_length);
+                value.assing(v.data(), v.size());
+                return true;
+            } else if (type == kTypeDeletion) {
+                *s = Status::NotFound(Slice());
+                return false;
+            }
+        }
+    }
+}
+```

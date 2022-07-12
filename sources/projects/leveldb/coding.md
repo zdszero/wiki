@@ -8,6 +8,8 @@ leveldb中使用little endian
 
 __int__
 
+逐字节进行存储，将`char*`转化为`uint8_t*`，将`uint32_t`分为各个部分存储到对应内存地址中。
+
 ```cpp
 void EncodeFixed32(char* dst, uint32_t value) {
     // clang and gcc will optimize this to a single mov/str instruction
@@ -75,3 +77,16 @@ uint32_t DecodeVarint32(const char *ptr) {
     return res;
 }
 ```
+
+在leveldb中，没有实现如上所示的 DecodeVarint32 函数，存储模型常常如下所示：
+
+```
+| length(varint) | the following data(slice) |
+                 | --------> length <--------|
+```
+
+所以为了使用方便设计了函数`const char* GetVarint32Ptr(const char* data, const char* limit, uint32_t *length)`
+
+* data和limit标记varint的开始和边界
+* 计算出length的值后存储到参数
+* 函数执行完成后返回data的开始位置

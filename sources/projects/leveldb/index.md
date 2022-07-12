@@ -5,9 +5,10 @@
 ![leveldb](../../../docs/images/image_2022-07-10-20-22-12.png)
 
 * [arch](arch.md)
-* [sstable](sstable.md)
-* [log](log.md)
 * [operations](operations.md)
+* [env](./env.md)
+* [log](log.md)
+* [sstable](sstable.md)
 * [cache](cache.md)
 * [memtable](memtable.md)
 * utils

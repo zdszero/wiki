@@ -86,7 +86,15 @@ private:
     const char* start_;
     const char *kstart_;
     const char *end_;
+    char space_[200];   // avoid allocation for short keys
+
+public:
+    Slice memtable_key() { return Slice(start_, end_ - start_); }
+    Slice internal_key() { return Slice(kstart_, end_ - kstart_); }
+    Slice user_key() { return Slice(kstart_, end_ - 8 - kstart_); }
 };
+
+memtable_key:
 
 | klength |        Internal Key        |
 | klength | user key | sequence + type |
