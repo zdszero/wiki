@@ -1,6 +1,8 @@
 % Diary
 % zdszero
 
+![diary](../../docs/images/image_2022-07-13-09-47-04.png)
+
 ## 2022
 
 [2022_Objectives](2022_Objectives.md)

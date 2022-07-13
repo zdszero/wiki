@@ -7,7 +7,7 @@ __Computer__
 * [linux system](./linux_system/index.md)
 * [design pattern](design_pattern/index.md)
 * [UML](./UML.md)
-* [tedious problems](./tedious_problems.md)
+* [problems memo](./problems_memo.md)
 
 __Database__
 
@@ -37,6 +37,7 @@ __Languages__
 
 * [python](./python/index.md)
 * [cpp](./cpp/index.md)
+* [golang](./golang/index.md)
 
 __Projects__
 
@@ -48,8 +49,5 @@ __Other Links__
 * [Books](books/index.md)
 * [Life](life/life.md)
 * [Films](films/index.md)
-* [Thoughts](Thoughts/index.md)
-* [study](study.md)
-* [videos](videos.md)
-* [useful links](useful_links.md)
+* [Thoughts](thoughts/index.md)
 * [markdown syntax test](./markdown_syntax_test.md)

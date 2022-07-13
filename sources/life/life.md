@@ -2,6 +2,8 @@
 % zdszero
 % 2022-06-22
 
+![life](../../docs/images/image_2022-07-13-09-48-32.png)
+
 * [antipattern](antipattern.md)
 * [the-one](the-one.md)
 * [girls](./girls.md)
