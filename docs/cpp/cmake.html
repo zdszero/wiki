@@ -1,0 +1,138 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="../css/template.css" />
+    <link rel="stylesheet" type="text/css" href="../css/elegant_bootstrap.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-07-14" />
+  <title>cmake</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">cmake</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-07-14</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#variables" id="toc-variables">variables</a></li>
+        <li><a href="#include" id="toc-include">include</a></li>
+        <li><a href="#library" id="toc-library">library</a></li>
+        <li><a href="#subdirectory"
+        id="toc-subdirectory">subdirectory</a></li>
+        <li><a href="#install" id="toc-install">install</a></li>
+        <li><a href="#third-parties" id="toc-third-parties">third
+        parties</a></li>
+        <li><a href="#cmdline-options" id="toc-cmdline-options">cmdline
+        options</a></li>
+        <li><a href="#expand-functions" id="toc-expand-functions">expand
+        functions</a></li>
+        <li><a href="#cross-platform" id="toc-cross-platform">cross
+        platform</a></li>
+        <li><a href="#tricks" id="toc-tricks">tricks</a></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h2 id="variables">variables</h2>
+            <p><strong>setting vars</strong></p>
+            <pre><code>set(VAR SOURCES)
+file(GLOB SRC *.cpp)
+option(var &quot;help text&quot; value)
+target_sources(target SCOPE items)</code></pre>
+            <p><strong>internal vars</strong></p>
+            <pre><code>${PROJECT_SOURCE_DIR}    # the path to CMakeLists.txt which contains the project()
+${CMAKE_SOURCE_DIR}      # top level CMakeLists.txt path
+${CMAKE_BINARY_DIR}      # build or Debug dir path
+${CMAKE_TEST_COMMAND}
+${CMAKE_INSTALL_PREFIX}  # This variable defaults to /usr/local on UNIX and c:/Program Files on Windows.</code></pre>
+            <h2 id="include">include</h2>
+            <pre><code>include_directories()
+target_include_directories(target SCOPE include_dir)</code></pre>
+            <p><strong>SCOPE</strong>:
+            在构建每个target时，cmake都会自动创建两个变量
+            <code>INCLUDE_DIRECTORIES</code> 和
+            <code>INTERFACE_INCLUDE_DIRECTORIES</code>
+            来存放头文件的位置，当该target被另外一个target2所依赖时，<code>INTERFACE_INCLUDE_DIRECTORIES</code>
+            中所包含的头文件的位置会被自动添加到target2中，我们可以将其类比为两个篮子，一个篮子给自己用，一个篮子给别人用。</p>
+            <p>PUBLIC|PRIVATE|INTERFACE 就是在指定将定义的 INCLUDE DIR
+            放置到哪个篮子，或者两个都放。</p>
+            <ul>
+            <li>PUBLIC: 将 include dir
+            放到两个篮子中，自己用，也给别人用。</li>
+            <li>PRIVATE: 将 include dir 只放到自己的篮子中。</li>
+            <li>INTERFACE: 将 include dir 只放到别人的篮子中。</li>
+            </ul>
+            <h2 id="library">library</h2>
+            <pre><code># build library
+add_library(lib [STATIC | SHARED | MODULE] [EXCLUDE_FROM_ALL] [...])
+
+add_library(lib &quot;&quot;)
+target_sources(lib SCOPE items)
+
+# link
+target_link_library(target SCOPE libs)</code></pre>
+            <h2 id="subdirectory">subdirectory</h2>
+            <pre><code># CMakeLists in subdir
+add_subdirectory(subdir)</code></pre>
+            <h2 id="install">install</h2>
+            <pre><code>install(TARGETS lib
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        RUNTIME DESTINATION bin
+        PUBLIC_HEADER DESTINATION include)</code></pre>
+            <p>when we call <code>make install</code>, the library will
+            be installed to <code>/usr/lib</code> by default, header
+            files will be installed to <code>/usr/include</code> by
+            default</p>
+            <h2 id="third-parties">third parties</h2>
+            <h2 id="cmdline-options">cmdline options</h2>
+            <ul>
+            <li><code>CMAKE_C_COMPILER</code> - The program used to
+            compile c code.</li>
+            <li><code>CMAKE_CXX_COMPILER</code> - The program used to
+            compile c++ code.</li>
+            <li><code>CMAKE_LINKER</code> - The program used to link
+            your binary.</li>
+            </ul>
+            <pre><code>cmake .. -DCMAKE_C_COMPILER=clang-3.6 -DCMAKE_CXX_COMPILER=clang++-3.6</code></pre>
+            <h2 id="expand-functions">expand functions</h2>
+            <h2 id="cross-platform">cross platform</h2>
+            <h2 id="tricks">tricks</h2>
+            <ul>
+            <li><a href="./cmake/format.html">format</a></li>
+            <li><a href="./cmake/valgrind.html">valgrind</a></li>
+            <li><a href="./cmake/build_all_tests.html">build all
+            tests</a></li>
+            </ul>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>

@@ -38,10 +38,8 @@
             <ul>
             <li><strong>align</strong></li>
             </ul>
-            <pre><code>const int align = (sizeof(void *) &gt; 8) ? sizeof(void*) : 8;
-size_t current_mod = alloc_ptr &amp; (align - 1);
-size_t slop = (current_mod == 0 ? 0 : align - current_mod);
-size_t needed = bytes + slop;</code></pre>
+            <pre><code># align n to alignment
+(n + (alignment - 1)) &amp; ~(alignment - 1)</code></pre>
             </div>
     </div>
   </div>

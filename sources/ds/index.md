@@ -7,3 +7,5 @@
 * [extendible_hash](./extendible_hash.md)
 * [AVL](./AVL.md)
 * [skip list](./skip_list.md)
+* [lru cache](lru_cache.md)
+* [memory allocator](memory_allocator.md)

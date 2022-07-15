@@ -4,4 +4,8 @@
 
 ![c++](../../docs/images/image_2022-07-12-23-24-07.png)
 
-* [concurrency](./concurrency.md)
+* [atomic](./atomic.md)
+* [template](template.md)
+
+* [cmake](cmake.md)
+* [google test](google_test.md)

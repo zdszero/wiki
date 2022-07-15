@@ -1,0 +1,131 @@
+<!doctype html>
+<html >
+<head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="../css/template.css" />
+    <link rel="stylesheet" type="text/css" href="../css/elegant_bootstrap.css" />
+
+    <!-- <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script> -->
+    <!-- <script src="jquery.sticky-kit.js "></script> -->
+  
+    <meta name="generator" content="pandoc" />
+  <meta name="author" content="zdszero" />
+  <meta name="date" content="2022-07-14" />
+  <title>round1</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+  type="text/javascript"></script>
+</head>
+<body>
+
+    
+    <div class="navbar navbar-static-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <span class="doc-title">round1</span>
+        <ul class="nav pull-right doc-info">
+                    <li><p class="navbar-text">zdszero</p></li>
+                              <li><p class="navbar-text">2022-07-14</p></li>
+                  </ul>
+      </div>
+    </div>
+  </div>
+    <div class="container">
+    <div class="row">
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#初赛" id="toc-初赛">初赛</a>
+        <ul>
+        <li><a href="#要求" id="toc-要求">要求</a></li>
+        <li><a href="#kv-demo" id="toc-kv-demo">kv demo</a></li>
+        <li><a href="#优化思路" id="toc-优化思路">优化思路</a></li>
+        </ul></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h1 id="初赛">初赛</h1>
+            <h2 id="要求">要求</h2>
+            <p>1）程序正确性验证</p>
+            <p>验证数据读写的正确性，这部分的耗时不计入运行时间的统计。如果正确性测试不通过，则终止，评测失败。</p>
+            <p>2）初赛性能评测</p>
+            <p>引擎使用的本地内存和远端内存限制在 8 GB 和 32 GB。
+            每个线程分别插入 12 M个Key大小为 16 Bytes，Value为 128
+            Bytes的KV对象，接着以 7 ：1 的读写比例访问调用 64
+            M次。数据符合Zipfian热点分布，其中90%
+            的读访问具有热点的特征，大部分的读访问集中在少量的Key上面。</p>
+            <p>所有value的存储总共需要<span class="math inline">\(12M
+            \times 128B \times 16 \div 1024 = 24GB\)</span></p>
+            <p>总共会写入<span class="math inline">\(12M \times 16 =
+            192M\)</span>个数据，缓存10%的话，就是需要缓存19.2M各数据，共需要2.4G的内存</p>
+            <h2 id="kv-demo">kv demo</h2>
+            <p><strong>internal value</strong></p>
+            <pre><code>typedef struct internal_value_t {
+  uint64_t remote_addr;
+  uint32_t rkey;
+  uint8_t size;
+} internal_value_t;</code></pre>
+            <p>internal value包含remote server的相关信息，大小为13B</p>
+            <p><strong>hash map slot</strong></p>
+            <pre><code>class hash_map_slot {
+ public:
+  char key[16];
+  interval_value_t internal_value;
+  hash_map_slot *next;
+};</code></pre>
+            <p><strong>hash map</strong></p>
+            <pre><code>#define BUCKET_NUM 1048576
+
+class hash_map_t {
+ public:
+  hash_map_slot *m_bucket[BUCKET_NUM];
+  hash_map_slot *find(const string &amp;key);
+  void insert(const string &amp;key, interval_value_t internal_value, hash_map_slot *new_slot);
+};</code></pre>
+            <p>每个哈希表包含1048576 =
+            2^20个桶，在插入时计算<code>hash&lt;string&gt;(key) &amp; (BUCKET_NUM - 1)</code>来获取对应桶的下标。</p>
+            <p>插入时从头部插入，查找时遍历对应的链表。</p>
+            <p><strong>local engine</strong></p>
+            <pre><code>class LocalEngine : public Engine {
+ public:
+  bool write(const std::string key, const std::string value);
+  bool read(const std::string key, std::string &amp;value);
+
+ private:
+  kv::ConnectionManager *m_rdma_conn_;
+  hash_map_slot hash_slot_array[16 * 12000000];
+  hash_map_t m_hash_map[SHARDING_NUM]; /* Hash Map with sharding. */
+  std::atomic&lt;int&gt; slot_cnt{0}; /* Used to fetch the slot from hash_slot_array. */
+  std::mutex m_mutex_[SHARDING_NUM];
+  RDMAMemPool *m_rdma_mem_pool_;
+};</code></pre>
+            <p>16个线程各写入12M个数据，提前创建可以容纳所有索引的array，预计大小为<span
+            class="math inline">\(12M \times 16 \times 23B = 4416MB
+            \approx 4GB\)</span></p>
+            <h2 id="优化思路">优化思路</h2>
+            <ul>
+            <li>local cache</li>
+            <li>use local memory efficiently</li>
+            <li>write to remote
+            <ul>
+            <li>use local cache to decrease the write number</li>
+            <li>batch KV together, write to remote in one RDMA
+            write</li>
+            </ul></li>
+            <li>reader writer latch</li>
+            </ul>
+            </div>
+    </div>
+  </div>
+
+  <!-- <script src="https://vjs.zencdn.net/5.4.4/video.js"></script> -->
+</body>
+</html>

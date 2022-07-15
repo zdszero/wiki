@@ -42,6 +42,8 @@ __Languages__
 __Projects__
 
 * [leveldb](./projects/leveldb/index.md)
+* [bustub](./bustub/index.md)
+* [codebase](./codebase/index.md)
 
 __Other Links__
 
