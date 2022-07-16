@@ -102,15 +102,15 @@ Make your local repo identical to the origin every time you use `git remote upda
 
 ### push
 
+`git push [<options>] [<repository> [<refspec>]]`
+
+__-u --set-upstream__
+
+used by argument-less git-pull
+
 ### pull
 
-```
-# 读取remote并且合并到当前分支
-git pull <remote>
-# equals
-git fetch <remote>
-git merge <remote>
-```
+`git push [<options>] [<repository> [<refspec>]]`
 
 ## BRANCH
 
