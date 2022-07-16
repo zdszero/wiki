@@ -14,8 +14,8 @@
   
     <meta name="generator" content="pandoc" />
   <meta name="author" content="zdszero" />
-  <meta name="date" content="2022-07-14" />
-  <title>codebase</title>
+  <meta name="date" content="2022-07-16" />
+  <title>logic</title>
   <style type="text/css">code{white-space: pre;}</style>
 </head>
 <body>
@@ -24,10 +24,10 @@
     <div class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container">
-        <span class="doc-title">codebase</span>
+        <span class="doc-title">logic</span>
         <ul class="nav pull-right doc-info">
                     <li><p class="navbar-text">zdszero</p></li>
-                              <li><p class="navbar-text">2022-07-14</p></li>
+                              <li><p class="navbar-text">2022-07-16</p></li>
                   </ul>
       </div>
     </div>
@@ -35,14 +35,29 @@
     <div class="container">
     <div class="row">
             <div class="span12">
-            <ul>
-            <li><a href="rdma_setup.html">rdma setup</a></li>
-            <li><a href="round1.html">round1</a></li>
-            <li><a href="logic.html">logic</a></li>
-            <li><a href="rdma_interface.html">rdma interface</a></li>
-            <li><a href="local_engine.html">local engine</a></li>
-            <li><a href="lru_cache.html">lru cache</a></li>
-            </ul>
+            <p><strong>compononts</strong></p>
+            <pre><code>local engine ---&gt; cache ---&gt; remote engine</code></pre>
+            <p>cache充当local engine之间的桥梁，local engine</p>
+            <p><strong>storage</strong></p>
+            <pre><code>local cache memory ---&gt; pool block ---&gt; cache entry size</code></pre>
+            <p><strong>how to get value by key</strong></p>
+            <pre><code>key (string of 16 chars) &lt;---&gt; remote_addr
+
+ local engine
+  hash_map_
+key ---&gt; remote_addr
+           offset
+           size
+         start_addr
+
+        memory pool
+         mem_keys_
+start_addr ---&gt; rkey
+
+         lru cache
+         hash_map_
+start_addr ---&gt; ListNode*</code></pre>
+            <p>键值与remote addr一一对应</p>
             </div>
     </div>
   </div>

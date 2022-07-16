@@ -14,8 +14,8 @@
   
     <meta name="generator" content="pandoc" />
   <meta name="author" content="zdszero" />
-  <meta name="date" content="2022-07-14" />
-  <title>codebase</title>
+  <meta name="date" content="2022-07-16" />
+  <title>lru cache</title>
   <style type="text/css">code{white-space: pre;}</style>
 </head>
 <body>
@@ -24,25 +24,42 @@
     <div class="navbar navbar-static-top">
     <div class="navbar-inner">
       <div class="container">
-        <span class="doc-title">codebase</span>
+        <span class="doc-title">lru cache</span>
         <ul class="nav pull-right doc-info">
                     <li><p class="navbar-text">zdszero</p></li>
-                              <li><p class="navbar-text">2022-07-14</p></li>
+                              <li><p class="navbar-text">2022-07-16</p></li>
                   </ul>
       </div>
     </div>
   </div>
     <div class="container">
     <div class="row">
-            <div class="span12">
-            <ul>
-            <li><a href="rdma_setup.html">rdma setup</a></li>
-            <li><a href="round1.html">round1</a></li>
-            <li><a href="logic.html">logic</a></li>
-            <li><a href="rdma_interface.html">rdma interface</a></li>
-            <li><a href="local_engine.html">local engine</a></li>
-            <li><a href="lru_cache.html">lru cache</a></li>
-            </ul>
+            <div id="TOC" class="span3">
+        <div class="well toc">
+
+        <ul>
+        <li><a href="#list-node" id="toc-list-node">list node</a></li>
+        <li><a href="#lru-cache" id="toc-lru-cache">lru cache</a></li>
+        </ul>
+
+        </div>
+      </div>
+            <div class="span9">
+            <h2 id="list-node">list node</h2>
+            <pre><code>struct ListNode {
+    uint64_t key;
+    CacheEntry value;
+    ListNode *prev;
+    ListNode *next;
+    bool clean;
+};</code></pre>
+            <h2 id="lru-cache">lru cache</h2>
+            <pre><code>class LRUCache {
+public:
+    queue&lt;ListNode*&gt; free_nodes;
+    RDMAMemPool *mem_pool;
+    unordered_map&lt;uint64_t, ListNode*&gt; hash_map; 
+};</code></pre>
             </div>
     </div>
   </div>
