@@ -63,6 +63,8 @@
         <li><a href="#merge" id="toc-merge">merge</a></li>
         <li><a href="#rebase" id="toc-rebase">rebase</a></li>
         </ul></li>
+        <li><a href="#submodules"
+        id="toc-submodules">SUBMODULES</a></li>
         </ul>
 
         </div>
@@ -150,9 +152,21 @@ git restore [-S|--staged]  path</code></pre>
             you use <code>git remote update</code>, and all the refs
             will be overwritten from origin.</p>
             <h3 id="push">push</h3>
-            <p><code>git push [&lt;options&gt;] [&lt;repository&gt; [&lt;refspec&gt;]]</code></p>
-            <p><strong>-u –set-upstream</strong></p>
+            <pre><code># common usage
+git push &lt;remote&gt; &lt;branch&gt;
+git push origin master(develop)
+
+# push branch to another branch
+git push &lt;remote&gt; &lt;local_branch&gt;:&lt;remote_branch&gt;</code></pre>
+            <p><strong>flags</strong>:</p>
+            <ul>
+            <li><strong>-u –set-upstream</strong></li>
+            </ul>
             <p>used by argument-less git-pull</p>
+            <ul>
+            <li><strong>–all</strong></li>
+            </ul>
+            <p>push all branches to remote</p>
             <h3 id="pull">pull</h3>
             <p><code>git push [&lt;options&gt;] [&lt;repository&gt; [&lt;refspec&gt;]]</code></p>
             <h2 id="branch">BRANCH</h2>
@@ -196,6 +210,7 @@ after git rebase on test branch
 A---B---D---E---C&#39;---F&#39;   test ← HEAD
                         master</code></pre>
             <p><strong>transplant</strong></p>
+            <h2 id="submodules">SUBMODULES</h2>
             </div>
     </div>
   </div>

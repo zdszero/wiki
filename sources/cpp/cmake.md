@@ -85,9 +85,3 @@ cmake .. -DCMAKE_C_COMPILER=clang-3.6 -DCMAKE_CXX_COMPILER=clang++-3.6
 ## expand functions
 
 ## cross platform
-
-## tricks
-
-* [format](./cmake/format.md)
-* [valgrind](./cmake/valgrind.md)
-* [build all tests](./cmake/build_all_tests.md)

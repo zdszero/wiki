@@ -102,11 +102,24 @@ Make your local repo identical to the origin every time you use `git remote upda
 
 ### push
 
-`git push [<options>] [<repository> [<refspec>]]`
+```
+# common usage
+git push <remote> <branch>
+git push origin master(develop)
 
-__-u --set-upstream__
+# push branch to another branch
+git push <remote> <local_branch>:<remote_branch>
+```
+
+__flags__:
+
+* __-u --set-upstream__
 
 used by argument-less git-pull
+
+* __--all__
+
+push all branches to remote
 
 ### pull
 
@@ -168,3 +181,7 @@ A---B---D---E---C'---F'   test ← HEAD
 ```
 
 **transplant**
+
+## SUBMODULES
+
+

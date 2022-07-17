@@ -45,6 +45,11 @@ __Projects__
 * [bustub](./bustub/index.md)
 * [codebase](./codebase/index.md)
 
+__Samples__
+
+[cpp](./samples/cpp.md)
+[cmake](./samples/cmake.md)
+
 __Other Links__
 
 * [Diary](diary/index.md)
