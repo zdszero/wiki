@@ -97,3 +97,23 @@ private:
     ConnQue *m_one_sided_conn_queue_;
 };
 ```
+
+## connection
+
+```cpp
+class RDMAConnection {
+ public:
+  int init(const std::string ip, const std::string port);
+  int register_remote_memory(uint64_t &addr, uint32_t &rkey, uint64_t size);
+  int remote_read(void *ptr, uint64_t size, uint64_t remote_addr,
+                  uint32_t rkey);
+  int remote_write(void *ptr, uint64_t size, uint64_t remote_addr,
+                   uint32_t rkey);
+
+ private:
+  char *m_reg_buf_;
+  struct ibv_mr *m_reg_buf_mr_;
+};
+```
+
+`m_reg_buf_`是注册的本地内存，首先动态创建，其大小为`MAX_REMOTE_SIZE`，为`1ul << 20`即1MB大小，在init函数中通过`rdma_register_memory((void *)m_reg_buf_, MAX_REMOTE_SIZE)`进行注册这块空间，为其配置lkey。

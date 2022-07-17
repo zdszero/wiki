@@ -135,22 +135,11 @@ git restore [-S|--staged]  path</code></pre>
             <p>qq</p>
             <h2 id="remote">REMOTE</h2>
             <h3 id="clone">clone</h3>
+            <p><strong>flags</strong>:</p>
             <ul>
-            <li>git clone origin-url (non-bare)</li>
+            <li><strong>–recurse-submodules</strong></li>
             </ul>
-            <p>Clone a local branch <code>master(HEAD)</code> tracking a
-            remote branch <code>origin/master</code></p>
-            <ul>
-            <li>git clone –bare origin-url</li>
-            </ul>
-            <p>Clone a local branch which is totally independent, with
-            no expectations of fetching again.</p>
-            <ul>
-            <li>git clone –mirror origin-url</li>
-            </ul>
-            <p>Make your local repo identical to the origin every time
-            you use <code>git remote update</code>, and all the refs
-            will be overwritten from origin.</p>
+            <p>also clone all the submodules</p>
             <h3 id="push">push</h3>
             <pre><code># common usage
 git push &lt;remote&gt; &lt;branch&gt;
@@ -211,6 +200,12 @@ A---B---D---E---C&#39;---F&#39;   test ← HEAD
                         master</code></pre>
             <p><strong>transplant</strong></p>
             <h2 id="submodules">SUBMODULES</h2>
+            <p>submodules are mostly used to incorporate another
+            versioned project within the existing project</p>
+            <pre><code>git submodule add &lt;remote_url&gt; &lt;destination_folder&gt;
+# you need to stage after add submodule
+git commit -m &quot;Add the submodule to project&quot;
+git push</code></pre>
             </div>
     </div>
   </div>

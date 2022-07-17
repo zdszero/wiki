@@ -107,6 +107,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         memory pool</a></li>
         <li><a href="#connection-manager"
         id="toc-connection-manager">connection manager</a></li>
+        <li><a href="#connection"
+        id="toc-connection">connection</a></li>
         </ul>
 
         </div>
@@ -199,6 +201,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    ConnQue <span class="op">*</span><span class="va">m_rpc_conn_queue_</span><span class="op">;</span></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    ConnQue <span class="op">*</span><span class="va">m_one_sided_conn_queue_</span><span class="op">;</span></span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+            <h2 id="connection">connection</h2>
+            <div class="sourceCode" id="cb4"><pre
+            class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> RDMAConnection <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a> <span class="kw">public</span><span class="op">:</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> init<span class="op">(</span><span class="at">const</span> <span class="bu">std::</span>string<span class="op"> </span>ip<span class="op">,</span> <span class="at">const</span> <span class="bu">std::</span>string<span class="op"> </span>port<span class="op">);</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> register_remote_memory<span class="op">(</span><span class="dt">uint64_t</span> <span class="op">&amp;</span>addr<span class="op">,</span> <span class="dt">uint32_t</span> <span class="op">&amp;</span>rkey<span class="op">,</span> <span class="dt">uint64_t</span> size<span class="op">);</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> remote_read<span class="op">(</span><span class="dt">void</span> <span class="op">*</span>ptr<span class="op">,</span> <span class="dt">uint64_t</span> size<span class="op">,</span> <span class="dt">uint64_t</span> remote_addr<span class="op">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                  <span class="dt">uint32_t</span> rkey<span class="op">);</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> remote_write<span class="op">(</span><span class="dt">void</span> <span class="op">*</span>ptr<span class="op">,</span> <span class="dt">uint64_t</span> size<span class="op">,</span> <span class="dt">uint64_t</span> remote_addr<span class="op">,</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>                   <span class="dt">uint32_t</span> rkey<span class="op">);</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a> <span class="kw">private</span><span class="op">:</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">char</span> <span class="op">*</span><span class="va">m_reg_buf_</span><span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">struct</span> ibv_mr <span class="op">*</span><span class="va">m_reg_buf_mr_</span><span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
+            <p><code>m_reg_buf_</code>是注册的本地内存，首先动态创建，其大小为<code>MAX_REMOTE_SIZE</code>，为<code>1ul &lt;&lt; 20</code>即1MB大小，在init函数中通过<code>rdma_register_memory((void *)m_reg_buf_, MAX_REMOTE_SIZE)</code>进行注册这块空间，为其配置lkey。</p>
             </div>
     </div>
   </div>

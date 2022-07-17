@@ -88,17 +88,11 @@ qq
 
 ### clone
 
-- git clone origin-url (non-bare)
+__flags__:
 
-Clone a local branch `master(HEAD)` tracking a remote branch `origin/master`
+* __--recurse-submodules__
 
-- git clone –bare origin-url
-
-Clone a local branch which is totally independent, with no expectations of fetching again.
-
-- git clone –mirror origin-url
-
-Make your local repo identical to the origin every time you use `git remote update`, and all the refs will be overwritten from origin.
+also clone all the submodules
 
 ### push
 
@@ -183,5 +177,14 @@ A---B---D---E---C'---F'   test ← HEAD
 **transplant**
 
 ## SUBMODULES
+
+submodules are mostly used to incorporate another versioned project within the existing project
+
+```
+git submodule add <remote_url> <destination_folder>
+# you need to stage after add submodule
+git commit -m "Add the submodule to project"
+git push
+```
 
 
