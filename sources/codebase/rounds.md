@@ -20,9 +20,8 @@
 
 ## 优化思路
 
-* local cache
-* use local memory efficiently
-* write to remote
-    * use local cache to decrease the write number
-    * batch KV together, write to remote in one RDMA write
-* reader writer latch
+* 数据在本地cache进行存储，减少IO次数
+    * 冷热数据分离，热点数据放在本地，冷数据放在远端
+    * 按照页为单位进行RDMA读写，减少IO次数
+    * 传送操作可以在后台运行
+* local engine 中对于 m_hash_map 加锁粒度太高，在每个哈希表中各自加锁，只对头部加锁即可

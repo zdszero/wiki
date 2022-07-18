@@ -88,6 +88,10 @@ qq
 
 ### clone
 
+```
+git clone <remote-url> <dest-dir>
+```
+
 __flags__:
 
 * __--recurse-submodules__
@@ -117,7 +121,10 @@ push all branches to remote
 
 ### pull
 
-`git push [<options>] [<repository> [<refspec>]]`
+```
+# common usage
+git pull <remote> <branch>
+```
 
 ## BRANCH
 
@@ -157,7 +164,7 @@ merge another branch into current branch
 
 ### rebase
 
-switch to upstream, and applies all the commits in current branch into the upstream
+reapply commits on top of another base tip
 
 ```
       D---E test
@@ -186,5 +193,3 @@ git submodule add <remote_url> <destination_folder>
 git commit -m "Add the submodule to project"
 git push
 ```
-
-

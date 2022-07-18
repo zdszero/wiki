@@ -135,6 +135,7 @@ git restore [-S|--staged]  path</code></pre>
             <p>qq</p>
             <h2 id="remote">REMOTE</h2>
             <h3 id="clone">clone</h3>
+            <pre><code>git clone &lt;remote-url&gt; &lt;dest-dir&gt;</code></pre>
             <p><strong>flags</strong>:</p>
             <ul>
             <li><strong>–recurse-submodules</strong></li>
@@ -157,7 +158,8 @@ git push &lt;remote&gt; &lt;local_branch&gt;:&lt;remote_branch&gt;</code></pre>
             </ul>
             <p>push all branches to remote</p>
             <h3 id="pull">pull</h3>
-            <p><code>git push [&lt;options&gt;] [&lt;repository&gt; [&lt;refspec&gt;]]</code></p>
+            <pre><code># common usage
+git pull &lt;remote&gt; &lt;branch&gt;</code></pre>
             <h2 id="branch">BRANCH</h2>
             <h3 id="branch-1">branch</h3>
             <pre><code># display all local repos
@@ -184,8 +186,7 @@ git checkout &lt;br&gt;</code></pre>
             <li>git merge —continue</li>
             </ol>
             <h3 id="rebase">rebase</h3>
-            <p>switch to upstream, and applies all the commits in
-            current branch into the upstream</p>
+            <p>reapply commits on top of another base tip</p>
             <pre><code>      D---E test
      /
 A---B---C---F master

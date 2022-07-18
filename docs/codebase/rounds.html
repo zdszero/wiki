@@ -67,15 +67,14 @@
             192M\)</span>个数据，缓存10%的话，就是需要缓存19.2M各数据，共需要2.4G的内存</p>
             <h2 id="优化思路">优化思路</h2>
             <ul>
-            <li>local cache</li>
-            <li>use local memory efficiently</li>
-            <li>write to remote
+            <li>数据在本地cache进行存储，减少IO次数
             <ul>
-            <li>use local cache to decrease the write number</li>
-            <li>batch KV together, write to remote in one RDMA
-            write</li>
+            <li>冷热数据分离，热点数据放在本地，冷数据放在远端</li>
+            <li>按照页为单位进行RDMA读写，减少IO次数</li>
+            <li>传送操作可以在后台运行</li>
             </ul></li>
-            <li>reader writer latch</li>
+            <li>local engine 中对于 m_hash_map
+            加锁粒度太高，在每个哈希表中各自加锁，只对头部加锁即可</li>
             </ul>
             </div>
     </div>
